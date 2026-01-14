@@ -1,0 +1,41 @@
+{
+  "module": "beauty",
+  "items": [
+    {
+      "id": "glossy_waves_smoky",
+      "label": "Glossy waves + smoky eyes",
+      "text_en": "glossy long brunette waves, smoky eyes, nude glossy lips, natural skin texture",
+      "tags": ["waves", "smoky", "glossy"],
+      "weight": 1.0
+    },
+    {
+      "id": "soft_blowout_playful",
+      "label": "Soft blowout + playful",
+      "text_en": "blonde with soft blowout waves, playful teasing smile, soft smoky eyes, glossy lips, natural skin texture",
+      "tags": ["blowout", "playful", "soft"],
+      "weight": 1.0
+    },
+    {
+      "id": "sleek_straight_winged",
+      "label": "Sleek straight + winged",
+      "text_en": "sleek glossy straight hair, winged eyeliner, glossy lips",
+      "tags": ["sleek", "straight", "winged"],
+      "weight": 1.0
+    },
+    {
+      "id": "ponytail_smoky",
+      "label": "Ponytail + smoky",
+      "text_en": "dirty-blonde sleek ponytail, confident teasing gaze, smoky eyes, glossy lips",
+      "tags": ["ponytail", "smoky", "sleek"],
+      "weight": 1.0
+    },
+    {
+      "id": "soft_waves_glowing",
+      "label": "Soft waves + glowing",
+      "text_en": "soft waves, glowing skin, glossy lips, natural texture",
+      "tags": ["waves", "glowing", "soft"],
+      "weight": 1.0
+    }
+  ]
+}
+

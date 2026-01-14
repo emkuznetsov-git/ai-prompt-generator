@@ -1,0 +1,48 @@
+{
+  "module": "scene",
+  "items": [
+    {
+      "id": "studio_cyclorama",
+      "label": "Studio cyclorama",
+      "text_en": "clean studio cyclorama with glossy floor, simple white cube prop, premium editorial vibe",
+      "tags": ["studio", "cyclorama", "high-key"],
+      "weight": 1.0
+    },
+    {
+      "id": "luxury_hotel_suite",
+      "label": "Luxury hotel suite",
+      "text_en": "luxury hotel suite, warm bedside lamps, velvet chair, mirror, silk bedding",
+      "tags": ["hotel", "boudoir", "warm", "luxury"],
+      "weight": 1.0
+    },
+    {
+      "id": "neon_corridor",
+      "label": "Neon corridor",
+      "text_en": "modern night corridor with reflective floor and subtle neon glow reflections",
+      "tags": ["neon", "night", "corridor", "modern"],
+      "weight": 1.0
+    },
+    {
+      "id": "dressing_room_mirrors",
+      "label": "Dressing room mirrors",
+      "text_en": "dressing room mirror with warm bulbs, velvet stool, tasteful atmosphere",
+      "tags": ["backstage", "mirror", "warm"],
+      "weight": 1.0
+    },
+    {
+      "id": "industrial_loft",
+      "label": "Industrial loft",
+      "text_en": "industrial loft with concrete walls, minimal modern furniture, edgy atmosphere",
+      "tags": ["industrial", "loft", "edgy", "modern"],
+      "weight": 1.0
+    },
+    {
+      "id": "daylight_penthouse",
+      "label": "Daylight penthouse",
+      "text_en": "modern penthouse loft with large windows, soft sunbeams, warm wood + white minimal interior",
+      "tags": ["daylight", "penthouse", "modern", "warm"],
+      "weight": 1.0
+    }
+  ]
+}
+

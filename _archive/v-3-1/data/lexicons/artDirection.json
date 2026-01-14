@@ -1,0 +1,48 @@
+{
+  "module": "artDirection",
+  "items": [
+    {
+      "id": "playboy_studio_glam",
+      "label": "Playboy-inspired Studio Glam",
+      "text_en": "Playboy-inspired high-end glamour magazine editorial",
+      "tags": ["studio", "high-key", "playboy", "glamour"],
+      "weight": 1.0
+    },
+    {
+      "id": "luxury_boudoir_warm",
+      "label": "Luxury Hotel Boudoir Warm",
+      "text_en": "Luxury boudoir lingerie campaign, Playboy-inspired glamour editorial",
+      "tags": ["boudoir", "warm", "luxury", "hotel"],
+      "weight": 1.0
+    },
+    {
+      "id": "neon_night_cinematic",
+      "label": "Neon Night Cinematic",
+      "text_en": "Neon night glamour editorial, Playboy-inspired bold but classy",
+      "tags": ["neon", "night", "cinematic", "low-key"],
+      "weight": 1.0
+    },
+    {
+      "id": "backstage_mirror_bulbs",
+      "label": "Backstage Mirror Bulbs",
+      "text_en": "Backstage mirror-bulbs glamour editorial",
+      "tags": ["backstage", "mirror", "warm", "studio"],
+      "weight": 1.0
+    },
+    {
+      "id": "industrial_loft_edgy",
+      "label": "Industrial Loft Edgy Latex-look",
+      "text_en": "Industrial loft edgy glamour editorial, latex-look aesthetic",
+      "tags": ["industrial", "loft", "edgy", "modern"],
+      "weight": 0.9
+    },
+    {
+      "id": "vintage_pinup_glam",
+      "label": "Vintage Pin-Up Glam",
+      "text_en": "Vintage pin-up glamour editorial, retro glamour aesthetic",
+      "tags": ["vintage", "pin-up", "retro", "classic"],
+      "weight": 1.0
+    }
+  ]
+}
+

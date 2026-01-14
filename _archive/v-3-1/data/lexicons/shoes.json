@@ -1,0 +1,46 @@
+{
+  "module": "shoes",
+  "items": [
+    {
+      "id": "patent_stilettos",
+      "label": "Patent stilettos",
+      "text_en": "nude patent stilettos",
+      "tags": ["stilettos", "patent", "nude"],
+      "weight": 1.0,
+      "constraints": {
+        "requires": ["include floor"]
+      }
+    },
+    {
+      "id": "knee_high_suede_boots",
+      "label": "Knee-high suede boots",
+      "text_en": "knee-high black suede boots with slim heel",
+      "tags": ["boots", "suede", "knee-high"],
+      "weight": 1.0,
+      "constraints": {
+        "requires": ["include floor"]
+      }
+    },
+    {
+      "id": "thigh_high_patent_boots",
+      "label": "Thigh-high patent boots",
+      "text_en": "over-the-knee patent thigh-high boots with slim stiletto heel",
+      "tags": ["boots", "patent", "thigh-high", "bold"],
+      "weight": 1.0,
+      "constraints": {
+        "requires": ["include floor"]
+      }
+    },
+    {
+      "id": "black_patent_pumps",
+      "label": "Black patent pumps",
+      "text_en": "black patent pointed-toe pumps",
+      "tags": ["pumps", "patent", "black"],
+      "weight": 1.0,
+      "constraints": {
+        "requires": ["include floor"]
+      }
+    }
+  ]
+}
+

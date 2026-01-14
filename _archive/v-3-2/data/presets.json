@@ -1,0 +1,184 @@
+[
+  {
+    "id": "playboy_studio_glam",
+    "label": "Playboy-inspired Studio Glam",
+    "description": "High-end studio glamour with clean cyclorama (cover/hero-ready).",
+    "selections": {
+      "goal": "glamour_magazine_editorial",
+      "artDirection": "playboy_studio_glam",
+      "scene": "studio_cyclorama",
+      "lighting": "softbox_key_rim",
+      "camera": "50mm_editorial_cover",
+      "color": "warm_neutral_filmic"
+    },
+    "tags": ["studio", "high-key", "playboy", "glamour", "set_studio", "lighting_high_key_hint", "mood_clean", "layout_copy_space"]
+  },
+  {
+    "id": "luxury_boudoir_warm",
+    "label": "Luxury Hotel Boudoir Warm",
+    "description": "Warm boudoir atmosphere in luxury hotel setting (campaign feel).",
+    "selections": {
+      "goal": "lingerie_ad_campaign",
+      "artDirection": "luxury_boudoir_warm",
+      "scene": "luxury_hotel_suite",
+      "lighting": "warm_diffusion_rim",
+      "camera": "50mm_crisp_detail_clean",
+      "color": "warm_neutral_filmic"
+    },
+    "tags": ["boudoir", "warm", "luxury", "hotel", "set_boudoir", "set_hotel", "props_lamps", "mood_warm"]
+  },
+  {
+    "id": "neon_night_cinematic",
+    "label": "Neon Night Cinematic",
+    "description": "Bold cinematic night scene with neon accents (editorial).",
+    "selections": {
+      "goal": "glamour_magazine_editorial",
+      "artDirection": "neon_night_cinematic",
+      "scene": "neon_corridor",
+      "lighting": "cinematic_lowkey_neon",
+      "camera": "35mm_low_angle_dynamic",
+      "color": "cool_chrome"
+    },
+    "tags": ["neon", "night", "cinematic", "low-key", "time_night", "mood_cinematic", "lighting_low_key_hint", "surface_reflective"]
+  },
+  {
+    "id": "backstage_mirror_bulbs",
+    "label": "Backstage Mirror Bulbs",
+    "description": "Classic backstage dressing room atmosphere (warm bulbs).",
+    "selections": {
+      "goal": "glamour_magazine_editorial",
+      "artDirection": "backstage_mirror_bulbs",
+      "scene": "dressing_room_mirrors",
+      "lighting": "warm_practical_bulbs",
+      "camera": "50mm_crisp_detail_clean",
+      "color": "premium_editorial_retouch"
+    },
+    "tags": ["backstage", "mirror", "warm", "set_backstage", "props_mirror", "props_bulbs", "lighting_practical", "editorial"]
+  },
+  {
+    "id": "industrial_loft_edgy",
+    "label": "Industrial Loft Edgy (Latex-look)",
+    "description": "Modern industrial setting with edgy high-fashion vibe.",
+    "selections": {
+      "goal": "glamour_magazine_editorial",
+      "artDirection": "industrial_loft_edgy",
+      "scene": "industrial_loft",
+      "lighting": "cinematic_lowkey_neon",
+      "camera": "35mm_low_angle_dynamic",
+      "color": "cool_chrome"
+    },
+    "tags": ["industrial", "loft", "edgy", "modern", "set_industrial", "set_loft", "mood_edgy", "grading_cool"]
+  },
+  {
+    "id": "vintage_pinup_glam",
+    "label": "Vintage Pin-Up Glam",
+    "description": "Retro pin-up vibe with classic glamour (clean studio base).",
+    "selections": {
+      "goal": "glamour_magazine_editorial",
+      "artDirection": "vintage_pinup_glam",
+      "scene": "studio_cyclorama",
+      "lighting": "softbox_key_rim",
+      "camera": "50mm_editorial_cover",
+      "color": "warm_neutral_filmic"
+    },
+    "tags": ["vintage", "pin-up", "retro", "classic", "studio", "glamour", "set_studio", "era_vintage", "vibe_classic"]
+  },
+  {
+    "id": "studio_clean_lookbook",
+    "label": "Studio Clean Lookbook",
+    "description": "Ultra-clean lookbook/e-comm leaning preset (product clarity).",
+    "selections": {
+      "goal": "luxury_lookbook_series",
+      "artDirection": "minimal_high_fashion_mono",
+      "scene": "studio_seamless_white_clean",
+      "lighting": "softbox_key_rim",
+      "camera": "50mm_crisp_detail_clean",
+      "color": "premium_editorial_retouch"
+    },
+    "tags": ["studio", "high-key", "clean", "lookbook", "luxury", "set_studio", "ecomm", "product_first", "minimal"]
+  },
+  {
+    "id": "daylight_penthouse_airy",
+    "label": "Daylight Penthouse Airy",
+    "description": "Airy daylight editorial with window light (soft luxury).",
+    "selections": {
+      "goal": "luxury_lookbook_series",
+      "artDirection": "daylight_penthouse_air",
+      "scene": "daylight_penthouse",
+      "lighting": "window_light_fill",
+      "camera": "50mm_editorial_cover",
+      "color": "warm_neutral_filmic"
+    },
+    "tags": ["daylight", "penthouse", "modern", "warm", "lighting_window_hint", "mood_airy", "luxury"]
+  },
+  {
+    "id": "old_money_suite",
+    "label": "Old-money Luxury Suite",
+    "description": "Classic warm luxury interior (timeless premium campaign).",
+    "selections": {
+      "goal": "lingerie_ad_campaign",
+      "artDirection": "old_money_luxury_suite",
+      "scene": "old_money_suite_wood_marble",
+      "lighting": "warm_diffusion_rim",
+      "camera": "50mm_crisp_detail_clean",
+      "color": "warm_neutral_filmic"
+    },
+    "tags": ["luxury", "warm", "classic", "hotel", "old-money", "texture_wood", "texture_marble", "mood_warm"]
+  },
+  {
+    "id": "glass_penthouse_night_city",
+    "label": "Glass Penthouse Night (City Bokeh)",
+    "description": "Sleek night penthouse with city bokeh (cool cinematic).",
+    "selections": {
+      "goal": "glamour_magazine_editorial",
+      "artDirection": "chrome_cold_luxury",
+      "scene": "modern_glass_penthouse_night",
+      "lighting": "cinematic_lowkey_neon",
+      "camera": "35mm_low_angle_dynamic",
+      "color": "cool_chrome"
+    },
+    "tags": ["night", "cinematic", "modern", "cool", "surface_reflective", "city_bokeh", "grading_cool"]
+  },
+  {
+    "id": "chrome_bathroom_editorial",
+    "label": "Chrome Marble Bathroom Editorial",
+    "description": "Chrome + marble luxury set (clean glossy highlights).",
+    "selections": {
+      "goal": "lingerie_ad_campaign",
+      "artDirection": "chrome_cold_luxury",
+      "scene": "chrome_luxury_bathroom",
+      "lighting": "cinematic_lowkey_neon",
+      "camera": "50mm_crisp_detail_clean",
+      "color": "cool_chrome"
+    },
+    "tags": ["luxury", "modern", "chrome", "cool", "surface_chrome", "texture_marble", "surface_glossy"]
+  },
+  {
+    "id": "cabaret_backstage_smoky",
+    "label": "Cabaret Backstage Smoky",
+    "description": "Moody backstage with subtle haze (cinematic glamour).",
+    "selections": {
+      "goal": "glamour_magazine_editorial",
+      "artDirection": "cabaret_backstage_smoky",
+      "scene": "cabaret_backstage",
+      "lighting": "warm_practical_bulbs",
+      "camera": "35mm_low_angle_dynamic",
+      "color": "premium_editorial_retouch"
+    },
+    "tags": ["backstage", "warm", "cinematic", "smoky", "bold", "mood_cinematic", "lighting_practical"]
+  },
+  {
+    "id": "poolside_golden_hour_glam",
+    "label": "Poolside Golden Hour Glam",
+    "description": "Lifestyle-glam golden hour preset (social/editorial friendly).",
+    "selections": {
+      "goal": "glamour_magazine_editorial",
+      "artDirection": "poolside_golden_hour",
+      "scene": "poolside_golden_hour",
+      "lighting": "window_light_fill",
+      "camera": "50mm_editorial_cover",
+      "color": "warm_neutral_filmic"
+    },
+    "tags": ["outdoor", "golden_hour", "warm", "lifestyle", "relaxed", "time_golden_hour"]
+  }
+]

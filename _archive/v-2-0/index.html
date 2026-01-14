@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Генератор промптов для AI - Fashion/Beauty/Lingerie</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎬 Генератор промптов для AI</h1>
+            <p class="subtitle">Fashion / Beauty / Lingerie съёмка</p>
+        </header>
+
+        <div class="main-content">
+            <!-- Левая колонка: Быстрые пресеты, смелость, кнопки -->
+            <div class="left-column">
+                <div class="section">
+                    <h2>🎨 Быстрые пресеты</h2>
+                    
+                    <div class="control-group">
+                        <label for="aestheticPreset">Пресет эстетики</label>
+                        <select id="aestheticPreset">
+                            <option value="">Не выбран</option>
+                        </select>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="archetype">Архетип модели</label>
+                        <select id="archetype">
+                            <option value="">Не выбран</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="section boldness-section">
+                    <h2>🎚️ Boldness (смелость)</h2>
+                    
+                    <div class="control-group">
+                        <label for="boldness">Уровень: <span id="boldnessLabel">B0 - Lingerie ad safe</span></label>
+                        <input type="range" id="boldness" min="0" max="3" value="0" step="1">
+                        <div class="boldness-levels">
+                            <span>B0 - Safe</span>
+                            <span>B1 - Editorial</span>
+                            <span>B2 - Playboy</span>
+                            <span>B3 - Edge</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <button id="generateBtn" class="generate-btn">🎯 Сгенерировать промпт</button>
+                    <button id="randomBtn" class="random-btn">🎲 Случайный промпт</button>
+                    <button id="resetBtn" class="reset-btn">🔄 Сбросить</button>
+                </div>
+            </div>
+
+            <!-- Правая колонка: Детальные настройки -->
+            <div class="right-column">
+                <div class="section">
+                    <h2>⚙️ Основные настройки</h2>
+                    
+                    <div class="control-group">
+                        <label for="engine">Движок</label>
+                        <select id="engine"></select>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="platform">Platform preset</label>
+                        <select id="platform"></select>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="aspectRatio">Aspect ratio (для полного роста лучше вертикальные)</label>
+                        <select id="aspectRatio"></select>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="format">Формат (legacy)</label>
+                        <select id="format"></select>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="realism">Уровень реализма</label>
+                        <select id="realism"></select>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="contentType">Тип контента</label>
+                        <select id="contentType"></select>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="product">Что продаём</label>
+                        <select id="product"></select>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="artDirection">Art-direction preset</label>
+                        <select id="artDirection"></select>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2>👤 Модель</h2>
+                    
+                    <div class="control-group">
+                        <label for="modelAge">Возраст</label>
+                        <select id="modelAge"></select>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="modelBodyType">Телосложение</label>
+                        <select id="modelBodyType"></select>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="modelProportions">Рост/пропорции</label>
+                        <select id="modelProportions"></select>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="modelFace">Лицо</label>
+                        <select id="modelFace"></select>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="modelEmotion">Эмоция/вайб</label>
+                        <select id="modelEmotion"></select>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="modelGaze">Глаза/взгляд</label>
+                        <select id="modelGaze"></select>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2>💄 Beauty</h2>
+                    
+                    <div class="control-group">
+                        <label for="hair">Волосы</label>
+                        <select id="hair"></select>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="makeup">Makeup</label>
+                        <select id="makeup"></select>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="nails">Nails</label>
+                        <select id="nails"></select>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2>👗 Гардероб</h2>
+                    
+                    <div class="control-group">
+                        <label for="lingerieType">Lingerie - Тип</label>
+                        <select id="lingerieType"></select>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="lingerieMaterial">Lingerie - Материал</label>
+                        <select id="lingerieMaterial"></select>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="lingerieDetails">Lingerie - Детали</label>
+                        <select id="lingerieDetails"></select>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="shoesType">Shoes - Вид</label>
+                        <select id="shoesType"></select>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="shoesDetails">Shoes - Детали</label>
+                        <select id="shoesDetails"></select>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="outerLayer">Outer layer</label>
+                        <select id="outerLayer"></select>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2>✨ Аксессуары</h2>
+                    
+                    <div class="control-group">
+                        <label for="stockings">Stockings</label>
+                        <select id="stockings"></select>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="jewelry">Jewelry</label>
+                        <select id="jewelry"></select>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="props">Props</label>
+                        <select id="props"></select>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2>🎬 Съёмка</h2>
+                    
+                    <div class="control-group">
+                        <label for="scene">Сцена / интерьер</label>
+                        <select id="scene"></select>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="poseBase">Поза - Основа</label>
+                        <select id="poseBase"></select>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="poseBodyLanguage">Поза - Body language</label>
+                        <select id="poseBodyLanguage"></select>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="poseAction">Поза - Действие</label>
+                        <select id="poseAction"></select>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="cameraShot">Камера - Shot</label>
+                        <select id="cameraShot"></select>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="cameraAngle">Камера - Angle</label>
+                        <select id="cameraAngle"></select>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="cameraLens">Камера - Lens</label>
+                        <select id="cameraLens"></select>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2>📐 Framing (управление полным ростом)</h2>
+                    
+                    <div class="control-group">
+                        <label for="framingShotType">Shot type</label>
+                        <select id="framingShotType"></select>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="framingCropGuards">Crop guards</label>
+                        <select id="framingCropGuards"></select>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="framingSubjectScale">Subject scale in frame</label>
+                        <select id="framingSubjectScale"></select>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="framingLensDistance">Lens/distance</label>
+                        <select id="framingLensDistance"></select>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="framingAnchorDetails">Anchor details</label>
+                        <select id="framingAnchorDetails"></select>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2>💡 Свет</h2>
+                    
+                    <div class="control-group">
+                        <label for="lighting">Свет</label>
+                        <select id="lighting"></select>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="colorGrading">Grading</label>
+                        <select id="colorGrading"></select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Промпт-результат: фиксированный внизу на всю ширину -->
+        <div class="output-panel" id="outputPanel">
+            <div class="output-header">
+                <h2>📝 Сгенерированный промпт</h2>
+                <div class="output-header-actions">
+                    <button id="toggleOutputBtn" class="toggle-btn" title="Скрыть/Показать">▼</button>
+                    <button id="copyBtn" class="copy-btn">📋 Копировать</button>
+                </div>
+            </div>
+            <div class="output-content" id="outputContent">
+                <textarea id="output" readonly></textarea>
+                <div class="output-info">
+                    <p>Длина: <span id="promptLength">0</span> символов</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

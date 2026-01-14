@@ -1,0 +1,584 @@
+{
+  "engine": {
+    "label": "Движок",
+    "options": [
+      "Midjourney",
+      "SDXL",
+      "Flux",
+      "DALL·E 3",
+      "Stable Diffusion",
+      "Leonardo AI"
+    ]
+  },
+  "format": {
+    "label": "Формат",
+    "options": [
+      {
+        "value": "Instagram feed (4:5)",
+        "aspect": "4:5"
+      },
+      {
+        "value": "Instagram story/reels (9:16)",
+        "aspect": "9:16"
+      },
+      {
+        "value": "Журнал (2:3)",
+        "aspect": "2:3"
+      },
+      {
+        "value": "A4 crop",
+        "aspect": "A4"
+      },
+      {
+        "value": "Квадрат (1:1)",
+        "aspect": "1:1"
+      }
+    ]
+  },
+  "realism": {
+    "label": "Уровень реализма",
+    "options": [
+      "photoreal",
+      "editorial photoreal",
+      "hyperreal"
+    ]
+  },
+  "quality": {
+    "label": "Качество",
+    "default": "high-end magazine editorial, high detail skin texture, fabric microtexture",
+    "options": [
+      "high-end magazine editorial, high detail skin texture, fabric microtexture",
+      "luxury fashion photography, professional retouching",
+      "editorial quality, sharp focus, natural lighting",
+      "commercial photography, product clarity"
+    ]
+  },
+  "contentType": {
+    "label": "Тип контента",
+    "options": [
+      "lingerie ad",
+      "glamour editorial",
+      "lookbook",
+      "teasing lifestyle",
+      "boudoir photography",
+      "fashion campaign"
+    ]
+  },
+  "product": {
+    "label": "Что продаём",
+    "options": [
+      "set",
+      "bra",
+      "corset",
+      "heels",
+      "boots",
+      "lingerie collection",
+      "accessories"
+    ]
+  },
+  "artDirection": {
+    "label": "Art-direction preset",
+    "options": [
+      "Playboy-style glamour editorial",
+      "Luxury boudoir campaign",
+      "Neon night glamour",
+      "Vintage pin-up glamour",
+      "High-fashion lingerie runway editorial",
+      "Editorial fashion photography",
+      "Commercial lingerie campaign"
+    ]
+  },
+  "model": {
+    "age": {
+      "label": "Возраст",
+      "default": "adult woman, 25+",
+      "options": [
+        "adult woman, 25+",
+        "adult woman, 30+",
+        "adult woman, 28+"
+      ]
+    },
+    "bodyType": {
+      "label": "Телосложение",
+      "options": [
+        "slim",
+        "athletic",
+        "curvy",
+        "toned",
+        "petite",
+        "tall"
+      ]
+    },
+    "proportions": {
+      "label": "Рост/пропорции",
+      "options": [
+        "long legs",
+        "defined waist",
+        "elegant posture",
+        "graceful silhouette",
+        "balanced proportions"
+      ]
+    },
+    "face": {
+      "label": "Лицо",
+      "options": [
+        "soft features",
+        "sharp jawline",
+        "full lips",
+        "high cheekbones",
+        "delicate features",
+        "strong bone structure"
+      ]
+    },
+    "emotion": {
+      "label": "Эмоция/вайб",
+      "options": [
+        "confident",
+        "playful",
+        "provocative",
+        "sultry",
+        "elegant",
+        "mysterious"
+      ]
+    },
+    "gaze": {
+      "label": "Глаза/взгляд",
+      "options": [
+        "direct gaze",
+        "over-the-shoulder",
+        "dreamy",
+        "sultry look",
+        "confident stare",
+        "looking away"
+      ]
+    }
+  },
+  "beauty": {
+    "hair": {
+      "label": "Волосы",
+      "options": [
+        "long blonde blowout waves",
+        "sleek straight dark hair",
+        "wavy brunette hair",
+        "messy bun",
+        "wet look",
+        "curly hair",
+        "shoulder-length waves",
+        "long straight hair",
+        "updo with loose strands"
+      ]
+    },
+    "makeup": {
+      "label": "Makeup",
+      "options": [
+        "nude-gloss lips",
+        "smoky eyes",
+        "winged liner",
+        "red lipstick",
+        "natural makeup",
+        "glossy nude lips",
+        "bold red lips",
+        "minimal makeup",
+        "dramatic smoky eyes"
+      ]
+    },
+    "nails": {
+      "label": "Nails",
+      "options": [
+        "nude nails",
+        "black nails",
+        "red nails",
+        "clear polish",
+        "french manicure"
+      ]
+    }
+  },
+  "wardrobe": {
+    "lingerie": {
+      "label": "Lingerie",
+      "type": {
+        "label": "Тип",
+        "options": [
+          "balconette set",
+          "bustier",
+          "corset",
+          "bodysuit",
+          "lingerie dress",
+          "bikini",
+          "teddy",
+          "chemise"
+        ]
+      },
+      "material": {
+        "label": "Материал",
+        "options": [
+          "lace",
+          "satin",
+          "silk",
+          "mesh",
+          "latex-look",
+          "patent-leather accents",
+          "velvet",
+          "chiffon"
+        ]
+      },
+      "details": {
+        "label": "Детали",
+        "options": [
+          "high-waist",
+          "minimal straps",
+          "cut lines",
+          "garter straps",
+          "strapless",
+          "underwire",
+          "push-up"
+        ]
+      }
+    },
+    "shoes": {
+      "label": "Shoes",
+      "type": {
+        "label": "Вид",
+        "options": [
+          "stilettos",
+          "pumps",
+          "ankle boots",
+          "thigh-high boots",
+          "sandals",
+          "platform heels",
+          "mules"
+        ]
+      },
+      "details": {
+        "label": "Детали",
+        "options": [
+          "pointed toe",
+          "patent leather",
+          "suede",
+          "thin straps",
+          "metal buckles",
+          "platform",
+          "open toe"
+        ]
+      }
+    },
+    "outerLayer": {
+      "label": "Outer layer (опционально)",
+      "options": [
+        "oversized blazer",
+        "silk robe",
+        "trench coat slipped off shoulders",
+        "leather jacket",
+        "none"
+      ]
+    }
+  },
+  "accessories": {
+    "stockings": {
+      "label": "Stockings",
+      "options": [
+        "sheer stockings",
+        "lace-top stockings",
+        "subtle fishnet",
+        "none"
+      ]
+    },
+    "jewelry": {
+      "label": "Jewelry",
+      "options": [
+        "minimal gold hoops",
+        "layered chain",
+        "statement earrings",
+        "delicate necklace",
+        "none"
+      ]
+    },
+    "props": {
+      "label": "Props",
+      "options": [
+        "mirror",
+        "chair",
+        "perfume bottle",
+        "silk sheets",
+        "studio cube",
+        "none"
+      ]
+    }
+  },
+  "scene": {
+    "label": "Сцена / интерьер",
+    "options": [
+      {
+        "name": "Studio clean",
+        "description": "seamless background, cyclorama, product clarity"
+      },
+      {
+        "name": "Boudoir luxury",
+        "description": "hotel suite, warm lamps, velvet chair, silk bedding"
+      },
+      {
+        "name": "Night glamour",
+        "description": "neon, bar/cabaret vibe, corridor, reflective surfaces"
+      },
+      {
+        "name": "Industrial fashion",
+        "description": "concrete, chrome, brutalist minimal"
+      },
+      {
+        "name": "Luxury bedroom",
+        "description": "elegant bedroom, soft lighting, luxurious fabrics"
+      },
+      {
+        "name": "Modern apartment",
+        "description": "contemporary interior, minimalist design, natural light"
+      }
+    ]
+  },
+  "pose": {
+    "base": {
+      "label": "Основа позы",
+      "options": [
+        "standing",
+        "sitting",
+        "reclining",
+        "leaning"
+      ]
+    },
+    "bodyLanguage": {
+      "label": "Body language",
+      "options": [
+        "elongated neck",
+        "relaxed shoulders",
+        "arched back moderately",
+        "weight shift",
+        "elegant posture",
+        "graceful stance"
+      ]
+    },
+    "action": {
+      "label": "Действие",
+      "options": [
+        "adjusting blazer lapel",
+        "holding heel strap",
+        "turning mid-step",
+        "looking back",
+        "touching hair",
+        "adjusting lingerie strap",
+        "leaning on furniture",
+        "walking pose"
+      ]
+    }
+  },
+  "camera": {
+    "shot": {
+      "label": "Shot",
+      "options": [
+        "full-body",
+        "three-quarter",
+        "medium",
+        "beauty close-up"
+      ]
+    },
+    "angle": {
+      "label": "Angle",
+      "options": [
+        "eye level",
+        "slight low angle",
+        "high angle",
+        "dutch angle"
+      ]
+    },
+    "lens": {
+      "label": "Lens vibe",
+      "options": [
+        "35mm editorial",
+        "50mm portrait",
+        "85mm beauty",
+        "24mm wide",
+        "105mm telephoto"
+      ]
+    },
+    "focus": {
+      "label": "Focus",
+      "default": "sharp face + crisp lingerie details, soft background bokeh",
+      "options": [
+        "sharp face + crisp lingerie details, soft background bokeh",
+        "sharp throughout",
+        "selective focus on face",
+        "deep focus"
+      ]
+    },
+    "composition": {
+      "label": "Composition",
+      "default": "negative space for typography",
+      "options": [
+        "negative space for typography",
+        "rule of thirds",
+        "centered composition",
+        "dynamic framing"
+      ]
+    }
+  },
+  "lighting": {
+    "label": "Свет",
+    "options": [
+      "softbox key light + subtle rim light",
+      "beauty dish for face",
+      "low-key moody contrast",
+      "high-key clean catalog",
+      "natural window light",
+      "dramatic rim lighting",
+      "soft diffused light",
+      "cinematic lighting setup"
+    ]
+  },
+  "grading": {
+    "label": "Цвет, грейдинг, ретушь",
+    "colorGrading": {
+      "label": "Grading",
+      "options": [
+        "warm-neutral editorial",
+        "cool chrome",
+        "filmic",
+        "vibrant",
+        "desaturated",
+        "high contrast"
+      ]
+    },
+    "retouch": {
+      "label": "Retouch",
+      "default": "fashion retouch, natural skin texture, no plastic skin",
+      "options": [
+        "fashion retouch, natural skin texture, no plastic skin",
+        "minimal retouching",
+        "editorial retouch",
+        "natural look"
+      ]
+    },
+    "detail": {
+      "label": "Detail",
+      "default": "fabric microtexture, realistic seams, clean edges",
+      "options": [
+        "fabric microtexture, realistic seams, clean edges",
+        "high detail throughout",
+        "selective detail enhancement"
+      ]
+    }
+  },
+  "negatives": {
+    "label": "Ограничения / negatives",
+    "default": [
+      "adult woman 25+, tasteful glamour lingerie",
+      "no explicit nudity",
+      "no visible genitals",
+      "no sexual act",
+      "no minors",
+      "no text",
+      "no watermark",
+      "no logos",
+      "no extra fingers/limbs",
+      "no warped hands",
+      "no distorted face"
+    ]
+  },
+  "boldness": {
+    "label": "Boldness (смелость)",
+    "levels": [
+      {
+        "level": 0,
+        "name": "Lingerie ad safe",
+        "description": "tasteful lingerie campaign, covered nipples, elegant pose"
+      },
+      {
+        "level": 1,
+        "name": "Glamour editorial",
+        "description": "provocative glamour editorial, implied nudity, strategic coverage"
+      },
+      {
+        "level": 2,
+        "name": "Playboy-like glamour",
+        "description": "bold glamour, topless implied but not explicit, tasteful framing"
+      },
+      {
+        "level": 3,
+        "name": "On the edge",
+        "description": "very bold glamour, teasing pose, cinematic low-key lighting, no explicit nudity, no sexual act"
+      }
+    ]
+  },
+  "aestheticPresets": {
+    "label": "Пресеты эстетики",
+    "options": [
+      {
+        "name": "Playboy Studio Glam",
+        "description": "white cyclorama / glossy floor, high-key light, crisp shadows, classic glamour"
+      },
+      {
+        "name": "Luxury Hotel Boudoir",
+        "description": "warm lamps, silk bedding, velvet chair, mirror, soft diffusion, intimate but elegant"
+      },
+      {
+        "name": "Neon Night Glam",
+        "description": "neon signage reflections, wet pavement vibe, cinematic contrast, glossy lips, high heels"
+      },
+      {
+        "name": "Cabaret Backstage",
+        "description": "backstage mirrors with bulbs, feather accents (умеренно), smoky eyes, dramatic rim light"
+      },
+      {
+        "name": "Latex-Look Fashion Edge",
+        "description": "patent leather accents, chrome + black interior, sharp highlights, dominant fashion attitude (без BDSM-атрибутов)"
+      },
+      {
+        "name": "Vintage Pin-Up Glam",
+        "description": "50s/60s poster lighting, hair rolls/waves, red lipstick, playful pose"
+      },
+      {
+        "name": "High-Fashion Editorial Minimal",
+        "description": "brutalist interior, couture lingerie lines, clean geometry, cold neutral grading"
+      },
+      {
+        "name": "Poolside Tease",
+        "description": "golden hour, wet hair, bikini/one-piece, sun-kissed skin, glossy skin highlights"
+      }
+    ]
+  },
+  "archetypes": {
+    "label": "Архетипы моделей",
+    "options": [
+      {
+        "name": "California Blonde Glam",
+        "description": "long blonde blowout, glossy nude lips, playful confidence, high heels"
+      },
+      {
+        "name": "Brunette Femme Fatale",
+        "description": "sleek dark hair, smoky eyes, low-key light, patent stilettos"
+      },
+      {
+        "name": "Soft Romantic",
+        "description": "wavy hair, minimal makeup, lace satin set, warm boudoir"
+      },
+      {
+        "name": "Athletic Power",
+        "description": "toned body, clean makeup, minimalist set, studio high-key"
+      },
+      {
+        "name": "Alt-Editorial",
+        "description": "sharp eyeliner, monochrome palette, brutalist interior, ankle boots"
+      },
+      {
+        "name": "Classic Bombshell",
+        "description": "big waves, red lipstick, vintage pin-up lighting, corset vibe"
+      },
+      {
+        "name": "Elegant Sophisticate",
+        "description": "sleek updo, minimal jewelry, silk lingerie, luxury hotel setting"
+      },
+      {
+        "name": "Edgy Modern",
+        "description": "short hair, bold makeup, latex-look pieces, industrial setting"
+      }
+    ]
+  }
+}
+

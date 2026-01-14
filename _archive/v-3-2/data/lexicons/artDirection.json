@@ -1,0 +1,96 @@
+{
+  "module": "artDirection",
+  "items": [
+    {
+      "id": "playboy_studio_glam",
+      "label": "Playboy-inspired Studio Glam",
+      "text_en": "Playboy-inspired high-end glamour magazine editorial, clean studio cyclorama, glossy floor reflections, classic high-key glamour lighting with softbox key + subtle rim, warm-neutral filmic grading, negative space for headline",
+      "tags": ["set_studio", "surface_glossy", "lighting_high_key", "grading_warm", "vibe_playboy", "vibe_glamour", "layout_copy_space"],
+      "weight": 1.0
+    },
+    {
+      "id": "luxury_boudoir_warm",
+      "label": "Luxury Hotel Boudoir Warm",
+      "text_en": "Luxury hotel boudoir lingerie campaign, Playboy-inspired glamour editorial, warm practical lamp glow + soft diffused key light, velvet and silk textures, intimate but classy atmosphere, warm filmic grading",
+      "tags": ["set_boudoir", "set_hotel", "props_lamps", "texture_velvet", "texture_silk", "lighting_soft", "grading_warm", "vibe_glamour"],
+      "weight": 1.0
+    },
+    {
+      "id": "neon_night_cinematic",
+      "label": "Neon Night Cinematic",
+      "text_en": "Neon night glamour editorial, Playboy-inspired bold but classy, reflective surfaces and neon rim highlights, cinematic low-key contrast with controlled specular highlights, cool chrome grading",
+      "tags": ["set_corridor", "vibe_cinematic", "lighting_low_key", "lighting_rim", "grading_cool", "surface_reflective", "neon"],
+      "weight": 1.0
+    },
+    {
+      "id": "backstage_mirror_bulbs",
+      "label": "Backstage Mirror Bulbs",
+      "text_en": "Backstage dressing-room glamour editorial with mirror bulb lights, warm practical glow + soft key, glossy makeup highlights, intimate editorial mood, clean premium retouch",
+      "tags": ["set_backstage", "props_mirror", "props_bulbs", "lighting_practical", "grading_warm", "vibe_editorial", "vibe_glamour"],
+      "weight": 1.0
+    },
+    {
+      "id": "industrial_loft_edgy",
+      "label": "Industrial Loft Edgy (latex-look)",
+      "text_en": "Industrial loft edgy glamour editorial, modern concrete + chrome textures, latex-look aesthetic with controlled glossy highlights, crisp rim lighting, cool-neutral grading, high-fashion attitude",
+      "tags": ["set_loft", "set_industrial", "texture_concrete", "surface_chrome", "lighting_rim", "grading_cool", "vibe_high_fashion", "edgy"],
+      "weight": 0.9
+    },
+    {
+      "id": "vintage_pinup_glam",
+      "label": "Vintage Pin-Up Glam",
+      "text_en": "Vintage pin-up glamour editorial, retro classic soft-glam lighting, warm nostalgic film look, playful charm, clean studio backdrop with subtle vignette, timeless magazine aesthetic",
+      "tags": ["era_vintage", "pinup", "grading_warm", "lighting_soft", "vibe_classic", "vibe_playful"],
+      "weight": 1.0
+    },
+    {
+      "id": "daylight_penthouse_air",
+      "label": "Daylight Penthouse Airy",
+      "text_en": "Daylight penthouse lingerie editorial, large window light as key + soft fill, airy premium minimal interior, gentle highlights, warm-natural grading, modern clean luxury vibe",
+      "tags": ["set_penthouse", "lighting_window", "lighting_soft", "grading_warm", "minimal", "luxury", "daylight"],
+      "weight": 0.9
+    },
+    {
+      "id": "noir_blackwhite_editorial",
+      "label": "Noir Black & White Editorial",
+      "text_en": "Noir black-and-white glamour editorial, dramatic low-key lighting, strong chiaroscuro shadows, film-grain editorial texture, bold silhouette, classic magazine noir mood",
+      "tags": ["noir", "blackwhite", "lighting_low_key", "high_contrast", "vibe_cinematic", "classic"],
+      "weight": 0.8
+    },
+    {
+      "id": "old_money_luxury_suite",
+      "label": "Old-money Luxury Suite",
+      "text_en": "Old-money luxury suite editorial, warm golden practical lights, wood + marble textures, understated elegance, polished premium styling, timeless high-end campaign feel",
+      "tags": ["luxury", "old-money", "set_hotel", "texture_wood", "texture_marble", "grading_warm", "polished"],
+      "weight": 0.85
+    },
+    {
+      "id": "minimal_high_fashion_mono",
+      "label": "Minimal High-Fashion Mono",
+      "text_en": "Minimal high-fashion lingerie editorial, monochrome palette, clean geometric composition, controlled studio light, crisp edges, modern couture lookbook energy",
+      "tags": ["minimal", "monochrome", "vibe_high_fashion", "set_studio", "lighting_controlled", "clean"],
+      "weight": 0.85
+    },
+    {
+      "id": "chrome_cold_luxury",
+      "label": "Chrome Cold Luxury",
+      "text_en": "Chrome cold-luxury glamour editorial, reflective chrome surfaces, cool highlights, sleek modern styling, low-key controlled contrast, premium glossy finish",
+      "tags": ["surface_chrome", "grading_cool", "modern", "vibe_editorial", "lighting_low_key", "surface_reflective"],
+      "weight": 0.8
+    },
+    {
+      "id": "poolside_golden_hour",
+      "label": "Poolside Golden Hour Glam",
+      "text_en": "Poolside golden-hour glamour editorial, sun-kissed highlights, warm cinematic glow, relaxed luxurious vibe, sparkling reflections, magazine lifestyle feel",
+      "tags": ["outdoor", "golden_hour", "grading_warm", "lighting_natural", "lifestyle", "relaxed"],
+      "weight": 0.75
+    },
+    {
+      "id": "cabaret_backstage_smoky",
+      "label": "Cabaret Backstage Smoky",
+      "text_en": "Cabaret backstage glamour editorial, smoky moody atmosphere, warm practical lights + rim highlights, dramatic makeup sparkle, bold stage-adjacent vibe, premium cinematic finish",
+      "tags": ["set_backstage", "smoky", "lighting_practical", "lighting_rim", "vibe_cinematic", "bold"],
+      "weight": 0.75
+    }
+  ]
+}

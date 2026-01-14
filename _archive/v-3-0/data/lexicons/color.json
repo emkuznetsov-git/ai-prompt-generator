@@ -1,0 +1,34 @@
+{
+  "module": "color",
+  "items": [
+    {
+      "id": "warm_neutral_filmic",
+      "label": "Warm-neutral filmic",
+      "text_en": "warm-neutral filmic color grading, natural skin texture, fabric microtexture",
+      "tags": ["warm", "filmic", "natural"],
+      "weight": 1.0
+    },
+    {
+      "id": "cool_chrome",
+      "label": "Cool chrome",
+      "text_en": "cool chrome color grading, premium retouch, natural skin texture",
+      "tags": ["cool", "chrome", "modern"],
+      "weight": 1.0
+    },
+    {
+      "id": "natural_skin_texture",
+      "label": "Natural skin texture",
+      "text_en": "natural skin texture, premium fashion retouch, fabric microtexture visible",
+      "tags": ["natural", "texture", "premium"],
+      "weight": 1.0
+    },
+    {
+      "id": "premium_editorial_retouch",
+      "label": "Premium editorial retouch",
+      "text_en": "premium editorial retouch, natural skin texture, fabric microtexture",
+      "tags": ["premium", "retouch", "editorial"],
+      "weight": 1.0
+    }
+  ]
+}
+

@@ -1,0 +1,138 @@
+{
+  "module": "wardrobe",
+  "items": [
+    {
+      "id": "black_lace_corset",
+      "label": "Black lace corset set",
+      "text_en": "black lace corset lingerie with satin trim, structured boning, high-waist briefs, sheer lace-top stockings",
+      "tags": ["color_black", "lace", "corset", "stockings", "sexy", "classic"],
+      "weight": 0.75
+    },
+    {
+      "id": "black_lace_bustier",
+      "label": "Black lace bustier set",
+      "text_en": "black lace bustier set with clean structure, high-waist briefs, subtle fine fishnet stockings (tasteful)",
+      "tags": ["color_black", "lace", "bustier", "fishnet", "sexy", "classic"],
+      "weight": 0.7
+    },
+    {
+      "id": "deep_red_satin",
+      "label": "Deep red satin set",
+      "text_en": "deep red satin lingerie set with subtle black lace trim, sheer black stockings",
+      "tags": ["color_red", "satin", "stockings", "sexy"],
+      "weight": 0.6
+    },
+    {
+      "id": "ivory_satin_balconette",
+      "label": "Ivory satin balconette set",
+      "text_en": "ivory satin balconette set with lace trim, sheer beige lace-top stockings",
+      "tags": ["color_ivory", "satin", "balconette", "stockings", "classic"],
+      "weight": 0.55
+    },
+    {
+      "id": "ivory_lace_bodysuit",
+      "label": "Ivory lace bodysuit",
+      "text_en": "ivory lace bodysuit lingerie with satin panel details, sheer beige stockings",
+      "tags": ["color_ivory", "lace", "bodysuit", "stockings", "classic"],
+      "weight": 0.5
+    },
+    {
+      "id": "black_strappy_garter_set",
+      "label": "Black strappy set + garters (hot)",
+      "text_en": "black strappy lingerie set with garter belt and gold hardware, high-leg briefs, sheer black stockings (lace-top)",
+      "tags": ["color_black", "strappy", "garter", "hardware_gold", "stockings", "hot", "sexy"],
+      "weight": 1.0
+    },
+    {
+      "id": "black_cage_bra_garter",
+      "label": "Black cage bra + garter (hot)",
+      "text_en": "black cage-bra lingerie set with tasteful strap geometry and gold rings, high-leg thong briefs, garter belt, sheer black stockings",
+      "tags": ["color_black", "cage", "strappy", "garter", "thong", "hardware_gold", "hot", "sexy", "statement"],
+      "weight": 0.9
+    },
+    {
+      "id": "black_harness_inspired_set",
+      "label": "Harness-inspired lingerie (hot)",
+      "text_en": "black harness-inspired lingerie set (fashion body-harness inspired), clean straps with minimal hardware, high-leg briefs, sheer black stockings",
+      "tags": ["color_black", "harness", "strappy", "bold", "hot", "sexy"],
+      "weight": 0.8
+    },
+    {
+      "id": "black_satin_triangle_thong_set",
+      "label": "Satin triangle + thong (hot)",
+      "text_en": "black satin triangle bra with lined cups, matching high-leg thong briefs, sheer black stockings, minimal gold jewelry accents",
+      "tags": ["color_black", "satin", "thong", "minimal", "hot", "sexy"],
+      "weight": 0.75
+    },
+    {
+      "id": "sheer_mesh_plunge_bodysuit",
+      "label": "Sheer mesh plunge bodysuit (hot)",
+      "text_en": "sheer black mesh plunge bodysuit with strategically placed opaque panels, clean seams, high-leg cut, sheer black stockings",
+      "tags": ["color_black", "mesh", "bodysuit", "sheer", "hot", "sexy"],
+      "weight": 0.85
+    },
+    {
+      "id": "black_cutout_bodysuit",
+      "label": "Cutout bodysuit (hot)",
+      "text_en": "black cutout bodysuit lingerie with tasteful geometric cutouts and opaque panels, sheer black stockings, minimal body chain jewelry",
+      "tags": ["color_black", "cutout", "bodysuit", "hot", "sexy", "statement"],
+      "weight": 0.75
+    },
+    {
+      "id": "black_teddy_open_back",
+      "label": "Open-back teddy (hot)",
+      "text_en": "black lace teddy with satin accents, open-back design (tasteful), high-leg cut, sheer black stockings",
+      "tags": ["color_black", "teddy", "lace", "open-back", "hot", "sexy"],
+      "weight": 0.7
+    },
+    {
+      "id": "rhinestone_crystal_strap_set",
+      "label": "Crystal strap set (statement)",
+      "text_en": "black lingerie set with crystal strap details and clean lines, high-leg briefs, sheer black stockings",
+      "tags": ["color_black", "crystal", "statement", "strappy", "hot", "sexy"],
+      "weight": 0.7
+    },
+    {
+      "id": "latex_look_strappy_set",
+      "label": "Latex-look strappy set (edgy hot)",
+      "text_en": "black latex-look strappy lingerie set with controlled glossy highlights and minimal hardware, sheer black stockings",
+      "tags": ["color_black", "latex-look", "edgy", "strappy", "hot", "sexy"],
+      "weight": 0.65
+    },
+    {
+      "id": "latex_look_bodysuit_clean",
+      "label": "Latex-look bodysuit (editorial hot)",
+      "text_en": "black latex-look bodysuit with clean seams and controlled glossy highlights, high-leg cut, sheer black stockings",
+      "tags": ["color_black", "latex-look", "bodysuit", "edgy", "hot", "sexy"],
+      "weight": 0.55
+    },
+    {
+      "id": "deep_red_strappy_set",
+      "label": "Deep red strappy set (hot)",
+      "text_en": "deep red strappy lingerie set with gold hardware, high-leg briefs, sheer black stockings",
+      "tags": ["color_red", "strappy", "hardware_gold", "hot", "sexy"],
+      "weight": 0.6
+    },
+    {
+      "id": "hot_pink_strappy_set",
+      "label": "Hot pink strappy set (statement)",
+      "text_en": "hot pink satin strappy lingerie set with clean lines, high-leg briefs, sheer black stockings for contrast",
+      "tags": ["color_pink", "satin", "strappy", "statement", "hot", "sexy"],
+      "weight": 0.35
+    },
+    {
+      "id": "white_lace_sheer_set",
+      "label": "White lace sheer set (contrast sexy)",
+      "text_en": "white lace lingerie set with lined cups (no explicit), high-leg briefs, sheer beige stockings, clean bridal-glam contrast",
+      "tags": ["color_white", "lace", "sheer", "sexy", "statement"],
+      "weight": 0.35
+    },
+    {
+      "id": "animal_print_mesh_set",
+      "label": "Animal print mesh set (bold)",
+      "text_en": "animal-print mesh lingerie set with opaque panels and clean seams, high-leg briefs, sheer black stockings",
+      "tags": ["print", "mesh", "bold", "hot", "sexy"],
+      "weight": 0.25
+    }
+  ]
+}

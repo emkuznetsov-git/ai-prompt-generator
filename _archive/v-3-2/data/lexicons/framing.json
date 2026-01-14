@@ -1,0 +1,13 @@
+{
+  "module": "framing",
+  "items": [
+    {
+      "id": "full_length_standard",
+      "label": "Full-length standard",
+      "text_en": "FULL-LENGTH LONG SHOT, head-to-toe full body in frame, feet visible, shoes/boots visible, include floor, camera pulled back, wide framing, leave margin above head and below feet.",
+      "tags": ["full-length", "standard"],
+      "weight": 1.0
+    }
+  ]
+}
+

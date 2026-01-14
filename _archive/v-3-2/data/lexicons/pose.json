@@ -1,0 +1,41 @@
+{
+  "module": "pose",
+  "items": [
+    {
+      "id": "standing_full_body",
+      "label": "Standing full body",
+      "text_en": "standing full body near bed, one hand holding a silk robe slipped off shoulders for strategic coverage, elegant posture",
+      "tags": ["standing", "full-body", "elegant"],
+      "weight": 1.0
+    },
+    {
+      "id": "walking_toward_camera",
+      "label": "Walking toward camera",
+      "text_en": "full-body mid-step walking toward camera, confident runway posture",
+      "tags": ["walking", "full-body", "confident"],
+      "weight": 1.0
+    },
+    {
+      "id": "standing_near_mirror",
+      "label": "Standing near mirror",
+      "text_en": "standing full body near mirror, adjusting earring, elongated neck, relaxed shoulders",
+      "tags": ["standing", "mirror", "elegant"],
+      "weight": 1.0
+    },
+    {
+      "id": "standing_near_window",
+      "label": "Standing near window",
+      "text_en": "standing near window, one hand holding sheer silk robe slipped off shoulders for strategic coverage",
+      "tags": ["standing", "window", "elegant"],
+      "weight": 1.0
+    },
+    {
+      "id": "studio_editorial_pose",
+      "label": "Studio editorial pose",
+      "text_en": "standing full body in studio, confident editorial pose, one hand on hip, elegant posture",
+      "tags": ["standing", "studio", "editorial"],
+      "weight": 1.0
+    }
+  ]
+}
+

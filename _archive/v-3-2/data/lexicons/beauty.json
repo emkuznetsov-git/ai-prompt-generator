@@ -1,0 +1,103 @@
+{
+  "module": "beauty",
+  "items": [
+    {
+      "id": "glossy_waves_smoky",
+      "label": "Glossy waves + smoky",
+      "text_en": "glossy long waves, smoky eyes, soft neutral glossy lips, natural skin texture",
+      "tags": ["hair_waves", "makeup_smoky", "finish_glossy"],
+      "weight": 1.0
+    },
+    {
+      "id": "soft_blowout_playful",
+      "label": "Soft blowout + playful",
+      "text_en": "soft blowout waves, playful teasing smile, soft smoky eyes, glossy lips, natural skin texture",
+      "tags": ["hair_blowout", "mood_playful", "makeup_soft_smoky", "finish_glossy"],
+      "weight": 0.95
+    },
+    {
+      "id": "sleek_straight_winged",
+      "label": "Sleek straight + winged",
+      "text_en": "sleek glossy straight hair, winged eyeliner, glossy lips, clean editorial finish",
+      "tags": ["hair_sleek", "hair_straight", "makeup_winged", "finish_clean"],
+      "weight": 0.95
+    },
+    {
+      "id": "ponytail_smoky",
+      "label": "Ponytail + smoky",
+      "text_en": "sleek ponytail, smoky eyes, glossy lips, confident teasing expression, natural skin texture",
+      "tags": ["hair_ponytail", "makeup_smoky", "mood_teasing", "finish_glossy"],
+      "weight": 0.9
+    },
+    {
+      "id": "soft_waves_glowing",
+      "label": "Soft waves + glowing",
+      "text_en": "soft waves, glowing skin, glossy lips, natural texture, premium editorial finish",
+      "tags": ["hair_waves", "finish_glow", "finish_premium"],
+      "weight": 0.9
+    },
+    {
+      "id": "night_glam_deep_smoky",
+      "label": "Night glam + deep smoky (hot)",
+      "text_en": "night-glam deep smoky eyes, high-glam contour, glossy lips, subtle body highlight, premium editorial finish",
+      "tags": ["night_glam", "makeup_smoky", "contour", "hot", "sexy"],
+      "weight": 0.85
+    },
+    {
+      "id": "cat_eye_red_lip",
+      "label": "Cat-eye + red lips (hot)",
+      "text_en": "sharp cat-eye eyeliner, bold red lipstick, sculpted cheekbones, clean luminous skin, classic bombshell glam",
+      "tags": ["makeup_winged", "red_lip", "classic_hot", "hot", "sexy"],
+      "weight": 0.7
+    },
+    {
+      "id": "glitter_lids_gloss",
+      "label": "Glitter lids + gloss (hot)",
+      "text_en": "subtle glitter eyelids, smoky liner, glossy lips, luminous skin, night-out glamour",
+      "tags": ["night_glam", "glitter", "finish_glossy", "hot", "sexy"],
+      "weight": 0.65
+    },
+    {
+      "id": "metallic_smoky_highlight",
+      "label": "Metallic smoky + highlight",
+      "text_en": "metallic smoky eyes, wet highlighter on cheekbones, glossy lips, crisp editorial finish",
+      "tags": ["makeup_smoky", "metallic", "finish_glow", "night_glam"],
+      "weight": 0.55
+    },
+    {
+      "id": "bronzed_sunkissed_glow",
+      "label": "Bronzed sunkissed glow",
+      "text_en": "bronzed sun-kissed glow, soft defined eyes, glossy lips, warm skin radiance, premium finish",
+      "tags": ["bronzed", "finish_glow", "warm"],
+      "weight": 0.55
+    },
+    {
+      "id": "wet_look_slickback_hot",
+      "label": "Wet-look slickback (edgy hot)",
+      "text_en": "slicked-back wet-look hair, sharp liner, glossy lips, high-fashion attitude, premium editorial finish",
+      "tags": ["hair_slickback", "wet_look", "edgy", "hot", "sexy"],
+      "weight": 0.5
+    },
+    {
+      "id": "high_ponytail_cat_eye",
+      "label": "High ponytail + cat-eye",
+      "text_en": "high sleek ponytail, sharp cat-eye eyeliner, glossy lips, confident night-glam vibe",
+      "tags": ["hair_ponytail", "makeup_winged", "night_glam", "hot"],
+      "weight": 0.5
+    },
+    {
+      "id": "messy_bedhair_smoky",
+      "label": "Messy bed-hair + smoky (hot)",
+      "text_en": "messy bed-hair waves, smoky eyes, glossy lips, teasing expression, realistic skin texture",
+      "tags": ["hair_waves", "makeup_smoky", "mood_teasing", "hot", "sexy"],
+      "weight": 0.55
+    },
+    {
+      "id": "vintage_pinup_redlip",
+      "label": "Vintage pin-up + red lips",
+      "text_en": "vintage-inspired waves, classic liner, red lipstick, playful pin-up glamour, premium finish",
+      "tags": ["vintage", "red_lip", "makeup_winged", "classic_hot", "sexy"],
+      "weight": 0.35
+    }
+  ]
+}

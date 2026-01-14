@@ -1,0 +1,82 @@
+{
+  "module": "goal",
+  "items": [
+    {
+      "id": "lingerie_ad_campaign",
+      "label": "Lingerie ad campaign (hero)",
+      "text_en": "luxury lingerie ad campaign hero shot, brand-ready, clean premium look, negative space for headline",
+      "tags": ["ad", "campaign", "hero", "copy-space", "brand"],
+      "weight": 1.0
+    },
+    {
+      "id": "glamour_magazine_editorial",
+      "label": "Glamour magazine editorial",
+      "text_en": "high-end glamour magazine editorial photo, premium fashion retouch, cinematic editorial mood",
+      "tags": ["editorial", "magazine", "premium", "cinematic"],
+      "weight": 1.0
+    },
+    {
+      "id": "luxury_lookbook_series",
+      "label": "Luxury lookbook (series)",
+      "text_en": "luxury lingerie lookbook series, consistent styling and lighting, catalog-ready but editorial",
+      "tags": ["lookbook", "luxury", "series", "consistent"],
+      "weight": 0.9
+    },
+    {
+      "id": "social_media_teaser_post",
+      "label": "Social media teaser (feed)",
+      "text_en": "social media teaser post for lingerie, attention-grabbing but classy, strong silhouette, negative space for short copy",
+      "tags": ["social", "teaser", "copy-space", "attention"],
+      "weight": 0.95
+    },
+    {
+      "id": "social_story_reel_cover",
+      "label": "Story/Reel cover frame",
+      "text_en": "vertical story/reel cover frame for lingerie promotion, bold hero composition, clear subject separation, space for UI overlays",
+      "tags": ["social", "vertical", "cover", "ui-space", "hero"],
+      "weight": 0.8
+    },
+    {
+      "id": "ecomm_product_showcase",
+      "label": "E-commerce product showcase",
+      "text_en": "e-commerce product showcase for lingerie, product-first clarity, accurate fit and fabric detail, clean background",
+      "tags": ["ecomm", "product-first", "fit", "detail", "clean"],
+      "weight": 0.75
+    },
+    {
+      "id": "footwear_boots_focus_ad",
+      "label": "Boots-focused campaign (lingerie + footwear)",
+      "text_en": "lingerie + boots campaign image, footwear clearly visible and emphasized, head-to-toe styling, premium ad look",
+      "tags": ["ad", "footwear", "boots-focus", "product-first", "hero"],
+      "weight": 0.85
+    },
+    {
+      "id": "magazine_cover_candidate",
+      "label": "Magazine cover candidate",
+      "text_en": "magazine cover candidate shot, iconic hero pose, clean background, generous negative space above for masthead",
+      "tags": ["magazine", "cover", "hero", "copy-space", "clean"],
+      "weight": 0.7
+    },
+    {
+      "id": "double_page_spread",
+      "label": "Double-page spread (editorial)",
+      "text_en": "editorial double-page spread image, cinematic mood, strong composition with negative space for article layout",
+      "tags": ["editorial", "spread", "cinematic", "layout-space"],
+      "weight": 0.65
+    },
+    {
+      "id": "brand_signature_visual",
+      "label": "Brand signature visual",
+      "text_en": "brand signature visual for a luxury lingerie label, distinctive art direction, premium cohesive styling, timeless look",
+      "tags": ["brand", "signature", "luxury", "cohesive"],
+      "weight": 0.6
+    },
+    {
+      "id": "dynamic_walk_sequence",
+      "label": "Dynamic walk (campaign sequence)",
+      "text_en": "dynamic campaign frame with motion feel (sharp subject), runway-like step, energetic editorial vibe",
+      "tags": ["campaign", "dynamic", "runway", "energy"],
+      "weight": 0.65
+    }
+  ]
+}

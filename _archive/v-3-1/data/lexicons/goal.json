@@ -1,0 +1,27 @@
+{
+  "module": "goal",
+  "items": [
+    {
+      "id": "lingerie_ad",
+      "label": "Lingerie ad campaign",
+      "text_en": "lingerie ad campaign",
+      "tags": ["ad", "campaign"],
+      "weight": 1.0
+    },
+    {
+      "id": "glamour_editorial",
+      "label": "Glamour editorial",
+      "text_en": "high-end glamour magazine editorial photo",
+      "tags": ["editorial", "magazine"],
+      "weight": 1.0
+    },
+    {
+      "id": "lookbook",
+      "label": "Lookbook",
+      "text_en": "luxury lingerie lookbook",
+      "tags": ["lookbook", "luxury"],
+      "weight": 0.8
+    }
+  ]
+}
+

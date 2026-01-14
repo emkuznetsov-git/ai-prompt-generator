@@ -1,0 +1,51 @@
+---
+alwaysApply: true
+---
+# Project: Prompt Generator (glamour/lingerie ad, non-explicit)
+# Cursor Rules: enforce architecture, safety constraints, and code quality
+
+## Non-negotiable product constraints (always enforce)
+- Always include "adult woman (25+)" in generated prompts.
+- Non-explicit only: no explicit nudity, no visible genitals, no sexual act descriptions.
+- Block minors content: reject/strip words implying minors (e.g., teen, schoolgirl, underage, young-looking).
+- No real-person references: do NOT generate prompts referencing real people or "a-la <name>" / "look like <name>".
+  - If user input includes a name, sanitize: remove it and replace with neutral "glamour archetype".
+- Always include negative constraints:
+  - no text, no watermark, no logos
+  - no extra fingers/limbs, no warped hands, no distorted face
+  - no blur, no low-res, no plastic skin
+- Full-length control:
+  - When enforce_full_length=true, prompt MUST start with full-length framing prefix
+  - Negative MUST include anti-crop guards: no close-up, no portrait crop, no half-body, no cropped head, no cropped feet, no out-of-frame shoes/boots
+
+## Architecture rules
+- Keep prompt generation domain logic in /src/lib/prompt
+- Lexicons live in /data/*.json (no hardcoding in UI)
+- UI reads lexicons via a typed loader
+- Adapters per engine: /src/lib/prompt/adapters/<engine>.ts
+- Safety filter is a separate module: /src/lib/prompt/safety/*
+- Generator core is deterministic with seedable RNG
+- Generator always outputs:
+  - prompt_text
+  - negative_text
+  - metadata (engine, format, preset, selections, seed, timestamp)
+
+## Coding standards
+- TypeScript strict mode, no any.
+- Prefer pure functions for generator core.
+- Add unit tests for: ordering, full-length enforcement, boldness, safety sanitization, adapter output.
+- Keep UI simple and stable; no heavy deps unless necessary.
+- Write clear README: run, add lexicons, add presets, add adapter, test.
+
+## Prompt style guidelines (content)
+- Use English for generated prompt parts (text_en).
+- Maintain “high-end magazine editorial” tone.
+- Avoid conflicting directives (e.g., high-key + low-key simultaneously).
+- When boots are selected, ensure "include floor" and "boots visible" are present in framing or camera/composition.
+
+## Review checklist before final output
+- Do generated samples comply with non-explicit rules?
+- Does enforce_full_length reliably add framing + anti-crop negative?
+- Are names and disallowed terms sanitized?
+- Can metadata reproduce output?
+- Tests pass.

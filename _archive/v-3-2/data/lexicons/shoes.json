@@ -1,0 +1,165 @@
+{
+  "module": "shoes",
+  "items": [
+    {
+      "id": "black_patent_pumps",
+      "label": "Black patent pumps",
+      "text_en": "black patent pointed-toe pumps with a slim stiletto heel",
+      "tags": ["pumps", "patent", "color_black", "stiletto", "sexy"],
+      "weight": 0.8,
+      "constraints": {
+        "requires": ["include floor"]
+      }
+    },
+    {
+      "id": "black_platform_pumps",
+      "label": "Black platform pumps (hot)",
+      "text_en": "black platform pumps with an ultra-high slim stiletto heel",
+      "tags": ["pumps", "platform", "color_black", "hot", "sexy", "statement", "stiletto"],
+      "weight": 0.9,
+      "constraints": {
+        "requires": ["include floor"]
+      }
+    },
+    {
+      "id": "black_ankle_cuff_stilettos",
+      "label": "Black ankle-cuff stilettos (hot)",
+      "text_en": "black patent ankle-cuff stilettos with a pointed toe and slim high heel",
+      "tags": ["stilettos", "ankle-cuff", "patent", "color_black", "hot", "sexy", "stiletto"],
+      "weight": 0.85,
+      "constraints": {
+        "requires": ["include floor"]
+      }
+    },
+    {
+      "id": "black_crystal_ankle_strap_pumps",
+      "label": "Crystal ankle-strap pumps (statement)",
+      "text_en": "black pointed-toe pumps with a crystal ankle strap and slim stiletto heel",
+      "tags": ["pumps", "color_black", "crystal", "statement", "hot", "sexy", "stiletto"],
+      "weight": 0.55,
+      "constraints": {
+        "requires": ["include floor"]
+      }
+    },
+    {
+      "id": "beige_patent_stilettos",
+      "label": "Beige patent stilettos",
+      "text_en": "beige patent stilettos with a slim high heel",
+      "tags": ["stilettos", "patent", "color_beige", "sexy", "stiletto"],
+      "weight": 0.45,
+      "constraints": {
+        "requires": ["include floor"]
+      }
+    },
+    {
+      "id": "red_patent_stilettos",
+      "label": "Red patent stilettos (hot)",
+      "text_en": "deep red patent stilettos with pointed toe and high slim heel",
+      "tags": ["stilettos", "patent", "color_red", "hot", "sexy", "stiletto"],
+      "weight": 0.5,
+      "constraints": {
+        "requires": ["include floor"]
+      }
+    },
+    {
+      "id": "metallic_silver_pumps",
+      "label": "Metallic silver pumps",
+      "text_en": "metallic silver pointed-toe pumps with a slim stiletto heel",
+      "tags": ["pumps", "metallic", "statement", "sexy", "stiletto"],
+      "weight": 0.25,
+      "constraints": {
+        "requires": ["include floor"]
+      }
+    },
+    {
+      "id": "black_laceup_stiletto_sandals",
+      "label": "Black lace-up stiletto sandals (hot)",
+      "text_en": "black lace-up stiletto sandals wrapping the ankles, ultra-thin straps, high slim heel",
+      "tags": ["sandals", "lace-up", "strappy", "color_black", "hot", "sexy", "stiletto"],
+      "weight": 0.8,
+      "constraints": {
+        "requires": ["include floor"]
+      }
+    },
+    {
+      "id": "black_barely_there_sandals",
+      "label": "Barely-there strap sandals (hot)",
+      "text_en": "black barely-there strap sandals with thin toe strap and ankle strap, ultra-high slim stiletto heel",
+      "tags": ["sandals", "strappy", "color_black", "hot", "sexy", "stiletto"],
+      "weight": 0.65,
+      "constraints": {
+        "requires": ["include floor"]
+      }
+    },
+    {
+      "id": "knee_high_suede_boots",
+      "label": "Knee-high suede boots",
+      "text_en": "knee-high black suede boots with a slim stiletto heel",
+      "tags": ["boots", "suede", "knee-high", "color_black", "sexy", "stiletto"],
+      "weight": 0.6,
+      "constraints": {
+        "requires": ["include floor"]
+      }
+    },
+    {
+      "id": "knee_high_leather_boots",
+      "label": "Knee-high leather boots",
+      "text_en": "knee-high black leather boots with a slim stiletto heel",
+      "tags": ["boots", "leather", "knee-high", "color_black", "sexy", "stiletto"],
+      "weight": 0.45,
+      "constraints": {
+        "requires": ["include floor"]
+      }
+    },
+    {
+      "id": "thigh_high_patent_boots",
+      "label": "Thigh-high patent boots (hot)",
+      "text_en": "over-the-knee black patent thigh-high boots with a slim stiletto heel",
+      "tags": ["boots", "patent", "thigh-high", "hot", "sexy", "statement", "stiletto"],
+      "weight": 0.85,
+      "constraints": {
+        "requires": ["include floor"]
+      }
+    },
+    {
+      "id": "thigh_high_suede_boots",
+      "label": "Thigh-high suede boots (hot)",
+      "text_en": "over-the-knee black suede thigh-high boots with a slim stiletto heel",
+      "tags": ["boots", "suede", "thigh-high", "hot", "sexy", "stiletto"],
+      "weight": 0.65,
+      "constraints": {
+        "requires": ["include floor"]
+      }
+    },
+    {
+      "id": "thigh_high_patent_laceup_boots",
+      "label": "Thigh-high lace-up patent boots (statement)",
+      "text_en": "over-the-knee black patent thigh-high boots with lace-up back detail and slim stiletto heel",
+      "tags": ["boots", "patent", "thigh-high", "lace-up", "hot", "sexy", "statement", "stiletto"],
+      "weight": 0.75,
+      "constraints": {
+        "requires": ["include floor"]
+      }
+    },
+    {
+      "id": "ankle_boots_stiletto",
+      "label": "Ankle boots stiletto",
+      "text_en": "black leather ankle boots with pointed toe and slim stiletto heel",
+      "tags": ["boots", "ankle", "leather", "color_black", "sexy", "stiletto"],
+      "weight": 0.3,
+      "constraints": {
+        "requires": ["include floor"]
+      }
+    },
+    {
+      "id": "clear_heel_mules",
+      "label": "Clear-heel mules (editorial)",
+      "text_en": "minimal black mules with a clear sculptural heel, high-fashion editorial look",
+      "tags": ["mules", "statement", "modern", "sexy"],
+      "weight": 0.2,
+      "constraints": {
+        "requires": ["include floor"]
+      }
+    }
+  ]
+}

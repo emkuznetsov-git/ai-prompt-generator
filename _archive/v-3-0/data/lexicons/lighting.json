@@ -1,0 +1,41 @@
+{
+  "module": "lighting",
+  "items": [
+    {
+      "id": "softbox_key_rim",
+      "label": "Softbox key + rim",
+      "text_en": "softbox key light + gentle rim light, crisp controlled shadows, fabric microtexture visible",
+      "tags": ["softbox", "high-key", "studio"],
+      "weight": 1.0
+    },
+    {
+      "id": "warm_diffusion_rim",
+      "label": "Warm diffusion + rim",
+      "text_en": "warm soft diffusion + gentle rim, controlled satin highlights",
+      "tags": ["warm", "diffusion", "boudoir"],
+      "weight": 1.0
+    },
+    {
+      "id": "cinematic_lowkey_neon",
+      "label": "Cinematic low-key + neon",
+      "text_en": "cinematic low-key, soft key + neon rim highlights, controlled specular",
+      "tags": ["low-key", "cinematic", "neon"],
+      "weight": 1.0
+    },
+    {
+      "id": "warm_practical_bulbs",
+      "label": "Warm practical bulbs",
+      "text_en": "warm practical bulbs + soft key, premium editorial retouch, natural skin texture",
+      "tags": ["warm", "practical", "backstage"],
+      "weight": 1.0
+    },
+    {
+      "id": "window_light_fill",
+      "label": "Window light + fill",
+      "text_en": "window light as key + soft fill, controlled highlights, premium retouch",
+      "tags": ["window", "daylight", "natural"],
+      "weight": 1.0
+    }
+  ]
+}
+

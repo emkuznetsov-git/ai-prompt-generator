@@ -1,0 +1,34 @@
+{
+  "module": "subject",
+  "items": [
+    {
+      "id": "blonde_bombshell",
+      "label": "Blonde bombshell",
+      "text_en": "blonde bombshell vibe, confident direct gaze",
+      "tags": ["blonde", "bombshell", "confident"],
+      "weight": 1.0
+    },
+    {
+      "id": "brunette_femme_fatale",
+      "label": "Brunette femme fatale",
+      "text_en": "brunette femme fatale vibe, confident direct gaze",
+      "tags": ["brunette", "femme-fatale", "confident"],
+      "weight": 1.0
+    },
+    {
+      "id": "dirty_blonde_sleek",
+      "label": "Dirty blonde sleek",
+      "text_en": "dirty-blonde sleek look, confident teasing gaze",
+      "tags": ["blonde", "sleek", "teasing"],
+      "weight": 1.0
+    },
+    {
+      "id": "redhead_sophisticated",
+      "label": "Redhead sophisticated",
+      "text_en": "redhead sophisticated look, elegant confident gaze",
+      "tags": ["redhead", "sophisticated", "elegant"],
+      "weight": 0.9
+    }
+  ]
+}
+

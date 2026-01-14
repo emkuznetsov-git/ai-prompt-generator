@@ -1,0 +1,75 @@
+{
+  "module": "subject",
+  "items": [
+    {
+      "id": "blonde_bombshell",
+      "label": "Blonde bombshell (locked)",
+      "text_en": "platinum blonde hair, long glamorous waves, slim hourglass silhouette, confident direct gaze",
+      "tags": ["hair_blonde", "hair_long", "body_slim", "gaze_confident"],
+      "weight": 1.0
+    },
+    {
+      "id": "blonde_playmate_hot",
+      "label": "Blonde playmate (hot, locked)",
+      "text_en": "platinum blonde hair, long soft waves, slim hourglass silhouette, playful seductive smile, bedroom eyes",
+      "tags": ["hair_blonde", "hair_long", "body_slim", "gaze_teasing", "hot", "sexy"],
+      "weight": 0.85
+    },
+    {
+      "id": "blonde_ice_queen",
+      "label": "Blonde ice queen (locked)",
+      "text_en": "platinum blonde hair, sleek straight hair, slim tall silhouette, cold confident gaze",
+      "tags": ["hair_blonde", "hair_straight", "body_slim", "gaze_intense", "sexy"],
+      "weight": 0.65
+    },
+    {
+      "id": "brunette_femme_fatale",
+      "label": "Brunette femme fatale (locked)",
+      "text_en": "deep brunette hair, long glossy waves, slim athletic silhouette, intense controlled gaze",
+      "tags": ["hair_brunette", "hair_long", "body_slim", "gaze_intense"],
+      "weight": 1.0
+    },
+    {
+      "id": "brunette_midnight_siren",
+      "label": "Brunette midnight siren (hot, locked)",
+      "text_en": "deep brunette hair, long glossy waves, slim athletic silhouette, sultry direct gaze, subtle smirk",
+      "tags": ["hair_brunette", "hair_long", "body_slim", "gaze_intense", "hot", "sexy"],
+      "weight": 0.9
+    },
+    {
+      "id": "brunette_slicked_power",
+      "label": "Brunette slicked power (hot, locked)",
+      "text_en": "deep brunette hair, slicked-back wet-look hair, slim athletic silhouette, dominant runway gaze",
+      "tags": ["hair_brunette", "hair_slickback", "body_slim", "gaze_confident", "hot", "sexy", "edgy"],
+      "weight": 0.6
+    },
+    {
+      "id": "dirty_blonde_sleek",
+      "label": "Dirty blonde sleek (locked)",
+      "text_en": "dirty blonde hair, sleek straight hair, slim silhouette, teasing gaze",
+      "tags": ["hair_dirty_blonde", "hair_straight", "body_slim", "gaze_teasing"],
+      "weight": 0.75
+    },
+    {
+      "id": "dirty_blonde_girl_next_door_hot",
+      "label": "Dirty blonde tease (hot, locked)",
+      "text_en": "dirty blonde hair, soft blowout waves, slim silhouette, teasing smile, flirty gaze",
+      "tags": ["hair_dirty_blonde", "hair_blowout", "body_slim", "gaze_teasing", "hot", "sexy"],
+      "weight": 0.55
+    },
+    {
+      "id": "redhead_sophisticated",
+      "label": "Redhead sophisticated (locked)",
+      "text_en": "rich auburn red hair, long soft waves, slim silhouette, elegant confident gaze",
+      "tags": ["hair_red", "hair_long", "body_slim", "gaze_elegant"],
+      "weight": 0.7
+    },
+    {
+      "id": "redhead_pinup_tease",
+      "label": "Redhead pin-up tease (sexy, locked)",
+      "text_en": "rich auburn red hair, vintage-inspired soft waves, slim silhouette, playful teasing gaze",
+      "tags": ["hair_red", "hair_long", "body_slim", "gaze_playful", "sexy", "vintage"],
+      "weight": 0.45
+    }
+  ]
+}

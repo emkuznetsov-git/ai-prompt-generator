@@ -1,0 +1,81 @@
+[
+  {
+    "id": "playboy_studio_glam",
+    "label": "Playboy-inspired Studio Glam",
+    "description": "High-end studio glamour with clean cyclorama",
+    "selections": {
+      "artDirection": "playboy_studio_glam",
+      "scene": "studio_cyclorama",
+      "lighting": "softbox_key_rim",
+      "camera": "50mm_editorial",
+      "color": "warm_neutral_filmic"
+    },
+    "tags": ["studio", "high-key", "playboy", "glamour"]
+  },
+  {
+    "id": "luxury_boudoir_warm",
+    "label": "Luxury Hotel Boudoir Warm",
+    "description": "Warm boudoir atmosphere in luxury hotel setting",
+    "selections": {
+      "artDirection": "luxury_boudoir_warm",
+      "scene": "luxury_hotel_suite",
+      "lighting": "warm_diffusion_rim",
+      "camera": "50mm_crisp_detail",
+      "color": "warm_neutral_filmic"
+    },
+    "tags": ["boudoir", "warm", "luxury", "hotel"]
+  },
+  {
+    "id": "neon_night_cinematic",
+    "label": "Neon Night Cinematic",
+    "description": "Bold cinematic night scene with neon accents",
+    "selections": {
+      "artDirection": "neon_night_cinematic",
+      "scene": "neon_corridor",
+      "lighting": "cinematic_lowkey_neon",
+      "camera": "35mm_low_angle",
+      "color": "cool_chrome"
+    },
+    "tags": ["neon", "night", "cinematic", "low-key"]
+  },
+  {
+    "id": "backstage_mirror_bulbs",
+    "label": "Backstage Mirror Bulbs",
+    "description": "Classic backstage dressing room atmosphere",
+    "selections": {
+      "artDirection": "backstage_mirror_bulbs",
+      "scene": "dressing_room_mirrors",
+      "lighting": "warm_practical_bulbs",
+      "camera": "50mm_crisp_detail",
+      "color": "premium_editorial_retouch"
+    },
+    "tags": ["backstage", "mirror", "warm"]
+  },
+  {
+    "id": "industrial_loft_edgy",
+    "label": "Industrial Loft Edgy Latex-look",
+    "description": "Modern industrial setting with edgy aesthetic",
+    "selections": {
+      "artDirection": "industrial_loft_edgy",
+      "scene": "industrial_loft",
+      "lighting": "cinematic_lowkey_neon",
+      "camera": "35mm_low_angle",
+      "color": "cool_chrome"
+    },
+    "tags": ["industrial", "loft", "edgy", "modern"]
+  },
+  {
+    "id": "vintage_pinup_glam",
+    "label": "Vintage Pin-Up Glam",
+    "description": "Retro pin-up style with classic glamour",
+    "selections": {
+      "artDirection": "vintage_pinup_glam",
+      "scene": "daylight_penthouse",
+      "lighting": "window_light_fill",
+      "camera": "50mm_editorial",
+      "color": "warm_neutral_filmic"
+    },
+    "tags": ["vintage", "pin-up", "retro", "classic"]
+  }
+]
+

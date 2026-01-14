@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glamour Prompt Generator v4.0</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="app">
+        <header class="header">
+            <div class="logo">
+                <span class="logo-icon">✨</span>
+                <h1>Glamour Prompt Generator</h1>
+                <span class="version">v4.0</span>
+            </div>
+        </header>
+
+        <main class="main">
+            <div class="controls-panel">
+                <!-- ENGINE SECTION -->
+                <section class="control-section" id="engineSection">
+                    <div class="section-header">
+                        <span class="section-icon">⚙️</span>
+                        <h2>Engine</h2>
+                    </div>
+                    <div class="section-content">
+                        <div class="form-row form-row-3">
+                            <div class="form-group">
+                                <label>AI Model</label>
+                                <select id="engine" class="select-input">
+                                    <option value="nano_banana" selected>Nano Banana</option>
+                                    <option value="grok">Grok (X.AI)</option>
+                                    <option value="midjourney">Midjourney</option>
+                                    <option value="sdxl">SDXL / Flux</option>
+                                    <option value="generic">Generic</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Format</label>
+                                <select id="format" class="select-input">
+                                    <option value="story_9x16" selected>Story 9:16</option>
+                                    <option value="ig_4x5">Instagram 4:5</option>
+                                    <option value="square_1x1">Square 1:1</option>
+                                    <option value="wide_16x9">Wide 16:9</option>
+                                    <option value="print_2x3">Print 2:3</option>
+                                </select>
+                            </div>
+                            <div class="form-group checkbox-group">
+                                <label class="checkbox-label">
+                                    <input type="checkbox" id="enforceFullLength" checked>
+                                    <span class="checkbox-text">Full-length</span>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- CHARACTER SECTION -->
+                <section class="control-section" id="characterSection">
+                    <div class="section-header">
+                        <span class="section-icon">👤</span>
+                        <h2>Character</h2>
+                    </div>
+                    <div class="section-content">
+                        <div class="form-row form-row-3">
+                            <div class="form-group">
+                                <label>Archetype</label>
+                                <div class="custom-dropdown" data-module="archetype">
+                                    <button type="button" class="dropdown-trigger">
+                                        <span class="dropdown-value">Select...</span>
+                                        <span class="dropdown-arrow">▾</span>
+                                    </button>
+                                    <div class="dropdown-panel dropdown-multi-col"></div>
+                                </div>
+                                <input type="hidden" id="archetype" value="">
+                            </div>
+                            <div class="form-group">
+                                <label>Hair</label>
+                                <div class="custom-dropdown" data-module="hair">
+                                    <button type="button" class="dropdown-trigger">
+                                        <span class="dropdown-value">Select...</span>
+                                        <span class="dropdown-arrow">▾</span>
+                                    </button>
+                                    <div class="dropdown-panel dropdown-single-col"></div>
+                                </div>
+                                <input type="hidden" id="hair" value="">
+                            </div>
+                            <div class="form-group">
+                                <label>Makeup</label>
+                                <div class="custom-dropdown" data-module="makeup">
+                                    <button type="button" class="dropdown-trigger">
+                                        <span class="dropdown-value">Select...</span>
+                                        <span class="dropdown-arrow">▾</span>
+                                    </button>
+                                    <div class="dropdown-panel dropdown-single-col"></div>
+                                </div>
+                                <input type="hidden" id="makeup" value="">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- LOOK SECTION -->
+                <section class="control-section" id="lookSection">
+                    <div class="section-header">
+                        <span class="section-icon">👗</span>
+                        <h2>Look</h2>
+                    </div>
+                    <div class="section-content">
+                        <!-- Boldness Slider -->
+                        <div class="boldness-control">
+                            <div class="boldness-header">
+                                <label>Boldness</label>
+                                <span class="boldness-badge" id="boldnessDisplay">B1</span>
+                            </div>
+                            <input type="range" id="boldness" min="0" max="3" value="1" class="boldness-slider">
+                            <div class="boldness-labels">
+                                <span>Elegant</span>
+                                <span>Teasing</span>
+                                <span>Bold</span>
+                                <span>On Edge</span>
+                            </div>
+                            <p class="boldness-description" id="boldnessDescription">Provocative glamour, teasing but classy</p>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Outfit</label>
+                            <div class="custom-dropdown" data-module="outfit">
+                                <button type="button" class="dropdown-trigger">
+                                    <span class="dropdown-value">Select...</span>
+                                    <span class="dropdown-arrow">▾</span>
+                                </button>
+                                <div class="dropdown-panel dropdown-multi-col cols-4"></div>
+                            </div>
+                            <input type="hidden" id="outfit" value="">
+                        </div>
+
+                        <div class="form-row form-row-3">
+                            <div class="form-group">
+                                <label>Material</label>
+                                <div class="custom-dropdown" data-module="material">
+                                    <button type="button" class="dropdown-trigger">
+                                        <span class="dropdown-value">Select...</span>
+                                        <span class="dropdown-arrow">▾</span>
+                                    </button>
+                                    <div class="dropdown-panel dropdown-single-col"></div>
+                                </div>
+                                <input type="hidden" id="material" value="">
+                            </div>
+                            <div class="form-group">
+                                <label>Hosiery</label>
+                                <div class="custom-dropdown" data-module="hosiery">
+                                    <button type="button" class="dropdown-trigger">
+                                        <span class="dropdown-value">Select...</span>
+                                        <span class="dropdown-arrow">▾</span>
+                                    </button>
+                                    <div class="dropdown-panel dropdown-multi-col"></div>
+                                </div>
+                                <input type="hidden" id="hosiery" value="">
+                            </div>
+                            <div class="form-group">
+                                <label>Footwear</label>
+                                <div class="custom-dropdown" data-module="footwear">
+                                    <button type="button" class="dropdown-trigger">
+                                        <span class="dropdown-value">Select...</span>
+                                        <span class="dropdown-arrow">▾</span>
+                                    </button>
+                                    <div class="dropdown-panel dropdown-multi-col"></div>
+                                </div>
+                                <input type="hidden" id="footwear" value="">
+                            </div>
+                        </div>
+
+                        <!-- Color Palette -->
+                        <div class="form-group">
+                            <label>Color Palette</label>
+                            <div class="color-palette" id="colorPalette"></div>
+                            <input type="hidden" id="selectedColor" value="black">
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SCENE SECTION -->
+                <section class="control-section" id="sceneSection">
+                    <div class="section-header">
+                        <span class="section-icon">🎬</span>
+                        <h2>Scene</h2>
+                    </div>
+                    <div class="section-content">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Pose</label>
+                                <div class="custom-dropdown" data-module="pose">
+                                    <button type="button" class="dropdown-trigger">
+                                        <span class="dropdown-value">Select...</span>
+                                        <span class="dropdown-arrow">▾</span>
+                                    </button>
+                                    <div class="dropdown-panel dropdown-multi-col"></div>
+                                </div>
+                                <input type="hidden" id="pose" value="">
+                            </div>
+                            <div class="form-group">
+                                <label>Setting</label>
+                                <div class="custom-dropdown" data-module="setting">
+                                    <button type="button" class="dropdown-trigger">
+                                        <span class="dropdown-value">Select...</span>
+                                        <span class="dropdown-arrow">▾</span>
+                                    </button>
+                                    <div class="dropdown-panel dropdown-multi-col"></div>
+                                </div>
+                                <input type="hidden" id="setting" value="">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Art Direction</label>
+                                <div class="custom-dropdown" data-module="artDirection">
+                                    <button type="button" class="dropdown-trigger">
+                                        <span class="dropdown-value">Select...</span>
+                                        <span class="dropdown-arrow">▾</span>
+                                    </button>
+                                    <div class="dropdown-panel dropdown-single-col"></div>
+                                </div>
+                                <input type="hidden" id="artDirection" value="">
+                            </div>
+                            <div class="form-group">
+                                <label>Lighting</label>
+                                <div class="custom-dropdown" data-module="lighting">
+                                    <button type="button" class="dropdown-trigger">
+                                        <span class="dropdown-value">Select...</span>
+                                        <span class="dropdown-arrow">▾</span>
+                                    </button>
+                                    <div class="dropdown-panel dropdown-multi-col"></div>
+                                </div>
+                                <input type="hidden" id="lighting" value="">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Camera</label>
+                                <div class="custom-dropdown" data-module="camera">
+                                    <button type="button" class="dropdown-trigger">
+                                        <span class="dropdown-value">Select...</span>
+                                        <span class="dropdown-arrow">▾</span>
+                                    </button>
+                                    <div class="dropdown-panel dropdown-single-col"></div>
+                                </div>
+                                <input type="hidden" id="camera" value="">
+                            </div>
+                            <div class="form-group">
+                                <label>Color Grade</label>
+                                <div class="custom-dropdown" data-module="colorGrade">
+                                    <button type="button" class="dropdown-trigger">
+                                        <span class="dropdown-value">Select...</span>
+                                        <span class="dropdown-arrow">▾</span>
+                                    </button>
+                                    <div class="dropdown-panel dropdown-single-col"></div>
+                                </div>
+                                <input type="hidden" id="colorGrade" value="">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+
+            <!-- RESULT PANEL -->
+            <div class="result-panel" id="resultPanel">
+                <!-- TABS -->
+                <div class="result-tabs">
+                    <button class="tab-btn active" data-tab="image">
+                        <span>📷</span> Image Prompt
+                    </button>
+                    <button class="tab-btn" data-tab="video">
+                        <span>🎥</span> Video Prompt
+                    </button>
+                </div>
+
+                <!-- IMAGE TAB -->
+                <div class="tab-content active" id="imageTab">
+                    <!-- ACTION BUTTONS -->
+                    <div class="action-buttons action-buttons-4">
+                        <button id="randomizeBtn" class="btn btn-secondary" title="Randomize everything">
+                            <span>🎲</span> All
+                        </button>
+                        <button id="randomizeLookBtn" class="btn btn-secondary" title="Randomize outfit, material, hosiery, footwear">
+                            <span>👗</span> Look
+                        </button>
+                        <button id="randomizeSceneBtn" class="btn btn-secondary" title="Randomize setting, pose, lighting, camera">
+                            <span>🎬</span> Scene
+                        </button>
+                        <button id="generateBtn" class="btn btn-primary">
+                            <span>✨</span> Generate
+                        </button>
+                    </div>
+
+                    <div class="result-placeholder" id="resultPlaceholder">
+                        <div class="placeholder-icon">✨</div>
+                        <p>Configure your settings and click <strong>Generate</strong></p>
+                    </div>
+
+                    <div class="result-content" id="resultContent" style="display: none;">
+                        <!-- Warnings -->
+                        <div class="warnings" id="warnings" style="display: none;"></div>
+
+                        <!-- Combined Output -->
+                        <div class="output-section">
+                            <div class="output-header">
+                                <h3>Full Prompt</h3>
+                                <button class="btn-copy" id="copyCombinedBtn">
+                                    <span>📋</span> Copy All
+                                </button>
+                            </div>
+                            <textarea id="combinedOutput" class="output-textarea large" readonly></textarea>
+                        </div>
+
+                        <!-- Split Outputs -->
+                        <div class="output-split">
+                            <div class="output-section">
+                                <div class="output-header">
+                                    <h3>Prompt</h3>
+                                    <button class="btn-copy" id="copyPromptBtn">
+                                        <span>📋</span> Copy
+                                    </button>
+                                </div>
+                                <textarea id="promptOutput" class="output-textarea" readonly></textarea>
+                            </div>
+
+                            <div class="output-section">
+                                <div class="output-header">
+                                    <h3>Negative</h3>
+                                    <button class="btn-copy" id="copyNegativeBtn">
+                                        <span>📋</span> Copy
+                                    </button>
+                                </div>
+                                <textarea id="negativeOutput" class="output-textarea" readonly></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- VIDEO TAB -->
+                <div class="tab-content" id="videoTab">
+                    <div class="video-controls">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Camera Movement</label>
+                                <select id="videoCameraMovement" class="select-input"></select>
+                            </div>
+                            <div class="form-group">
+                                <label>Subject Motion</label>
+                                <select id="videoSubjectMotion" class="select-input"></select>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Motion Quality</label>
+                                <select id="videoMotionQuality" class="select-input"></select>
+                            </div>
+                            <div class="form-group">
+                                <label>Atmosphere</label>
+                                <select id="videoAtmosphere" class="select-input"></select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button id="randomizeVideoBtn" class="btn btn-secondary" title="Randomize video options">
+                            <span>🎲</span> Randomize
+                        </button>
+                        <button id="generateVideoBtn" class="btn btn-primary">
+                            <span>🎥</span> Generate Video Prompt
+                        </button>
+                    </div>
+
+                    <div class="video-placeholder" id="videoPlaceholder">
+                        <div class="placeholder-icon">🎥</div>
+                        <p>First generate an image prompt, then create video motion</p>
+                    </div>
+
+                    <div class="video-result" id="videoResult" style="display: none;">
+                        <div class="output-section">
+                            <div class="output-header">
+                                <h3>Video Prompt</h3>
+                                <button class="btn-copy" id="copyVideoBtn">
+                                    <span>📋</span> Copy
+                                </button>
+                            </div>
+                            <textarea id="videoOutput" class="output-textarea large" readonly></textarea>
+                        </div>
+
+                        <div class="video-hint">
+                            <p>💡 Use this prompt with: <strong>Runway</strong>, <strong>Pika Labs</strong>, <strong>Kling</strong>, or <strong>Sora</strong></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Export (shared) -->
+                <div class="export-section">
+                    <button id="exportMetadataBtn" class="btn btn-outline">
+                        <span>💾</span> Export Metadata (JSON)
+                    </button>
+                </div>
+            </div>
+        </main>
+
+        <footer class="footer">
+            <p>Glamour Prompt Generator v4.0 — For editorial & campaign image generation</p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

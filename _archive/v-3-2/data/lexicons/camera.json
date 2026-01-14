@@ -1,0 +1,34 @@
+{
+  "module": "camera",
+  "items": [
+    {
+      "id": "50mm_editorial",
+      "label": "50mm editorial",
+      "text_en": "50mm editorial look, eye-level with slight low angle, negative space for headline, photorealistic, premium fashion retouch",
+      "tags": ["50mm", "editorial", "standard"],
+      "weight": 1.0
+    },
+    {
+      "id": "35mm_low_angle",
+      "label": "35mm slightly low",
+      "text_en": "35mm slightly low angle, sharp eyes, soft bokeh",
+      "tags": ["35mm", "low-angle", "cinematic"],
+      "weight": 1.0
+    },
+    {
+      "id": "50mm_crisp_detail",
+      "label": "50mm crisp detail",
+      "text_en": "50mm, crisp face and fabric detail, premium retouch",
+      "tags": ["50mm", "detail", "editorial"],
+      "weight": 1.0
+    },
+    {
+      "id": "editorial_standard",
+      "label": "Editorial standard",
+      "text_en": "editorial standard framing, photorealistic, premium fashion retouch",
+      "tags": ["editorial", "standard", "photorealistic"],
+      "weight": 1.0
+    }
+  ]
+}
+

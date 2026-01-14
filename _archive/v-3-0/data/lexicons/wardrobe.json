@@ -1,0 +1,41 @@
+{
+  "module": "wardrobe",
+  "items": [
+    {
+      "id": "black_lace_corset",
+      "label": "Black lace corset set",
+      "text_en": "black lace corset lingerie with satin trim, high-waist briefs, sheer lace-top stockings",
+      "tags": ["black", "lace", "corset", "stockings"],
+      "weight": 1.0
+    },
+    {
+      "id": "ivory_satin_balconette",
+      "label": "Ivory satin balconette set",
+      "text_en": "ivory satin balconette set with lace trim, sheer nude lace-top stockings",
+      "tags": ["ivory", "satin", "balconette", "stockings"],
+      "weight": 1.0
+    },
+    {
+      "id": "deep_red_satin",
+      "label": "Deep red satin set",
+      "text_en": "deep red satin lingerie set with subtle black lace trim, sheer black stockings",
+      "tags": ["red", "satin", "stockings"],
+      "weight": 1.0
+    },
+    {
+      "id": "black_lace_bustier",
+      "label": "Black lace bustier set",
+      "text_en": "black lace bustier set, subtle fine fishnet stockings (not extreme)",
+      "tags": ["black", "lace", "bustier", "fishnet"],
+      "weight": 1.0
+    },
+    {
+      "id": "ivory_lace_bodysuit",
+      "label": "Ivory lace bodysuit",
+      "text_en": "ivory lace bodysuit lingerie with satin panel details, sheer nude stockings",
+      "tags": ["ivory", "lace", "bodysuit", "stockings"],
+      "weight": 1.0
+    }
+  ]
+}
+

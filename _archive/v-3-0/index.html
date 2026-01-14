@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prompt Generator - Glamour/Lingerie</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>✨ Prompt Generator</h1>
+            <p class="subtitle">Генератор промптов для glamour/lingerie рекламных изображений</p>
+        </header>
+
+        <div class="main-layout">
+            <!-- Левая колонка: Основные настройки -->
+            <div class="sidebar">
+                <div class="sidebar-content">
+                    <div class="card settings-card">
+                        <div class="card-header">
+                            <span class="icon">⚙️</span>
+                            <h2>Настройки</h2>
+                        </div>
+
+                        <div class="settings-scrollable">
+                            <div class="form-group">
+                                <label>
+                                    <span class="label-icon">🚀</span>
+                                    Движок
+                                </label>
+                                <select id="engine" class="select-input">
+                                    <option value="grok">Grok</option>
+                                    <option value="generic">Generic</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>
+                                    <span class="label-icon">📐</span>
+                                    Формат
+                                </label>
+                                <select id="format" class="select-input">
+                                    <option value="IG_4x5">Instagram 4:5</option>
+                                    <option value="Story_9x16">Story 9:16</option>
+                                    <option value="Print_2x3">Print 2:3</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>
+                                    <span class="label-icon">🎨</span>
+                                    Пресет
+                                </label>
+                                <select id="preset" class="select-input">
+                                    <option value="">Без пресета</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>
+                                    <span class="label-icon">📏</span>
+                                    Full-length
+                                </label>
+                                <div class="toggle-wrapper">
+                                    <label class="toggle-switch">
+                                        <input type="checkbox" id="enforceFullLength" checked>
+                                        <span class="toggle-slider"></span>
+                                    </label>
+                                    <span class="toggle-label">Включить</span>
+                                </div>
+                                <small class="hint">Всегда для Grok</small>
+                            </div>
+
+                            <div class="form-group">
+                                <label>
+                                    <span class="label-icon">🔥</span>
+                                    Boldness: <span id="boldnessDisplay" class="boldness-badge">B1</span>
+                                </label>
+                                <div class="slider-wrapper">
+                                    <input type="range" id="boldness" min="0" max="3" value="1" class="slider-input">
+                                    <div class="slider-labels">
+                                        <span>B0</span>
+                                        <span>B1</span>
+                                        <span>B2</span>
+                                        <span>B3</span>
+                                    </div>
+                                </div>
+                                <div class="boldness-description" id="boldnessDescription">
+                                    Provocative glamour editorial, teasing but classy
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label>
+                                    <span class="label-icon">🎲</span>
+                                    Режим рандома
+                                </label>
+                                <select id="randomMode" class="select-input">
+                                    <option value="manual">Ручной</option>
+                                    <option value="guided">Частичный</option>
+                                    <option value="full">Полный</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card actions-card">
+                        <div class="button-group">
+                            <button class="button button-primary" id="generateBtn">
+                                <span>✨</span> Сгенерировать
+                            </button>
+                            <button class="button button-secondary" id="randomizeAllBtn">
+                                <span>🎲</span> Случайно всё
+                            </button>
+                            <button class="button button-secondary" id="randomizePresetBtn">
+                                <span>🎯</span> По пресету
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Правая колонка: Модули -->
+            <div class="content">
+                <div class="card modules-card">
+                    <div class="card-header">
+                        <span class="icon">🎭</span>
+                        <h2>Модули (опционально)</h2>
+                        <button class="collapse-toggle" id="modulesToggle">Свернуть</button>
+                    </div>
+                    <div class="modules-content" id="modulesContent">
+                        <div id="moduleSelectors" class="modules-grid"></div>
+                    </div>
+                </div>
+
+                <div id="warnings" class="warning-card" style="display: none;"></div>
+
+                <div id="result" class="card result-card" style="display: none;">
+                    <div class="card-header">
+                        <span class="icon">📝</span>
+                        <h2>Результат</h2>
+                    </div>
+
+                    <!-- Объединенное поле -->
+                    <div class="output-section output-combined">
+                        <div class="output-header">
+                            <h3>Полный промпт (Prompt + Negative)</h3>
+                            <button class="button button-small button-primary" id="copyCombinedBtn">
+                                <span>📋</span> Копировать всё
+                            </button>
+                        </div>
+                        <textarea id="combinedOutput" readonly class="output-textarea output-textarea-combined"></textarea>
+                    </div>
+
+                    <!-- Две колонки: Prompt и Negative -->
+                    <div class="output-columns">
+                        <div class="output-section output-column">
+                            <div class="output-header">
+                                <h3>Prompt</h3>
+                                <button class="button button-small button-secondary" id="copyPromptBtn">
+                                    <span>📋</span> Копировать
+                                </button>
+                            </div>
+                            <textarea id="promptOutput" readonly class="output-textarea"></textarea>
+                        </div>
+
+                        <div class="output-section output-column">
+                            <div class="output-header">
+                                <h3>Negative</h3>
+                                <button class="button button-small button-secondary" id="copyNegativeBtn">
+                                    <span>📋</span> Копировать
+                                </button>
+                            </div>
+                            <textarea id="negativeOutput" readonly class="output-textarea"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="output-actions">
+                        <button class="button button-secondary" id="exportMetadataBtn">
+                            <span>💾</span> Экспорт Metadata JSON
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

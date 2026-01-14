@@ -1,0 +1,230 @@
+{
+  "main": {
+    "id": "a72c522893db3dc9",
+    "type": "split",
+    "children": [
+      {
+        "id": "e1f4b7d81c2ed33c",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "0c48dde2da9faf3a",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Examples Nano Banana, v-3-2.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Examples Nano Banana, v-3-2"
+            }
+          },
+          {
+            "id": "dfd60c21d57dc262",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Examples Nano Banana, v-3-2.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Examples Nano Banana, v-3-2"
+            }
+          }
+        ],
+        "currentTab": 1
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "fc2fd7e65b9d88dc",
+    "type": "split",
+    "children": [
+      {
+        "id": "99278b07d6658e64",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "f461349a7aad8048",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "58f2e7d0212a77c8",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "0b852b6b23dc3371",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "bf0ebe73a0b66764",
+    "type": "split",
+    "children": [
+      {
+        "id": "8ade3ef40fb4954f",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "8e71050915383920",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "Description.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for Description"
+            }
+          },
+          {
+            "id": "8d606f5fb6100862",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "Description.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from Description"
+            }
+          },
+          {
+            "id": "fee6c39efe42601f",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "2b041bf0e29460d2",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
+            }
+          },
+          {
+            "id": "0e51045b1fc2b72c",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "Description.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline of Description"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false,
+      "obsidian-kanban:Create new board": false
+    }
+  },
+  "active": "dfd60c21d57dc262",
+  "lastOpenFiles": [
+    "img/Pasted image 20260113021427.png",
+    "img/CleanShot 2026-01-13 at 02.14.00@2x.png",
+    "img/Pasted image 20260113015926.png",
+    "img/Pasted image 20260113015811.png",
+    "img/Pasted image 20260113015734.png",
+    "img/Pasted image 20260113015657.png",
+    "img/Pasted image 20260113015628.png",
+    "img/CleanShot 2026-01-13 at 01.56.03@2x.png",
+    "img/Pasted image 20260113015037.png",
+    "img/CleanShot 2026-01-13 at 01.50.17@2x.png",
+    "img/Pasted image 20260113014946.png",
+    "Description v.1.md",
+    "Examples Nano Banana, v-3-2.md",
+    "Description v.2.md",
+    "img",
+    "v-3-0/script.js",
+    "v-3-0/style.css",
+    "v-3-0/index.html",
+    "v-3-0/README.md",
+    "v-3-0/src/lib/prompt/adapters/__tests__/grok.test.ts",
+    "v-3-0/src/lib/prompt/adapters/__tests__",
+    "v-3-0/src/lib/prompt/safety/__tests__/filter.test.ts",
+    "v-3-0/src/lib/prompt/safety/__tests__",
+    "v-3-0/src/lib/prompt/__tests__/generator.test.ts",
+    "v-3-0/src/lib/prompt/__tests__"
+  ]
+}
