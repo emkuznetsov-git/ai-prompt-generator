@@ -14,11 +14,169 @@ const CONFIG = {
 };
 
 const BOLDNESS_LEVELS = [
-    { value: 0, badge: 'B0', label: 'Elegant', modifier: 'tasteful lingerie campaign, elegant pose, strategic coverage, classy and refined' },
-    { value: 1, badge: 'B1', label: 'Teasing', modifier: 'provocative glamour editorial, teasing but classy, alluring gaze, subtle seduction' },
-    { value: 2, badge: 'B2', label: 'Bold', modifier: 'bold glamour, implied nudity but tastefully covered, sensual framing, seductive confidence' },
-    { value: 3, badge: 'B3', label: 'On Edge', modifier: 'very bold glamour, on the edge, cinematic low-key, intensely seductive, still non-explicit, no sexual act' }
+    { value: 0, badge: 'B0', label: 'Elegant', modifier: 'high-end lingerie campaign, elegant refined pose, strategic coverage, classy and polished' },
+    { value: 1, badge: 'B1', label: 'Teasing', modifier: 'provocative glamour editorial, teasing but classy, flirty eye contact, confident allure' },
+    { value: 2, badge: 'B2', label: 'Bold', modifier: 'high-heat glamour editorial, daring pose, lingerie-forward styling, confident seductive energy, still non-explicit' },
+    { value: 3, badge: 'B3', label: 'On Edge', modifier: 'very hot edgy glamour editorial, intense eye contact, cinematic tension, bold body language, lingerie stays on, still non-explicit, no sexual act' },
+    { value: 4, badge: 'B4', label: 'Extra Hot', modifier: 'maximum-heat glamour editorial, dangerously teasing but tasteful, extreme confidence, high tension, lingerie stays on, strategic coverage, still non-explicit, no sexual act' }
 ];
+
+// ============================================================================
+// BOLDNESS-WEIGHTED RANDOMIZATION (P0 "hotter" randomize)
+// ============================================================================
+
+const TAG_WEIGHT_MULTIPLIERS = {
+    hot:   [0.15, 0.6, 1.3, 2.0, 3.0],
+    bold:  [0.4,  0.9, 1.2, 1.6, 2.0],
+    sexy:  [0.6,  1.0, 1.2, 1.4, 1.6],
+    edgy:  [0.5,  0.9, 1.2, 1.5, 1.8],
+    noir:  [0.6,  0.9, 1.1, 1.4, 1.6]
+};
+
+function clampBoldnessIndex(value) {
+    const n = Number.isFinite(value) ? value : parseInt(value);
+    const b = Number.isFinite(n) ? n : 1;
+    return Math.max(0, Math.min(4, b));
+}
+
+function getHeatLevel(item) {
+    const tags = Array.isArray(item?.tags) ? item.tags : [];
+    const isHot = tags.includes('hot');
+    const isBold = tags.includes('bold') || tags.includes('edgy');
+    const isSexy = tags.includes('sexy');
+
+    // 0 = normal, 1 = warm/sexy, 2 = hot, 3 = super hot
+    if (isHot && isBold) return 3;
+    if (isHot) return 2;
+    if (isSexy) return 1;
+    return 0;
+}
+
+// ============================================================================
+// STYLE HINTS (Archetype ↔ Hair ↔ Makeup) — gentle, non-blocking suggestions
+// ============================================================================
+
+const VIBE_LABELS = {
+    classic_glam: 'classic glamour',
+    editorial_edge: 'editorial edge',
+    modern_minimal: 'clean minimal',
+    fresh_sunkissed: 'fresh sun-kissed',
+    noir: 'noir',
+    playful: 'playful tease',
+    luxury: 'luxury',
+    bold_statement: 'bold statement',
+    vintage_pinup: 'vintage pin-up',
+    after_hours: 'after-hours'
+};
+
+const ARCHETYPE_TAG_TO_VIBE = {
+    // core archetype tags
+    bombshell: 'classic_glam',
+    playmate: 'playful',
+    ice_queen: 'modern_minimal',
+    supermodel: 'editorial_edge',
+    california: 'fresh_sunkissed',
+    sporty: 'fresh_sunkissed',
+    fresh: 'fresh_sunkissed',
+    vixen: 'bold_statement',
+    tease: 'playful',
+    femme_fatale: 'noir',
+    siren: 'noir',
+    power: 'editorial_edge',
+    edgy: 'editorial_edge',
+    italian: 'classic_glam',
+    muse: 'luxury',
+    pinup: 'vintage_pinup',
+    vintage: 'vintage_pinup',
+    raven: 'noir',
+    noir: 'noir',
+    latina: 'bold_statement',
+    wild: 'bold_statement',
+    intense: 'noir',
+    mysterious: 'noir',
+    passionate: 'bold_statement',
+
+    // common adjectives used in tags
+    classic: 'classic_glam',
+    sexy: 'classic_glam',
+    hot: 'after_hours',
+    sophisticated: 'luxury',
+    cool: 'modern_minimal',
+    elegant: 'luxury',
+    luxury: 'luxury',
+    editorial: 'editorial_edge',
+    bold: 'bold_statement'
+};
+
+const HAIR_CATEGORY_TO_VIBES = {
+    'Waves & Glam': ['classic_glam'],
+    'Straight & Sleek': ['modern_minimal', 'editorial_edge'],
+    'Wet / Editorial': ['editorial_edge', 'bold_statement'],
+    'Ponytails': ['editorial_edge'],
+    'Updos': ['modern_minimal', 'editorial_edge'],
+    'Curls': ['classic_glam', 'bold_statement'],
+    'Short & Bob': ['modern_minimal', 'editorial_edge'],
+    'Auto': []
+};
+
+const MAKEUP_CATEGORY_TO_VIBES = {
+    'Natural & Fresh': ['fresh_sunkissed', 'modern_minimal'],
+    'Classic Glam': ['classic_glam', 'bold_statement'],
+    'Night & Smoky': ['after_hours', 'bold_statement'],
+    'Editorial': ['editorial_edge', 'modern_minimal'],
+    'Chic / Vintage': ['classic_glam', 'modern_minimal', 'vintage_pinup'],
+    'Noir / Statement': ['noir', 'bold_statement'],
+    'Auto': []
+};
+
+function uniqueStrings(items) {
+    return [...new Set((items || []).filter(Boolean))];
+}
+
+function intersectCount(a, b) {
+    const setB = new Set(b || []);
+    let count = 0;
+    for (const x of a || []) {
+        if (setB.has(x)) count += 1;
+    }
+    return count;
+}
+
+function getArchetypeVibes(archetype) {
+    const vibes = [];
+    if (!archetype || !Array.isArray(archetype.tags)) return vibes;
+    for (const tag of archetype.tags) {
+        const vibe = ARCHETYPE_TAG_TO_VIBE[tag];
+        if (vibe) vibes.push(vibe);
+    }
+    // Always ensure at least one vibe for helpful messaging
+    if (vibes.length === 0) vibes.push('classic_glam');
+    return uniqueStrings(vibes);
+}
+
+function getHairVibes(hair) {
+    if (!hair) return [];
+    const base = HAIR_CATEGORY_TO_VIBES[hair.category] || [];
+    const vibes = [...base];
+    if (hair.tags?.includes('hot')) vibes.push('after_hours');
+    if (hair.tags?.includes('bold')) vibes.push('bold_statement');
+    return uniqueStrings(vibes);
+}
+
+function getMakeupVibes(makeup) {
+    if (!makeup) return [];
+    const base = MAKEUP_CATEGORY_TO_VIBES[makeup.category] || [];
+    const vibes = [...base];
+    if (makeup.tags?.includes('hot')) vibes.push('after_hours');
+    if (makeup.tags?.includes('bold')) vibes.push('bold_statement');
+    if (makeup.tags?.includes('noir')) vibes.push('noir');
+    return uniqueStrings(vibes);
+}
+
+function formatVibes(vibes) {
+    const labels = (vibes || []).map(v => VIBE_LABELS[v] || v);
+    return labels.slice(0, 2).join(' + ');
+}
 
 // ============================================================================
 // LEXICONS DATA — Maximum variety and sensuality
@@ -29,67 +187,114 @@ const LEXICONS = {
     // ARCHETYPES
     // ─────────────────────────────────────────────────────────────────────────
     archetypes: [
-        // ══════ BLONDES ══════
-        { id: 'blonde_bombshell', label: 'Bombshell', text_en: 'platinum blonde hair, long glamorous waves, slim hourglass silhouette, confident direct gaze, radiant skin', category: 'Blondes', hairColor: 'blonde', tags: ['bombshell', 'classic', 'sexy'] },
-        { id: 'blonde_playmate', label: 'Playmate (hot)', text_en: 'platinum blonde hair, long soft waves, slim hourglass silhouette, playful seductive smile, bedroom eyes, sun-kissed glow', category: 'Blondes', hairColor: 'blonde', tags: ['playmate', 'hot', 'sexy'] },
-        { id: 'blonde_ice_queen', label: 'Ice Queen', text_en: 'platinum blonde hair, sleek straight hair, slim tall silhouette, cold confident gaze, porcelain skin', category: 'Blondes', hairColor: 'blonde', tags: ['ice_queen', 'sophisticated', 'cool'] },
-        { id: 'blonde_california_girl', label: 'California Girl', text_en: 'golden blonde hair, beachy waves, tanned athletic silhouette, bright flirty smile, sun-kissed glow', category: 'Blondes', hairColor: 'blonde', tags: ['california', 'sporty', 'fresh'] },
-        
-        // ══════ BRUNETTES ══════
-        { id: 'brunette_femme_fatale', label: 'Femme Fatale', text_en: 'deep brunette hair, long glossy waves, slim athletic silhouette, intense controlled gaze, mysterious aura', category: 'Brunettes', hairColor: 'brunette', tags: ['femme_fatale', 'intense', 'sexy'] },
-        { id: 'brunette_midnight_siren', label: 'Midnight Siren (hot)', text_en: 'deep brunette hair, long glossy waves, slim athletic silhouette, sultry direct gaze, subtle smirk, smoldering eyes', category: 'Brunettes', hairColor: 'brunette', tags: ['siren', 'hot', 'sexy'] },
-        { id: 'brunette_power', label: 'Power Brunette', text_en: 'deep brunette hair, slicked-back wet-look hair, slim athletic silhouette, dominant runway gaze, sharp cheekbones', category: 'Brunettes', hairColor: 'brunette', tags: ['power', 'edgy', 'confident'] },
-        { id: 'brunette_italian_beauty', label: 'Italian Beauty', text_en: 'rich dark brunette hair, voluminous waves, olive skin, warm expressive eyes, sensual full lips', category: 'Brunettes', hairColor: 'brunette', tags: ['italian', 'warm', 'sensual'] },
+        // ══════ PLATINUM BLONDES ══════
+        { id: 'blonde_bombshell', label: 'Bombshell', text_en: 'slim hourglass silhouette, confident direct gaze, radiant skin, classic sensual glamour', category: 'Platinum Blondes', hairColor: 'blonde', hairShade: 'platinum blonde', defaultHair: ['long_glamorous_waves'], defaultMakeup: ['smoky_eyes'], tags: ['bombshell', 'classic', 'sexy'] },
+        { id: 'blonde_playmate', label: 'Playmate (hot)', text_en: 'slim hourglass silhouette, playful seductive smile, flirtatious energy, sun-kissed glow', category: 'Platinum Blondes', hairColor: 'blonde', hairShade: 'platinum blonde', defaultHair: ['soft_blowout'], defaultMakeup: ['bronzed_sunkissed'], tags: ['playmate', 'hot', 'sexy'] },
+        { id: 'blonde_ice_queen', label: 'Ice Queen', text_en: 'slim tall silhouette, controlled confident gaze, porcelain finish, high-fashion restraint', category: 'Platinum Blondes', hairColor: 'blonde', hairShade: 'platinum blonde', defaultHair: ['sleek_straight'], defaultMakeup: ['nude_sculpted'], tags: ['ice_queen', 'sophisticated', 'cool'] },
+        { id: 'platinum_supermodel', label: 'Platinum Supermodel (hot)', text_en: 'slim toned fashion model physique, runway-long legs, sharp cheekbones, intense camera-ready gaze, premium editorial attitude', category: 'Platinum Blondes', hairColor: 'blonde', hairShade: 'platinum blonde', defaultHair: ['high_ponytail'], defaultMakeup: ['glossy_wet_look'], tags: ['supermodel', 'hot', 'editorial'] },
+
+        // ══════ GOLDEN / HONEY BLONDES ══════
+        { id: 'blonde_california_girl', label: 'California Beauty', text_en: 'tanned athletic silhouette, bright flirty smile, fresh confident energy, sun-kissed glow', category: 'Golden Blondes', hairColor: 'blonde', hairShade: 'golden blonde', defaultHair: ['beachy_waves'], defaultMakeup: ['bronzed_sunkissed'], tags: ['california', 'sporty', 'fresh'] },
+        { id: 'honey_blonde_vixen', label: 'Honey Blonde Vixen (hot)', text_en: 'curvy toned hourglass silhouette, slim waist, teasing knowing gaze, magnetic allure', category: 'Golden Blondes', hairColor: 'blonde', hairShade: 'honey blonde', defaultHair: ['side_swept_waves'], defaultMakeup: ['siren_wing_red_lip'], tags: ['vixen', 'hot', 'sexy'] },
         
         // ══════ DIRTY BLONDES ══════
-        { id: 'dirty_blonde_sleek', label: 'Sleek', text_en: 'dirty blonde hair, sleek straight hair, slim silhouette, teasing knowing gaze, natural beauty', category: 'Dirty Blondes', hairColor: 'dirty_blonde', tags: ['sleek', 'natural', 'teasing'] },
-        { id: 'dirty_blonde_tease', label: 'Tease (hot)', text_en: 'dirty blonde hair, soft blowout waves, slim silhouette, teasing smile, flirty bedroom gaze, playful energy', category: 'Dirty Blondes', hairColor: 'dirty_blonde', tags: ['tease', 'hot', 'playful'] },
+        { id: 'dirty_blonde_sleek', label: 'Sleek', text_en: 'slim silhouette, teasing knowing gaze, understated confidence, clean modern beauty', category: 'Dirty Blondes', hairColor: 'dirty_blonde', hairShade: 'dirty blonde', defaultHair: ['straight_middle_part'], defaultMakeup: ['soft_natural'], tags: ['sleek', 'natural', 'teasing'] },
+        { id: 'dirty_blonde_tease', label: 'Tease (hot)', text_en: 'slim silhouette, playful tease, flirty eye contact, effortless sensual vibe', category: 'Dirty Blondes', hairColor: 'dirty_blonde', hairShade: 'dirty blonde', defaultHair: ['messy_bedhair'], defaultMakeup: ['pink_gloss_pop'], tags: ['tease', 'hot', 'playful'] },
+
+        // ══════ BRUNETTES ══════
+        { id: 'brunette_femme_fatale', label: 'Femme Fatale', text_en: 'slim athletic silhouette, intense controlled gaze, mysterious aura, cinematic edge', category: 'Brunettes', hairColor: 'brunette', hairShade: 'deep brunette', defaultHair: ['deep_side_part_waves'], defaultMakeup: ['cat_eye_dramatic'], tags: ['femme_fatale', 'intense', 'sexy'] },
+        { id: 'brunette_midnight_siren', label: 'Midnight Siren (hot)', text_en: 'slim athletic silhouette, sultry direct gaze, subtle smirk, smoldering intensity', category: 'Brunettes', hairColor: 'brunette', hairShade: 'deep brunette', defaultHair: ['long_glamorous_waves'], defaultMakeup: ['night_glam'], tags: ['siren', 'hot', 'sexy'] },
+        { id: 'brunette_power', label: 'Power Brunette', text_en: 'slim athletic silhouette, dominant runway gaze, sharp cheekbones, assertive presence', category: 'Brunettes', hairColor: 'brunette', hairShade: 'deep brunette', defaultHair: ['slicked_back_wet'], defaultMakeup: ['nude_sculpted'], tags: ['power', 'edgy', 'confident'] },
+        { id: 'brunette_italian_beauty', label: 'Italian Beauty', text_en: 'slim toned silhouette, olive skin, warm expressive eyes, sensual full lips, old-world glamour warmth', category: 'Brunettes', hairColor: 'brunette', hairShade: 'rich dark brunette', defaultHair: ['soft_blowout'], defaultMakeup: ['bronzed_sunkissed'], tags: ['italian', 'warm', 'sensual'] },
+        { id: 'brunette_velvet_muse', label: 'Velvet Muse (hot)', text_en: 'slim waist with elegant toned curves, luminous skin finish, slow confident gaze, luxury editorial poise', category: 'Brunettes', hairColor: 'brunette', hairShade: 'espresso brunette', defaultHair: ['side_swept_waves'], defaultMakeup: ['smoky_eyes'], tags: ['muse', 'hot', 'luxury'] },
         
         // ══════ REDHEADS ══════
-        { id: 'redhead_sophisticated', label: 'Sophisticated', text_en: 'rich auburn red hair, long soft waves, slim silhouette, elegant confident gaze, creamy pale skin', category: 'Redheads', hairColor: 'redhead', tags: ['sophisticated', 'elegant', 'classic'] },
-        { id: 'redhead_pinup', label: 'Pin-Up (sexy)', text_en: 'rich auburn red hair, vintage-inspired soft waves, slim silhouette, playful teasing gaze, classic pin-up charm', category: 'Redheads', hairColor: 'redhead', tags: ['pinup', 'vintage', 'sexy'] },
-        { id: 'redhead_fiery', label: 'Fiery (hot)', text_en: 'vibrant copper red hair, wild voluminous waves, slim silhouette, intense passionate gaze, freckled skin', category: 'Redheads', hairColor: 'redhead', tags: ['fiery', 'hot', 'wild'] },
+        { id: 'redhead_sophisticated', label: 'Sophisticated', text_en: 'slim silhouette, elegant confident gaze, creamy pale skin, refined classic allure', category: 'Redheads', hairColor: 'redhead', hairShade: 'rich auburn', defaultHair: ['soft_blowout'], defaultMakeup: ['red_lip_classic'], tags: ['sophisticated', 'elegant', 'classic'] },
+        { id: 'redhead_pinup', label: 'Pin-Up (sexy)', text_en: 'slim hourglass silhouette, playful teasing gaze, classic pin-up charm, polished glamour, cheeky confidence', category: 'Redheads', hairColor: 'redhead', hairShade: 'rich auburn', defaultHair: ['vintage_waves'], defaultMakeup: ['red_lip_classic'], tags: ['pinup', 'vintage', 'sexy'] },
+        { id: 'redhead_fiery', label: 'Fiery (hot)', text_en: 'slim athletic silhouette, intense passionate gaze, freckled skin, bold confident presence, electric energy', category: 'Redheads', hairColor: 'redhead', hairShade: 'vibrant copper red', defaultHair: ['voluminous_curls'], defaultMakeup: ['metallic_smoky'], tags: ['fiery', 'hot', 'wild'] },
         
         // ══════ BLACK HAIR ══════
-        { id: 'raven_goddess', label: 'Raven Goddess', text_en: 'jet black hair, long silky straight hair, slim elegant silhouette, mysterious dark gaze, porcelain skin', category: 'Black Hair', hairColor: 'black', tags: ['raven', 'mysterious', 'elegant'] },
-        { id: 'asian_beauty', label: 'Asian Beauty', text_en: 'jet black hair, long straight silky hair, slim graceful silhouette, soft knowing gaze, flawless skin', category: 'Black Hair', hairColor: 'black', tags: ['asian', 'elegant', 'graceful'] },
-        { id: 'latina_spitfire', label: 'Latina Spitfire (hot)', text_en: 'dark black hair, voluminous curls, curvy silhouette, fiery passionate gaze, golden tan skin', category: 'Black Hair', hairColor: 'black', tags: ['latina', 'hot', 'passionate'] }
+        { id: 'raven_goddess', label: 'Raven Goddess', text_en: 'slim elegant silhouette, mysterious dark gaze, porcelain skin, timeless high-glamour', category: 'Black Hair', hairColor: 'black', hairShade: 'jet black', defaultHair: ['sleek_straight'], defaultMakeup: ['cat_eye_dramatic'], tags: ['raven', 'mysterious', 'elegant'] },
+        { id: 'asian_beauty', label: 'Asian Beauty', text_en: 'slim graceful silhouette, soft knowing gaze, flawless skin finish, refined elegance', category: 'Black Hair', hairColor: 'black', hairShade: 'jet black', defaultHair: ['straight_middle_part'], defaultMakeup: ['soft_natural'], tags: ['asian', 'elegant', 'graceful'] },
+        { id: 'latina_spitfire', label: 'Latina Spitfire (hot)', text_en: 'curvy athletic silhouette, toned hourglass shape, fiery passionate gaze, golden tan skin, confident heat', category: 'Black Hair', hairColor: 'black', hairShade: 'espresso black', defaultHair: ['voluminous_curls'], defaultMakeup: ['night_glam'], tags: ['latina', 'hot', 'passionate'] },
+        { id: 'raven_noir_siren', label: 'Noir Siren (hot)', text_en: 'slim silhouette, high-contrast allure, slow intense eye contact, cinematic tension, sleek editorial danger', category: 'Black Hair', hairColor: 'black', hairShade: 'jet black', defaultHair: ['wet_waves'], defaultMakeup: ['vamp_lip_noir'], tags: ['noir', 'hot', 'cinematic'] }
     ],
 
     // ─────────────────────────────────────────────────────────────────────────
     // HAIR STYLES
     // ─────────────────────────────────────────────────────────────────────────
     hair: [
-        { id: 'auto', label: 'Auto (from archetype)', text_en: '', tags: [] },
-        { id: 'long_glamorous_waves', label: 'Long Glamorous Waves', text_en: 'long glamorous waves, voluminous body, glossy shine', tags: ['waves', 'long', 'glamour'] },
-        { id: 'soft_blowout', label: 'Soft Blowout', text_en: 'soft blowout waves, bouncy volume, natural movement', tags: ['blowout', 'soft', 'natural'] },
-        { id: 'sleek_straight', label: 'Sleek Straight', text_en: 'sleek glossy straight hair, razor-sharp edges, mirror shine', tags: ['straight', 'sleek', 'modern'] },
-        { id: 'slicked_back_wet', label: 'Slicked-back Wet Look', text_en: 'slicked-back wet-look hair, high-fashion edge, sculpted finish', tags: ['wet', 'slicked', 'edgy'] },
-        { id: 'high_ponytail', label: 'High Ponytail', text_en: 'high sleek ponytail, face-framing tendrils, elongated neck', tags: ['ponytail', 'sleek', 'sporty'] },
-        { id: 'messy_bedhair', label: 'Messy Bed Hair', text_en: 'messy bed-hair waves, tousled texture, just-woke-up sensuality', tags: ['messy', 'bedhead', 'sexy'] },
-        { id: 'vintage_waves', label: 'Vintage Hollywood Waves', text_en: 'vintage Hollywood waves, finger-wave inspired, old-glamour elegance', tags: ['vintage', 'waves', 'classic'] },
-        { id: 'beachy_waves', label: 'Beachy Waves', text_en: 'beachy tousled waves, sun-kissed highlights, effortless texture', tags: ['beach', 'waves', 'casual'] },
-        { id: 'voluminous_curls', label: 'Voluminous Curls', text_en: 'voluminous bouncy curls, big body, dramatic movement', tags: ['curls', 'volume', 'dramatic'] },
-        { id: 'braided_updo', label: 'Braided Updo', text_en: 'elegant braided updo, face-framing wisps, exposed neck and shoulders', tags: ['updo', 'braided', 'elegant'] },
-        { id: 'low_bun_sleek', label: 'Low Sleek Bun', text_en: 'low sleek bun, polished finish, sophisticated minimalism', tags: ['bun', 'sleek', 'sophisticated'] }
+        { id: 'auto', label: 'Auto (recommended by archetype)', text_en: '', category: 'Auto', tags: [] },
+
+        // ══════ WAVES & GLAM ══════
+        { id: 'long_glamorous_waves', label: 'Long Glamorous Waves', text_en: 'long glamorous waves, voluminous body, glossy shine', category: 'Waves & Glam', tags: ['waves', 'long', 'glamour'] },
+        { id: 'side_swept_waves', label: 'Side-swept Glam Waves', text_en: 'side-swept glam waves, deep side part, glossy volume', category: 'Waves & Glam', tags: ['waves', 'glamour', 'classic'] },
+        { id: 'deep_side_part_waves', label: 'Deep Side Part Waves', text_en: 'deep side part waves, soft sculpted volume, camera-ready shine', category: 'Waves & Glam', tags: ['waves', 'glamour', 'editorial'] },
+        { id: 'soft_blowout', label: 'Soft Blowout', text_en: 'soft blowout waves, bouncy volume, natural movement', category: 'Waves & Glam', tags: ['blowout', 'soft', 'natural'] },
+        { id: 'curtain_bangs_blowout', label: 'Blowout + Curtain Bangs', text_en: 'blowout with curtain bangs, face-framing softness, airy volume', category: 'Waves & Glam', tags: ['blowout', 'bangs', 'soft'] },
+        { id: 'beachy_waves', label: 'Beachy Waves', text_en: 'beachy tousled waves, sun-kissed texture, effortless movement', category: 'Waves & Glam', tags: ['beach', 'waves', 'casual'] },
+        { id: 'messy_bedhair', label: 'Messy Bed Hair', text_en: 'tousled bed-hair texture, messy waves, effortless sensuality', category: 'Waves & Glam', tags: ['messy', 'bedhead', 'sexy'] },
+
+        // ══════ STRAIGHT & SLEEK ══════
+        { id: 'sleek_straight', label: 'Sleek Straight', text_en: 'sleek glossy straight hair, razor-sharp edges, mirror shine', category: 'Straight & Sleek', tags: ['straight', 'sleek', 'modern'] },
+        { id: 'straight_middle_part', label: 'Straight + Middle Part', text_en: 'straight hair with a clean middle part, smooth glassy finish', category: 'Straight & Sleek', tags: ['straight', 'minimal', 'editorial'] },
+
+        // ══════ WET / EDITORIAL ══════
+        { id: 'slicked_back_wet', label: 'Slicked-back Wet Look', text_en: 'slicked-back wet-look hair, high-fashion edge, sculpted finish', category: 'Wet / Editorial', tags: ['wet', 'slicked', 'edgy'] },
+        { id: 'wet_waves', label: 'Wet-look Waves (hot)', text_en: 'wet-look waves, glossy texture, runway editorial edge', category: 'Wet / Editorial', tags: ['wet', 'waves', 'hot'] },
+
+        // ══════ PONYTAILS ══════
+        { id: 'high_ponytail', label: 'High Ponytail', text_en: 'high sleek ponytail, face-framing tendrils, elongated neck', category: 'Ponytails', tags: ['ponytail', 'sleek', 'sporty'] },
+        { id: 'low_sleek_ponytail', label: 'Low Sleek Ponytail', text_en: 'low sleek ponytail, polished finish, minimalist elegance', category: 'Ponytails', tags: ['ponytail', 'sleek', 'elegant'] },
+        { id: 'braided_ponytail', label: 'Braided Ponytail', text_en: 'braided ponytail, tight clean weave, edgy fashion finish', category: 'Ponytails', tags: ['braid', 'edgy', 'editorial'] },
+
+        // ══════ UPDOS ══════
+        { id: 'sleek_high_bun', label: 'Sleek High Bun', text_en: 'sleek high bun, snatched silhouette, exposed neck and shoulders', category: 'Updos', tags: ['bun', 'sleek', 'editorial'] },
+        { id: 'low_bun_sleek', label: 'Low Sleek Bun', text_en: 'low sleek bun, polished finish, sophisticated minimalism', category: 'Updos', tags: ['bun', 'sleek', 'sophisticated'] },
+        { id: 'braided_updo', label: 'Braided Updo', text_en: 'elegant braided updo, face-framing wisps, exposed neck and shoulders', category: 'Updos', tags: ['updo', 'braided', 'elegant'] },
+        { id: 'messy_topknot', label: 'Messy Topknot (hot)', text_en: 'messy topknot, loose tendrils, effortless after-hours glamour', category: 'Updos', tags: ['updo', 'messy', 'hot'] },
+
+        // ══════ CURLS ══════
+        { id: 'voluminous_curls', label: 'Voluminous Curls', text_en: 'voluminous bouncy curls, big body, dramatic movement', category: 'Curls', tags: ['curls', 'volume', 'dramatic'] },
+
+        // ══════ SHORT & BOB ══════
+        { id: 'glossy_bob', label: 'Glossy Blunt Bob', text_en: 'glossy blunt bob, sharp edges, fashion-forward silhouette', category: 'Short & Bob', tags: ['bob', 'sharp', 'fashion'] },
+        { id: 'textured_lob', label: 'Textured Lob', text_en: 'textured long bob, soft bend, modern effortless chic', category: 'Short & Bob', tags: ['lob', 'texture', 'modern'] },
+        { id: 'sleek_pixie', label: 'Sleek Pixie (bold)', text_en: 'sleek pixie cut, bold editorial minimalism, strong cheekbones emphasis', category: 'Short & Bob', tags: ['pixie', 'bold', 'editorial'] }
     ],
 
     // ─────────────────────────────────────────────────────────────────────────
     // MAKEUP STYLES
     // ─────────────────────────────────────────────────────────────────────────
     makeup: [
-        { id: 'auto', label: 'Auto (natural glamour)', text_en: '', tags: [] },
-        { id: 'soft_natural', label: 'Soft Natural', text_en: 'soft natural makeup, glowing skin, nude glossy lips, subtle lashes', tags: ['natural', 'soft', 'fresh'] },
-        { id: 'smoky_eyes', label: 'Smoky Eyes', text_en: 'smoky eyes, smudged liner, glossy nude lips, high-glam contour', tags: ['smoky', 'glamour', 'sexy'] },
-        { id: 'night_glam', label: 'Night Glam (hot)', text_en: 'night-glam deep smoky eyes, dramatic lashes, glossy lips, body shimmer', tags: ['night', 'glam', 'hot'] },
-        { id: 'cat_eye_dramatic', label: 'Cat Eye Dramatic', text_en: 'sharp cat-eye liner, winged perfection, bold lashes, sculpted cheekbones', tags: ['cat_eye', 'dramatic', 'bold'] },
-        { id: 'red_lip_classic', label: 'Red Lip Classic', text_en: 'classic red lipstick, clean skin, defined brows, vintage glamour', tags: ['red_lip', 'classic', 'bold'] },
-        { id: 'glossy_wet_look', label: 'Glossy Wet Look', text_en: 'glossy wet-look makeup, dewy skin, high-shine lips, editorial edge', tags: ['glossy', 'wet', 'modern'] },
-        { id: 'bronzed_sunkissed', label: 'Bronzed Sunkissed', text_en: 'bronzed sun-kissed glow, warm contour, glossy lips, radiant skin', tags: ['bronzed', 'warm', 'fresh'] },
-        { id: 'glitter_lids', label: 'Glitter Lids', text_en: 'subtle glitter eyelids, smoky liner, glossy lips, night-out sparkle', tags: ['glitter', 'sparkle', 'party'] },
-        { id: 'nude_sculpted', label: 'Nude Sculpted', text_en: 'nude sculpted makeup, sharp contour, nude matte lips, defined features', tags: ['nude', 'sculpted', 'modern'] },
-        { id: 'french_girl', label: 'French Girl Effortless', text_en: 'effortless French-girl makeup, red lip, minimal eyes, natural brows', tags: ['french', 'effortless', 'chic'] },
-        { id: 'metallic_smoky', label: 'Metallic Smoky', text_en: 'metallic smoky eyes, copper or gold shimmer, glossy lips, high-fashion edge', tags: ['metallic', 'smoky', 'editorial'] }
+        { id: 'auto', label: 'Auto (recommended by archetype)', text_en: '', category: 'Auto', tags: [] },
+
+        // ══════ NATURAL & FRESH ══════
+        { id: 'soft_natural', label: 'Soft Natural', text_en: 'soft natural makeup, glowing skin, nude glossy lips, subtle lashes', category: 'Natural & Fresh', tags: ['natural', 'soft', 'fresh'] },
+        { id: 'bronzed_sunkissed', label: 'Bronzed Sunkissed', text_en: 'bronzed sun-kissed glow, warm contour, glossy lips, radiant skin', category: 'Natural & Fresh', tags: ['bronzed', 'warm', 'fresh'] },
+
+        // ══════ CLASSIC GLAM ══════
+        { id: 'smoky_eyes', label: 'Smoky Eyes', text_en: 'smoky eyes, smudged liner, glossy nude lips, high-glam contour', category: 'Classic Glam', tags: ['smoky', 'glamour', 'sexy'] },
+        { id: 'cat_eye_dramatic', label: 'Cat Eye Dramatic', text_en: 'sharp cat-eye liner, winged perfection, bold lashes, sculpted cheekbones', category: 'Classic Glam', tags: ['cat_eye', 'dramatic', 'bold'] },
+        { id: 'red_lip_classic', label: 'Red Lip Classic', text_en: 'classic red lipstick, clean skin, defined brows, vintage glamour', category: 'Classic Glam', tags: ['red_lip', 'classic', 'bold'] },
+        { id: 'siren_wing_red_lip', label: 'Siren Wing + Red Lip (hot)', text_en: 'sharp winged liner, statement red lip, sculpted cheeks, high-glam finish', category: 'Classic Glam', tags: ['wing', 'red_lip', 'hot'] },
+
+        // ══════ NIGHT & SMOKY ══════
+        { id: 'night_glam', label: 'Night Glam (hot)', text_en: 'night-glam deep smoky eyes, dramatic lashes, glossy lips, premium party glamour', category: 'Night & Smoky', tags: ['night', 'glam', 'hot'] },
+        { id: 'metallic_smoky', label: 'Metallic Smoky', text_en: 'metallic smoky eyes, copper or gold shimmer, glossy lips, high-fashion edge', category: 'Night & Smoky', tags: ['metallic', 'smoky', 'editorial'] },
+        { id: 'glitter_lids', label: 'Glitter Lids', text_en: 'subtle glitter eyelids, smoky liner, glossy lips, night-out sparkle', category: 'Night & Smoky', tags: ['glitter', 'sparkle', 'party'] },
+
+        // ══════ EDITORIAL ══════
+        { id: 'glossy_wet_look', label: 'Glossy Wet Look', text_en: 'glossy wet-look makeup, dewy skin, high-shine lips, editorial edge', category: 'Editorial', tags: ['glossy', 'wet', 'modern'] },
+        { id: 'nude_sculpted', label: 'Nude Sculpted', text_en: 'nude sculpted makeup, sharp contour, nude matte lips, defined features', category: 'Editorial', tags: ['nude', 'sculpted', 'modern'] },
+        { id: 'graphic_liner_editorial', label: 'Graphic Liner (editorial)', text_en: 'graphic eyeliner, clean luminous skin, minimal blush, glossy lip, high-fashion finish', category: 'Editorial', tags: ['graphic', 'liner', 'editorial'] },
+
+        // ══════ CHIC / VINTAGE ══════
+        { id: 'french_girl', label: 'French Girl Chic', text_en: 'effortless chic makeup, soft red lip, minimal eyes, natural brows, modern classic', category: 'Chic / Vintage', tags: ['french', 'effortless', 'chic'] },
+
+        // ══════ NOIR / STATEMENT ══════
+        { id: 'vamp_lip_noir', label: 'Vamp Lip Noir (hot)', text_en: 'deep vamp lipstick, smoky liner, matte porcelain finish, noir glamour', category: 'Noir / Statement', tags: ['noir', 'vamp', 'hot'] },
+        { id: 'pink_gloss_pop', label: 'Pink Gloss Pop', text_en: 'rosy blush, glossy pink lip, flutter lashes, playful glamorous finish', category: 'Noir / Statement', tags: ['pink', 'gloss', 'playful'] }
     ],
 
     // ─────────────────────────────────────────────────────────────────────────
@@ -105,6 +310,10 @@ const LEXICONS = {
         { id: 'triangle_set', label: 'Triangle Bra Set', text_en: 'minimalist triangle bra set with thin straps', category: 'Lingerie Sets', tags: ['triangle', 'minimal', 'sexy'] },
         { id: 'longline_set', label: 'Longline Bra Set', text_en: 'longline bra extending below bust with matching briefs', category: 'Lingerie Sets', tags: ['longline', 'elegant'] },
         { id: 'suspender_set', label: 'Suspender Set', text_en: 'lingerie set with integrated suspender straps', category: 'Lingerie Sets', tags: ['suspender', 'vintage', 'sexy'] },
+        { id: 'strapless_bandeau_set', label: 'Strapless Bandeau Set (hot)', text_en: 'strapless bandeau bra and thong set', category: 'Lingerie Sets', tags: ['bandeau', 'hot', 'sexy'] },
+        { id: 'plunge_bra_set', label: 'Plunge Bra Set (hot)', text_en: 'plunge bra and thong set with deep neckline', category: 'Lingerie Sets', tags: ['plunge', 'hot', 'sexy'] },
+        { id: 'high_waist_garter_set', label: 'High-waist Garter Set (hot)', text_en: 'high-waist briefs with garter straps and matching bra', category: 'Lingerie Sets', tags: ['garter', 'hot', 'sexy'] },
+        { id: 'micro_triangle_set', label: 'Micro Triangle Set (hot)', text_en: 'micro triangle bra set with thin straps and minimal coverage', category: 'Lingerie Sets', tags: ['triangle', 'hot', 'bold'] },
         
         // ══════ STRAPPY & BOLD ══════
         { id: 'strappy_set', label: 'Strappy Set (hot)', text_en: 'strappy lingerie set with multiple thin straps and hardware details', category: 'Strappy & Bold', tags: ['strappy', 'hot', 'bold'] },
@@ -113,6 +322,15 @@ const LEXICONS = {
         { id: 'harness_set', label: 'Harness Lingerie (hot)', text_en: 'harness-inspired lingerie set with body straps', category: 'Strappy & Bold', tags: ['harness', 'hot', 'edgy'] },
         { id: 'chain_set', label: 'Chain Detail Set (hot)', text_en: 'lingerie set with decorative chain details', category: 'Strappy & Bold', tags: ['chain', 'hot', 'bold'] },
         { id: 'crystal_set', label: 'Crystal Strap Set', text_en: 'lingerie set with crystal strap embellishments', category: 'Strappy & Bold', tags: ['crystal', 'statement', 'glamour'] },
+        { id: 'ring_hardware_set', label: 'Ring Hardware Set (hot)', text_en: 'strappy lingerie set with ring hardware details', category: 'Strappy & Bold', tags: ['strappy', 'hot', 'bold'] },
+        { id: 'laceup_strappy_set', label: 'Lace-up Strappy Set (hot)', text_en: 'strappy lingerie set with lace-up front detail', category: 'Strappy & Bold', tags: ['strappy', 'hot', 'bold'] },
+        { id: 'collar_harness_set', label: 'Collar Harness Set (hot)', text_en: 'harness lingerie set with collar strap and body straps', category: 'Strappy & Bold', tags: ['harness', 'hot', 'edgy', 'bold'] },
+        { id: 'x_strap_set', label: 'X-strap Set (hot)', text_en: 'lingerie set with crisscross X-strap design and hardware accents', category: 'Strappy & Bold', tags: ['strappy', 'hot', 'bold'] },
+        { id: 'asymmetric_strap_set', label: 'Asymmetric Strap Set (hot)', text_en: 'asymmetric strap lingerie set with one-shoulder detail and bold lines', category: 'Strappy & Bold', tags: ['strappy', 'hot', 'bold', 'editorial'] },
+        { id: 'body_chain_overlay_set', label: 'Body-chain Overlay Set (hot)', text_en: 'lingerie set with delicate body chain overlay and strap details', category: 'Strappy & Bold', tags: ['chain', 'hot', 'bold'] },
+        { id: 'bra_harness_overlay_set', label: 'Bra Harness Overlay (hot)', text_en: 'bra set with harness overlay straps framing the torso', category: 'Strappy & Bold', tags: ['harness', 'hot', 'edgy', 'bold'] },
+        { id: 'micro_strap_set', label: 'Micro Strap Set (hot)', text_en: 'micro lingerie set with ultra-thin straps and sharp cut lines', category: 'Strappy & Bold', tags: ['strappy', 'hot', 'bold'] },
+        { id: 'geometric_cutout_set', label: 'Geometric Cutout Set (hot)', text_en: 'lingerie set with geometric cutouts and structured strap layout', category: 'Strappy & Bold', tags: ['cutout', 'hot', 'bold'] },
         
         // ══════ BODYSUITS ══════
         { id: 'bodysuit_classic', label: 'Classic Bodysuit', text_en: 'bodysuit with high-leg cut', category: 'Bodysuits', tags: ['bodysuit', 'classic'] },
@@ -120,6 +338,16 @@ const LEXICONS = {
         { id: 'bodysuit_sheer', label: 'Sheer Bodysuit (hot)', text_en: 'sheer bodysuit with strategic opaque panels', category: 'Bodysuits', tags: ['bodysuit', 'hot', 'sheer'] },
         { id: 'bodysuit_cutout', label: 'Cutout Bodysuit (hot)', text_en: 'bodysuit with geometric cutout details', category: 'Bodysuits', tags: ['cutout', 'hot', 'bold'] },
         { id: 'bodysuit_open_back', label: 'Open Back Bodysuit', text_en: 'open-back bodysuit revealing full back', category: 'Bodysuits', tags: ['open_back', 'sexy'] },
+        { id: 'bodysuit_high_neck_cutout', label: 'High-neck Cutout Bodysuit (hot)', text_en: 'high-neck bodysuit with strategic cutouts and high-leg line', category: 'Bodysuits', tags: ['cutout', 'hot', 'bold'] },
+        { id: 'bodysuit_zip_front', label: 'Zip-front Bodysuit (hot)', text_en: 'zip-front bodysuit with sculpted fit and high-leg cut', category: 'Bodysuits', tags: ['zip', 'hot', 'edgy', 'sexy'] },
+        { id: 'bodysuit_long_sleeve_sheer', label: 'Long-sleeve Sheer Bodysuit (hot)', text_en: 'long-sleeve sheer bodysuit with strategic opaque panels', category: 'Bodysuits', tags: ['sheer', 'hot', 'sexy'] },
+        { id: 'bodysuit_asymmetric', label: 'Asymmetric Bodysuit (hot)', text_en: 'one-shoulder asymmetric bodysuit with high-fashion silhouette', category: 'Bodysuits', tags: ['hot', 'editorial', 'sexy'] },
+        { id: 'bodysuit_halter_plunge', label: 'Halter Plunge Bodysuit (hot)', text_en: 'halter-neck bodysuit with deep plunge neckline, high-leg cut', category: 'Bodysuits', tags: ['halter', 'plunge', 'hot', 'sexy'] },
+        { id: 'bodysuit_underwire', label: 'Underwire Bodysuit (hot)', text_en: 'underwire cup bodysuit with sculpted fit and high-leg line', category: 'Bodysuits', tags: ['underwire', 'hot', 'sexy'] },
+        { id: 'bodysuit_thong_back', label: 'Thong-back Bodysuit (hot)', text_en: 'high-cut bodysuit with thong-back silhouette', category: 'Bodysuits', tags: ['thong', 'hot', 'sexy'] },
+        { id: 'bodysuit_laceup_sides', label: 'Lace-up Side Bodysuit (hot)', text_en: 'bodysuit with lace-up side details and sharp cut lines', category: 'Bodysuits', tags: ['laceup', 'hot', 'bold'] },
+        { id: 'bodysuit_strappy_back', label: 'Strappy Back Bodysuit (hot)', text_en: 'bodysuit with strappy open-back design and geometric lines', category: 'Bodysuits', tags: ['strappy', 'hot', 'bold'] },
+        { id: 'bodysuit_plunge_keyhole', label: 'Plunge Keyhole Bodysuit (hot)', text_en: 'plunge bodysuit with keyhole cutout detail and high-leg line', category: 'Bodysuits', tags: ['cutout', 'hot', 'sexy'] },
         { id: 'catsuit', label: 'Catsuit (hot)', text_en: 'full-length catsuit with body-hugging fit', category: 'Bodysuits', tags: ['catsuit', 'hot', 'bold', 'full'] },
         
         // ══════ CORSETS & BUSTIERS ══════
@@ -127,10 +355,21 @@ const LEXICONS = {
         { id: 'bustier', label: 'Bustier Top', text_en: 'bustier top with structured cups and boning', category: 'Corsets', tags: ['bustier', 'structured', 'sexy'] },
         { id: 'corset_overbust', label: 'Overbust Corset (hot)', text_en: 'overbust corset with dramatic waist cinching', category: 'Corsets', tags: ['overbust', 'hot', 'dramatic'] },
         { id: 'corset_underbust', label: 'Underbust Corset', text_en: 'underbust corset worn with matching bra', category: 'Corsets', tags: ['underbust', 'layered'] },
+        { id: 'corset_with_garters', label: 'Corset + Garters (hot)', text_en: 'corset with attached garter straps', category: 'Corsets', tags: ['corset', 'garter', 'hot', 'bold'] },
+        { id: 'corset_front_zip', label: 'Front-zip Corset (hot)', text_en: 'corset with front zip closure and structured boning', category: 'Corsets', tags: ['corset', 'hot', 'bold'] },
+        { id: 'waist_cincher', label: 'Waist Cincher (hot)', text_en: 'waist cincher corset belt worn over lingerie', category: 'Corsets', tags: ['corset', 'hot', 'edgy'] },
+        { id: 'cupped_corset_bustier', label: 'Cupped Corset Bustier (hot)', text_en: 'cupped corset bustier with structured boning and sculpted fit', category: 'Corsets', tags: ['corset', 'hot', 'sexy'] },
+        { id: 'halter_corset_top', label: 'Halter Corset Top (hot)', text_en: 'halter-style corset top with structured waist and clean lines', category: 'Corsets', tags: ['corset', 'hot', 'bold'] },
+        { id: 'strappy_side_corset', label: 'Strappy Side Corset (hot)', text_en: 'corset with strappy side details and sharp silhouette', category: 'Corsets', tags: ['corset', 'hot', 'bold'] },
+        { id: 'corset_micro_bustier', label: 'Micro Bustier Corset (hot)', text_en: 'micro bustier corset with high-fashion cut and structured waist', category: 'Corsets', tags: ['corset', 'hot', 'bold'] },
+        { id: 'corset_belt_harness', label: 'Corset Belt Harness (hot)', text_en: 'corset belt with harness-style straps over lingerie', category: 'Corsets', tags: ['corset', 'harness', 'hot', 'edgy', 'bold'] },
+        { id: 'laceup_front_corset', label: 'Lace-up Front Corset (hot)', text_en: 'corset with lace-up front detail and structured boning', category: 'Corsets', tags: ['corset', 'hot', 'sexy'] },
         
         // ══════ TEDDIES & CHEMISES ══════
         { id: 'teddy', label: 'Teddy (sexy)', text_en: 'teddy one-piece with high-leg cut', category: 'Teddies', tags: ['teddy', 'sexy', 'onepiece'] },
         { id: 'teddy_open_back', label: 'Open Back Teddy (hot)', text_en: 'open-back teddy with revealing back design', category: 'Teddies', tags: ['teddy', 'hot', 'open_back'] },
+        { id: 'teddy_plunge', label: 'Plunge Teddy (hot)', text_en: 'plunge teddy one-piece with high-leg cut', category: 'Teddies', tags: ['teddy', 'plunge', 'hot', 'sexy'] },
+        { id: 'teddy_strappy', label: 'Strappy Teddy (hot)', text_en: 'strappy teddy one-piece with geometric strap details', category: 'Teddies', tags: ['teddy', 'strappy', 'hot', 'bold'] },
         { id: 'chemise', label: 'Chemise', text_en: 'short chemise nightgown', category: 'Teddies', tags: ['chemise', 'elegant'] },
         { id: 'babydoll', label: 'Babydoll', text_en: 'babydoll with flowing overlay', category: 'Teddies', tags: ['babydoll', 'flowy', 'feminine'] },
         { id: 'cami_shorts', label: 'Cami & Shorts Set', text_en: 'camisole top with matching shorts', category: 'Teddies', tags: ['cami', 'shorts', 'casual'] },
@@ -139,8 +378,11 @@ const LEXICONS = {
         { id: 'bikini_classic', label: 'Classic Bikini', text_en: 'classic bikini two-piece', category: 'Swimwear', tags: ['bikini', 'classic'] },
         { id: 'bikini_string', label: 'String Bikini (hot)', text_en: 'string bikini with minimal coverage', category: 'Swimwear', tags: ['bikini', 'string', 'hot'] },
         { id: 'bikini_highcut', label: 'High-Cut Bikini', text_en: 'high-cut bikini with elongated leg line', category: 'Swimwear', tags: ['bikini', 'highcut', 'sexy'] },
+        { id: 'bikini_strappy', label: 'Strappy Bikini (hot)', text_en: 'strappy bikini with multiple thin straps', category: 'Swimwear', tags: ['bikini', 'strappy', 'hot', 'sexy'] },
+        { id: 'bikini_micro', label: 'Micro Bikini (hot)', text_en: 'micro bikini two-piece with minimal coverage', category: 'Swimwear', tags: ['bikini', 'hot', 'bold'] },
         { id: 'monokini', label: 'Monokini (hot)', text_en: 'monokini one-piece with cutout sides', category: 'Swimwear', tags: ['monokini', 'hot', 'cutout'] },
         { id: 'onepiece_plunge', label: 'Plunge One-Piece', text_en: 'one-piece swimsuit with deep plunge neckline', category: 'Swimwear', tags: ['onepiece', 'plunge', 'sexy'] },
+        { id: 'onepiece_highcut_backless', label: 'Backless High-cut One-piece (hot)', text_en: 'high-cut one-piece swimsuit with open back', category: 'Swimwear', tags: ['onepiece', 'hot', 'sexy', 'open_back'] },
         
         // ══════ DRESSES ══════
         { id: 'mini_dress_bodycon', label: 'Bodycon Mini', text_en: 'skin-tight bodycon mini dress', category: 'Dresses', tags: ['mini', 'bodycon', 'sexy'] },
@@ -149,9 +391,13 @@ const LEXICONS = {
         { id: 'slip_dress', label: 'Slip Dress', text_en: 'slip dress with thin straps', category: 'Dresses', tags: ['slip', 'elegant'] },
         { id: 'cocktail_plunge', label: 'Plunge Cocktail', text_en: 'cocktail dress with deep plunging neckline', category: 'Dresses', tags: ['cocktail', 'plunge', 'sexy'] },
         { id: 'evening_gown_slit', label: 'Evening Gown + Slit', text_en: 'floor-length evening gown with high thigh slit', category: 'Dresses', tags: ['gown', 'slit', 'elegant'] },
+        { id: 'mini_dress_backless', label: 'Backless Mini Dress (hot)', text_en: 'backless mini dress with sleek silhouette', category: 'Dresses', tags: ['mini', 'open_back', 'hot', 'sexy'] },
+        { id: 'mini_dress_ruched', label: 'Ruched Bodycon Mini (hot)', text_en: 'ruched bodycon mini dress, figure-hugging fit', category: 'Dresses', tags: ['mini', 'bodycon', 'hot', 'sexy'] },
+        { id: 'mini_dress_sheer_overlay', label: 'Sheer Overlay Mini (hot)', text_en: 'mini dress with sheer overlay and strategic lining', category: 'Dresses', tags: ['mini', 'sheer', 'hot', 'sexy'] },
         
         // ══════ LAYERING ══════
         { id: 'robe_open', label: 'Open Robe', text_en: 'robe worn open over lingerie', category: 'Layering', tags: ['robe', 'layered'] },
+        { id: 'tailored_blazer_open', label: 'Tailored Blazer (hot)', text_en: 'tailored blazer worn open over lingerie', category: 'Layering', tags: ['blazer', 'hot', 'editorial'] },
         { id: 'kimono_sheer', label: 'Sheer Kimono', text_en: 'sheer kimono worn open over lingerie', category: 'Layering', tags: ['kimono', 'sheer', 'layered'] }
     ],
 
@@ -202,6 +448,23 @@ const LEXICONS = {
     ],
 
     // ─────────────────────────────────────────────────────────────────────────
+    // ACCESSORIES — Jewelry styling (earrings + neck)
+    // ─────────────────────────────────────────────────────────────────────────
+    accessories: [
+        { id: 'none', label: 'None', text_en: '', category: 'None', tags: [] },
+
+        { id: 'delicate_gold_set', label: 'Delicate Gold Set', text_en: 'delicate gold hoop earrings, thin gold chain necklace', category: 'Sets', tags: ['gold', 'classic'] },
+        { id: 'pearl_classic_set', label: 'Pearl Classic Set', text_en: 'pearl stud earrings, single-strand pearl necklace', category: 'Sets', tags: ['pearl', 'classic'] },
+        { id: 'diamond_pendant_set', label: 'Diamond Pendant Set', text_en: 'diamond stud earrings, delicate diamond pendant necklace', category: 'Sets', tags: ['diamond', 'luxe'] },
+
+        { id: 'bold_hoops_chain', label: 'Bold Hoops + Chain (hot)', text_en: 'large gold hoop earrings, collarbone-length chain necklace', category: 'Statement', tags: ['gold', 'hot', 'statement'] },
+        { id: 'crystal_drop_set', label: 'Crystal Drop Earrings', text_en: 'crystal drop earrings, delicate necklace', category: 'Statement', tags: ['crystal', 'glamour'] },
+        { id: 'satin_choker_set', label: 'Satin Choker', text_en: 'sleek satin choker, small hoop earrings', category: 'Statement', tags: ['choker', 'edgy'] },
+        { id: 'layered_fine_chains', label: 'Layered Fine Chains', text_en: 'layered fine chain necklaces, minimalist stud earrings', category: 'Minimal', tags: ['layered', 'minimal'] },
+        { id: 'modern_ear_cuffs', label: 'Modern Ear Cuffs', text_en: 'modern ear cuffs, thin chain necklace', category: 'Modern', tags: ['modern', 'editorial'] }
+    ],
+
+    // ─────────────────────────────────────────────────────────────────────────
     // HOSIERY
     // ─────────────────────────────────────────────────────────────────────────
     hosiery: [
@@ -210,14 +473,16 @@ const LEXICONS = {
         
         // ══════ STOCKINGS ══════
         { id: 'sheer_stockings', label: 'Sheer Stockings', text_en: 'sheer stockings', category: 'Stockings', tags: ['sheer', 'classic', 'sexy'] },
+        { id: 'ultra_sheer_gloss_stockings', label: 'Ultra-sheer Gloss Stockings (hot)', text_en: 'ultra-sheer glossy stockings, subtle sheen on legs', category: 'Stockings', tags: ['sheer', 'hot', 'sexy'] },
         { id: 'lace_top_stockings', label: 'Lace-top Stockings (hot)', text_en: 'lace-top stockings with decorative band', category: 'Stockings', tags: ['lace', 'hot', 'sexy'] },
         { id: 'seamed_stockings', label: 'Seamed Stockings', text_en: 'seamed stockings with back seam', category: 'Stockings', tags: ['seamed', 'vintage', 'sexy'] },
         { id: 'cuban_heel_stockings', label: 'Cuban Heel Stockings', text_en: 'stockings with contrasting Cuban heel', category: 'Stockings', tags: ['cuban', 'vintage', 'sexy'] },
-        { id: 'open_toe_stockings', label: 'Open-toe Stockings', text_en: 'open-toe stockings for strappy sandals', category: 'Stockings', tags: ['open_toe', 'sandal_friendly'] },
+        { id: 'open_toe_stockings', label: 'Open-toe Stockings (hot)', text_en: 'open-toe stockings for strappy sandals', category: 'Stockings', tags: ['open_toe', 'sandal_friendly', 'hot', 'sexy'] },
         
         // ══════ STAY-UPS & HOLD-UPS ══════
         { id: 'thigh_highs', label: 'Thigh-high Stay-ups', text_en: 'thigh-high stay-up stockings', category: 'Stay-ups', tags: ['thigh_high', 'sexy', 'hot'] },
         { id: 'hold_ups_lace', label: 'Lace Hold-ups (hot)', text_en: 'lace-top hold-up stockings', category: 'Stay-ups', tags: ['lace', 'hot', 'sexy'] },
+        { id: 'double_strap_hold_ups', label: 'Double-strap Hold-ups (hot)', text_en: 'double-strap hold-up stockings with bold band detail', category: 'Stay-ups', tags: ['hot', 'bold', 'sexy'] },
         { id: 'suspender_stockings', label: 'Suspender Stockings', text_en: 'stockings with attached suspender belt', category: 'Stay-ups', tags: ['suspender', 'vintage', 'hot'] },
         
         // ══════ FISHNET ══════
@@ -225,11 +490,15 @@ const LEXICONS = {
         { id: 'fishnet_large', label: 'Large Fishnet', text_en: 'large-scale fishnet stockings', category: 'Fishnet', tags: ['fishnet', 'bold', 'edgy'] },
         { id: 'fishnet_seamed', label: 'Seamed Fishnet', text_en: 'fishnet stockings with back seam', category: 'Fishnet', tags: ['fishnet', 'seamed', 'hot'] },
         { id: 'fishnet_tights', label: 'Fishnet Tights (hot)', text_en: 'fishnet tights', category: 'Fishnet', tags: ['fishnet', 'hot', 'bold'] },
+        { id: 'rhinestone_fishnet_tights', label: 'Rhinestone Fishnet (hot)', text_en: 'rhinestone fishnet tights with subtle sparkle', category: 'Fishnet', tags: ['fishnet', 'hot', 'bold', 'statement'] },
         { id: 'micronet_tights', label: 'Micronet Tights', text_en: 'fine micronet tights', category: 'Fishnet', tags: ['micronet', 'subtle', 'sexy'] },
         
         // ══════ TIGHTS ══════
         { id: 'sheer_tights', label: 'Sheer Tights', text_en: 'sheer tights', category: 'Tights', tags: ['sheer', 'subtle'] },
         { id: 'patterned_tights', label: 'Patterned Tights', text_en: 'patterned tights with decorative design', category: 'Tights', tags: ['patterned', 'statement'] },
+        { id: 'garter_illusion_tights', label: 'Garter Illusion Tights (hot)', text_en: 'tights with garter-belt illusion pattern', category: 'Tights', tags: ['patterned', 'hot', 'bold'] },
+        { id: 'lace_pattern_tights', label: 'Lace Pattern Tights (hot)', text_en: 'lace-pattern tights with delicate floral motif', category: 'Tights', tags: ['lace', 'hot', 'sexy', 'statement'] },
+        { id: 'shimmer_sheer_tights', label: 'Shimmer Sheer Tights (hot)', text_en: 'ultra-sheer tights with subtle shimmer', category: 'Tights', tags: ['sheer', 'hot', 'sexy', 'statement'] },
         { id: 'opaque_tights', label: 'Opaque Tights', text_en: 'opaque matte tights', category: 'Tights', tags: ['opaque', 'matte'] }
     ],
 
@@ -241,6 +510,8 @@ const LEXICONS = {
         { id: 'stiletto_pumps', label: 'Stiletto Pumps', text_en: 'pointed-toe stiletto pumps with slim high heel', category: 'Pumps', tags: ['pumps', 'stiletto', 'classic'] },
         { id: 'patent_pumps', label: 'Patent Pumps', text_en: 'patent leather pointed-toe pumps, glossy finish', category: 'Pumps', tags: ['patent', 'glossy', 'sexy'] },
         { id: 'platform_pumps', label: 'Platform Pumps (hot)', text_en: 'platform pumps with ultra-high stiletto heel', category: 'Pumps', tags: ['platform', 'hot', 'dramatic'] },
+        { id: 'peep_toe_pumps', label: 'Peep-toe Pumps (hot)', text_en: 'peep-toe stiletto pumps, ultra-sleek silhouette', category: 'Pumps', tags: ['pumps', 'hot', 'sexy'] },
+        { id: 'ankle_cuff_stilettos', label: 'Ankle-cuff Stilettos (hot)', text_en: 'stiletto heels with bold ankle cuff detail', category: 'Pumps', tags: ['hot', 'bold', 'sexy'] },
         { id: 'red_sole_stilettos', label: 'Red-sole Stilettos', text_en: 'pointed-toe stilettos with signature red sole', category: 'Pumps', tags: ['redsole', 'luxury', 'sexy'] },
         { id: 'slingback_heels', label: 'Slingback Heels', text_en: 'pointed-toe slingback heels with open back', category: 'Pumps', tags: ['slingback', 'elegant'] },
         { id: 'ankle_strap_heels', label: 'Ankle-strap Heels', text_en: 'ankle-strap stilettos with pointed toe', category: 'Pumps', tags: ['ankle_strap', 'elegant'] },
@@ -249,21 +520,27 @@ const LEXICONS = {
         { id: 'strappy_sandals', label: 'Strappy Sandals', text_en: 'strappy sandal heels with thin straps', category: 'Sandals', tags: ['sandals', 'strappy', 'sexy'] },
         { id: 'barely_there', label: 'Barely-there Sandals', text_en: 'barely-there strap sandals with ultra-thin straps', category: 'Sandals', tags: ['minimal', 'elegant', 'sexy'] },
         { id: 'laceup_sandals', label: 'Lace-up Sandals (hot)', text_en: 'lace-up sandal heels wrapping the ankle', category: 'Sandals', tags: ['laceup', 'hot', 'bold'] },
+        { id: 'caged_sandals', label: 'Caged Sandal Heels (hot)', text_en: 'caged sandal heels with strappy cage design', category: 'Sandals', tags: ['sandals', 'hot', 'bold', 'sexy'] },
+        { id: 'toe_ring_sandals', label: 'Toe-ring Sandals (hot)', text_en: 'toe-ring sandal heels, minimal straps, high-fashion finish', category: 'Sandals', tags: ['sandals', 'hot', 'sexy'] },
         { id: 'crystal_sandals', label: 'Crystal-embellished Sandals', text_en: 'strappy sandals with crystal embellishments', category: 'Sandals', tags: ['crystal', 'statement', 'luxe'] },
         
         // ══════ ANKLE BOOTS ══════
         { id: 'ankle_boots', label: 'Stiletto Ankle Boots', text_en: 'pointed-toe stiletto ankle boots', category: 'Ankle Boots', tags: ['boots', 'ankle', 'edgy'] },
         { id: 'ankle_boots_patent', label: 'Patent Ankle Boots', text_en: 'patent leather ankle boots with stiletto heel', category: 'Ankle Boots', tags: ['boots', 'ankle', 'patent', 'glossy'] },
+        { id: 'platform_ankle_boots', label: 'Platform Ankle Boots (hot)', text_en: 'platform ankle boots with ultra-high heel, sharp toe', category: 'Ankle Boots', tags: ['boots', 'platform', 'hot', 'dramatic', 'bold'] },
         { id: 'sock_boots', label: 'Sock Boots', text_en: 'fitted sock-style ankle boots with stiletto heel', category: 'Ankle Boots', tags: ['boots', 'sock', 'modern'] },
         
         // ══════ KNEE-HIGH BOOTS ══════
         { id: 'knee_high_boots', label: 'Knee-high Boots', text_en: 'knee-high stiletto boots', category: 'Knee-high', tags: ['boots', 'knee', 'sexy'] },
         { id: 'knee_high_patent', label: 'Patent Knee-high (hot)', text_en: 'patent leather knee-high stiletto boots, glossy finish', category: 'Knee-high', tags: ['boots', 'patent', 'hot'] },
+        { id: 'knee_high_laceup', label: 'Lace-up Knee-high (hot)', text_en: 'lace-up knee-high stiletto boots, tight fit', category: 'Knee-high', tags: ['boots', 'laceup', 'hot', 'bold'] },
         { id: 'knee_high_suede', label: 'Suede Knee-high', text_en: 'suede knee-high boots with stiletto heel', category: 'Knee-high', tags: ['boots', 'suede', 'elegant'] },
         
         // ══════ THIGH-HIGH BOOTS ══════
         { id: 'thigh_high_boots', label: 'Thigh-high Boots (hot)', text_en: 'over-the-knee thigh-high stiletto boots', category: 'Thigh-high', tags: ['boots', 'thigh', 'hot', 'bold'] },
         { id: 'thigh_high_patent', label: 'Patent Thigh-high (hot)', text_en: 'patent leather thigh-high boots with stiletto heel', category: 'Thigh-high', tags: ['boots', 'patent', 'hot', 'bold'] },
+        { id: 'thigh_high_platform', label: 'Platform Thigh-high (hot)', text_en: 'platform thigh-high boots with ultra-high heel', category: 'Thigh-high', tags: ['boots', 'thigh', 'platform', 'hot', 'dramatic', 'bold'] },
+        { id: 'latex_thigh_high_boots', label: 'Latex-look Thigh-high (hot)', text_en: 'latex-look thigh-high stiletto boots, high-gloss finish', category: 'Thigh-high', tags: ['boots', 'thigh', 'hot', 'bold', 'edgy', 'glossy'] },
         { id: 'thigh_high_suede', label: 'Suede Thigh-high', text_en: 'suede thigh-high boots with stiletto heel', category: 'Thigh-high', tags: ['boots', 'suede', 'sexy'] },
         { id: 'thigh_high_laceup', label: 'Lace-up Thigh-high', text_en: 'thigh-high boots with lace-up back detail', category: 'Thigh-high', tags: ['boots', 'laceup', 'hot', 'bold'] },
         
@@ -388,7 +665,7 @@ const LEXICONS = {
         
         // ══════ ARTISTIC ══════
         { id: 'neon_accent', label: 'Neon Accent', text_en: 'neon accent lights as rim, colored edge highlights', category: 'Artistic', tags: ['neon', 'accent', 'colored'] },
-        { id: 'silhouette', label: 'Silhouette', text_en: 'silhouette backlight setup, subject as dark shape against bright background', category: 'Artistic', tags: ['silhouette', 'artistic'] },
+        { id: 'silhouette', label: 'Silhouette', text_en: 'strong backlight with controlled rim light, subtle silhouette mood, keep facial and body detail visible, clean separation (no glow outline)', category: 'Artistic', tags: ['silhouette', 'backlight', 'artistic'] },
         { id: 'gobo_shadows', label: 'Gobo Shadows', text_en: 'gobo-patterned shadows through blinds or geometric shapes', category: 'Artistic', tags: ['gobo', 'pattern'] }
     ],
 
@@ -420,7 +697,7 @@ const LEXICONS = {
         { id: 'rich_saturated', label: 'Rich Saturated', text_en: 'rich saturated colors, vibrant skin tones, punchy finish', tags: ['saturated', 'vibrant'] },
         { id: 'black_white', label: 'Black & White', text_en: 'black and white conversion, full tonal range, natural grain', tags: ['bw', 'monochrome'] },
         { id: 'sepia_vintage', label: 'Sepia Vintage', text_en: 'sepia-toned vintage look, warm nostalgic finish', tags: ['sepia', 'vintage'] },
-        { id: 'glossy_magazine', label: 'Glossy Magazine', text_en: 'glossy magazine finish, polished skin, controlled specular highlights', tags: ['glossy', 'magazine'] },
+        { id: 'glossy_magazine', label: 'Glossy Magazine', text_en: 'glossy magazine finish, natural skin texture preserved, controlled specular highlights', tags: ['glossy', 'magazine'] },
         { id: 'matte_editorial', label: 'Matte Editorial', text_en: 'matte editorial finish, subdued highlights, fashion-forward', tags: ['matte', 'editorial'] }
     ]
 };
@@ -511,28 +788,27 @@ const VIDEO_LEXICONS = {
 // HAIR COLOR LOCK — Keeps archetype consistency
 // ============================================================================
 
-const HAIR_COLOR_LOCKS = {
-    blonde: {
-        positive: 'Hair color: platinum blonde hair (keep hair color consistent throughout).',
-        negative: 'No brunette hair, no black hair, no red hair, no dark hair.'
-    },
-    dirty_blonde: {
-        positive: 'Hair color: dirty blonde / dark blonde hair (keep hair color consistent throughout).',
-        negative: 'No brunette hair, no black hair, no red hair.'
-    },
-    brunette: {
-        positive: 'Hair color: deep brunette hair (keep hair color consistent throughout).',
-        negative: 'No blonde hair, no red hair.'
-    },
-    redhead: {
-        positive: 'Hair color: rich auburn red hair (keep hair color consistent throughout).',
-        negative: 'No blonde hair, no brunette hair, no black hair.'
-    },
-    black: {
-        positive: 'Hair color: jet black hair (keep hair color consistent throughout).',
-        negative: 'No blonde hair, no red hair, no brown hair.'
-    }
+const HAIR_COLOR_NEGATIVES = {
+    blonde: 'No brunette hair, no black hair, no red hair, no dark hair.',
+    dirty_blonde: 'No brunette hair, no black hair, no red hair.',
+    brunette: 'No blonde hair, no red hair.',
+    redhead: 'No blonde hair, no brunette hair, no black hair.',
+    black: 'No blonde hair, no red hair, no brown hair.'
 };
+
+function buildHairColorLock(archetype) {
+    const hairColor = archetype?.hairColor;
+    const hairShade = archetype?.hairShade;
+    if (!hairColor || !hairShade) return null;
+
+    const negative = HAIR_COLOR_NEGATIVES[hairColor];
+    if (!negative) return null;
+
+    return {
+        positive: `Hair color: ${hairShade} hair (keep hair color consistent throughout).`,
+        negative
+    };
+}
 
 // ============================================================================
 // SAFETY FILTER
@@ -541,34 +817,68 @@ const HAIR_COLOR_LOCKS = {
 class SafetyFilter {
     static FORBIDDEN_NAMES = /\b(a-la|look like|looks like|similar to|resembling|in the style of)\s+[A-Z][a-z]+(?:\s+[A-Z][a-z]+)?\b/gi;
     static MINORS = [/\bteen(?:ager|age)?\b/gi, /\bschool(?:girl|boy|kid|child)\b/gi, /\byoung\s+(?:girl|boy|kid|child|looking)\b/gi, /\bunderage\b/gi, /\bminor\b/gi, /\bvery\s+young\b/gi];
-    static EXPLICIT = [/\b(explicit|genital|sexual\s+act|porn|xxx)\b/gi];
+    // NOTE: Be careful not to destroy safe disclaimers like "non-explicit" or "no sexual act"
+    static EXPLICIT_WORDS = /\b(explicit|genital(?:s)?|porn(?:ographic)?|xxx)\b/gi;
+    static SEXUAL_ACT = /\bsexual\s+act(?:s)?\b/gi;
 
     static filter(input) {
         const warnings = [];
         let text = input;
         let blocked = false;
 
-        if (this.FORBIDDEN_NAMES.test(text)) {
-            text = text.replace(this.FORBIDDEN_NAMES, 'glamour archetype');
+        // NOTE: Avoid RegExp.test() on global regexes (stateful lastIndex)
+        const afterNames = text.replace(this.FORBIDDEN_NAMES, 'glamour archetype');
+        if (afterNames !== text) {
+            text = afterNames;
             warnings.push('Look-alike references removed.');
             blocked = true;
         }
 
+        let minorsRemoved = false;
         for (const pattern of this.MINORS) {
-            if (pattern.test(text)) {
-                text = text.replace(pattern, '');
-                warnings.push('Minors references removed.');
+            const after = text.replace(pattern, '');
+            if (after !== text) {
+                text = after;
+                minorsRemoved = true;
                 blocked = true;
             }
         }
+        if (minorsRemoved) warnings.push('Minors references removed.');
 
-        for (const pattern of this.EXPLICIT) {
-            if (pattern.test(text)) {
-                text = text.replace(pattern, '');
-                warnings.push('Explicit content removed.');
+        let explicitRemoved = false;
+        // Remove explicit terms, but keep negated/safe contexts like:
+        // - "non-explicit"
+        // - "no explicit nudity"
+        // - "no sexual act"
+        text = text.replace(this.EXPLICIT_WORDS, (match, _group, offset, str) => {
+            const lower = match.toLowerCase();
+            const prev3 = str.slice(Math.max(0, offset - 3), offset).toLowerCase(); // "no "
+            const prev4 = str.slice(Math.max(0, offset - 4), offset).toLowerCase(); // "non-" / "not "
+            const prev5 = str.slice(Math.max(0, offset - 5), offset).toLowerCase(); // "non "
+
+            const isNegated = prev3 === 'no ' || prev4 === 'not ';
+
+            // Keep "non-explicit" and similar safe phrasing
+            if (lower === 'explicit' && (prev4 === 'non-' || prev5 === 'non ' || isNegated)) return match;
+
+            // Keep "no porn", "no xxx", etc.
+            if (lower !== 'explicit' && isNegated) return match;
+
+            explicitRemoved = true;
                 blocked = true;
-            }
-        }
+            return '';
+        });
+
+        text = text.replace(this.SEXUAL_ACT, (match, offset, str) => {
+            const prev3 = str.slice(Math.max(0, offset - 3), offset).toLowerCase(); // "no "
+            const prev4 = str.slice(Math.max(0, offset - 4), offset).toLowerCase(); // "not "
+            const isNegated = prev3 === 'no ' || prev4 === 'not ';
+            if (isNegated) return match;
+            explicitRemoved = true;
+            blocked = true;
+            return '';
+        });
+        if (explicitRemoved) warnings.push('Explicit content removed.');
 
         // Normalize spaces but preserve newlines
         const sanitized = text
@@ -598,6 +908,28 @@ class SeededRNG {
         return array[Math.floor(this.next() * array.length)];
     }
 
+    pickWeighted(array, getWeight) {
+        if (!Array.isArray(array) || array.length === 0) return null;
+        if (typeof getWeight !== 'function') return this.pick(array);
+
+        let total = 0;
+        const weights = array.map(item => {
+            const raw = getWeight(item);
+            const w = Number.isFinite(raw) ? Math.max(0, raw) : 0;
+            total += w;
+            return w;
+        });
+
+        if (total <= 0) return this.pick(array);
+
+        let r = this.next() * total;
+        for (let i = 0; i < array.length; i++) {
+            r -= weights[i];
+            if (r <= 0) return array[i];
+        }
+        return array[array.length - 1];
+    }
+
     getSeed() {
         return this.seed;
     }
@@ -610,6 +942,158 @@ class SeededRNG {
 class PromptGenerator {
     constructor() {
         this.rng = new SeededRNG();
+    }
+
+    normalizeBoldness(value) {
+        return clampBoldnessIndex(value);
+    }
+
+    weightByTags(item, boldness, tagKeys = []) {
+        if (!item) return 1;
+        const b = this.normalizeBoldness(boldness);
+        let w = 1;
+        const tags = Array.isArray(item.tags) ? item.tags : [];
+
+        for (const key of tagKeys) {
+            if (!tags.includes(key)) continue;
+            const mult = TAG_WEIGHT_MULTIPLIERS[key]?.[b];
+            if (Number.isFinite(mult)) w *= mult;
+        }
+
+        return w;
+    }
+
+    weightMakeup(makeup, boldness) {
+        if (!makeup) return 1;
+        const b = this.normalizeBoldness(boldness);
+        let w = this.weightByTags(makeup, b, ['hot', 'bold', 'noir', 'sexy']);
+
+        // Prefer more "night/noir/statement" as boldness grows, but keep it non-blocking (weights only)
+        const cat = makeup.category;
+        if (cat === 'Natural & Fresh') w *= [1.6, 1.2, 0.9, 0.6, 0.5][b];
+        if (cat === 'Classic Glam') w *= [1.2, 1.1, 1.0, 1.0, 1.0][b];
+        if (cat === 'Night & Smoky') w *= [0.4, 0.8, 1.2, 1.6, 2.0][b];
+        if (cat === 'Editorial') w *= [1.0, 1.0, 1.1, 1.25, 1.35][b];
+        if (cat === 'Chic / Vintage') w *= [1.1, 1.1, 1.0, 0.9, 0.8][b];
+        if (cat === 'Noir / Statement') w *= [0.5, 0.8, 1.1, 1.6, 2.0][b];
+
+        if (makeup.id === 'auto') w *= 0.55;
+        return w;
+    }
+
+    weightHair(hair, boldness) {
+        if (!hair) return 1;
+        const b = this.normalizeBoldness(boldness);
+        let w = this.weightByTags(hair, b, ['hot', 'bold', 'sexy', 'edgy']);
+        if (hair.id === 'auto') w *= 0.65;
+        return w;
+    }
+
+    weightOutfit(outfit, boldness) {
+        if (!outfit) return 1;
+        const b = this.normalizeBoldness(boldness);
+        return this.weightByTags(outfit, b, ['hot', 'bold', 'sexy', 'edgy']);
+    }
+
+    weightMaterial(material, boldness) {
+        if (!material) return 1;
+        const b = this.normalizeBoldness(boldness);
+        let w = this.weightByTags(material, b, ['bold', 'edgy']);
+
+        // Softer fabrics at low boldness, edgier/glossy at high boldness
+        if (material.id === 'cotton') w *= [1.4, 1.2, 1.0, 0.7, 0.6][b];
+        if (material.id === 'lace') w *= [1.2, 1.1, 1.0, 0.95, 0.9][b];
+        if (material.id === 'latex' || material.id === 'leather' || material.id === 'pvc') w *= [0.35, 0.7, 1.1, 1.6, 2.0][b];
+        if (material.finish === 'sparkle') w *= [0.7, 0.9, 1.1, 1.3, 1.45][b];
+
+        return w;
+    }
+
+    weightHosiery(hosiery, boldness) {
+        if (!hosiery) return 1;
+        const b = this.normalizeBoldness(boldness);
+        let w = this.weightByTags(hosiery, b, ['hot', 'bold', 'sexy']);
+        if (hosiery.id === 'none') w *= [1.3, 1.1, 0.95, 0.8, 0.7][b];
+        return w;
+    }
+
+    weightFootwear(footwear, boldness) {
+        if (!footwear) return 1;
+        const b = this.normalizeBoldness(boldness);
+        return this.weightByTags(footwear, b, ['hot', 'bold', 'sexy', 'edgy']);
+    }
+
+    weightAccessories(accessories, boldness) {
+        if (!accessories) return 1;
+        const b = this.normalizeBoldness(boldness);
+        let w = this.weightByTags(accessories, b, ['hot', 'bold', 'sexy', 'edgy']);
+        if (accessories.id === 'none') w *= [1.2, 1.05, 0.95, 0.85, 0.8][b];
+        return w;
+    }
+
+    weightLighting(lighting, boldness) {
+        if (!lighting) return 1;
+        const b = this.normalizeBoldness(boldness);
+        let w = 1;
+
+        // Category bias: more dramatic/artistic as boldness grows
+        if (lighting.category === 'Soft') w *= [1.6, 1.35, 1.0, 0.8, 0.7][b];
+        if (lighting.category === 'Natural') w *= [1.2, 1.1, 1.0, 0.9, 0.85][b];
+        if (lighting.category === 'Dramatic') w *= [0.85, 1.0, 1.2, 1.5, 1.7][b];
+        if (lighting.category === 'Artistic') w *= [0.75, 0.9, 1.1, 1.4, 1.6][b];
+
+        // Tag bias
+        const tags = Array.isArray(lighting.tags) ? lighting.tags : [];
+        if (tags.includes('low_key')) w *= [0.8, 1.0, 1.15, 1.35, 1.5][b];
+        if (tags.includes('neon')) w *= [0.6, 0.9, 1.1, 1.25, 1.35][b];
+        if (tags.includes('backlight')) w *= [0.9, 1.0, 1.05, 1.12, 1.15][b];
+        if (tags.includes('silhouette')) w *= 0.85; // keep a bit rarer (artifact-prone)
+
+        return w;
+    }
+
+    weightArtDirection(artDirection, boldness) {
+        if (!artDirection) return 1;
+        const b = this.normalizeBoldness(boldness);
+        let w = this.weightByTags(artDirection, b, ['hot', 'bold', 'edgy', 'noir']);
+
+        const tags = Array.isArray(artDirection.tags) ? artDirection.tags : [];
+        if (tags.includes('night')) w *= [0.8, 1.0, 1.15, 1.25, 1.35][b];
+        if (tags.includes('cinematic')) w *= [0.9, 1.0, 1.1, 1.2, 1.25][b];
+        if (tags.includes('seductive') || tags.includes('sultry')) w *= [0.6, 0.9, 1.15, 1.45, 1.65][b];
+        if (tags.includes('intimate')) w *= [0.9, 1.0, 1.1, 1.15, 1.2][b];
+
+        return w;
+    }
+
+    weightPose(pose, boldness) {
+        if (!pose) return 1;
+        const b = this.normalizeBoldness(boldness);
+        // Pose tags already encode vibe; bias gently
+        let w = this.weightByTags(pose, b, ['sexy', 'bold']);
+        const tags = Array.isArray(pose.tags) ? pose.tags : [];
+        if (tags.includes('teasing')) w *= [1.0, 1.2, 1.1, 1.0, 1.0][b];
+        if (tags.includes('power')) w *= [0.9, 1.0, 1.1, 1.25, 1.35][b];
+        return w;
+    }
+
+    weightColorGrade(colorGrade, boldness) {
+        if (!colorGrade) return 1;
+        const b = this.normalizeBoldness(boldness);
+        let w = 1;
+        const tags = Array.isArray(colorGrade.tags) ? colorGrade.tags : [];
+        if (tags.includes('natural')) w *= [1.2, 1.1, 1.0, 0.9, 0.85][b];
+        if (tags.includes('contrast') || tags.includes('punchy')) w *= [0.85, 1.0, 1.15, 1.3, 1.4][b];
+        if (tags.includes('glossy') || tags.includes('magazine')) w *= [0.8, 1.0, 1.1, 1.2, 1.3][b];
+        if (tags.includes('matte') || tags.includes('editorial')) w *= [1.0, 1.0, 1.05, 1.1, 1.12][b];
+        if (tags.includes('bw') || tags.includes('monochrome')) w *= [0.95, 1.0, 1.05, 1.1, 1.15][b];
+        return w;
+    }
+
+    weightArchetype(archetype, boldness) {
+        if (!archetype) return 1;
+        // "hot" archetypes more common at higher boldness, but still allow variety
+        return this.weightByTags(archetype, boldness, ['hot', 'sexy', 'noir', 'edgy', 'bold']);
     }
 
     generate(state) {
@@ -637,7 +1121,7 @@ class PromptGenerator {
             promptParts.push(`adult woman (25+), ${archetype.text_en}`);
             
             // 5. HAIR COLOR LOCK
-            const hairLock = HAIR_COLOR_LOCKS[archetype.hairColor];
+            const hairLock = buildHairColorLock(archetype);
             if (hairLock) {
                 promptParts.push(hairLock.positive);
                 negativeParts.push(hairLock.negative);
@@ -646,16 +1130,24 @@ class PromptGenerator {
             promptParts.push('adult woman (25+)');
         }
 
-        // 6. HAIR (if not auto)
-        const hair = this.findById(LEXICONS.hair, state.hair);
-        if (hair && hair.id !== 'auto' && hair.text_en) {
-            promptParts.push(`Hair: ${hair.text_en}`);
+        // 6. HAIR (auto -> from archetype defaults)
+        const hairSelected = this.findById(LEXICONS.hair, state.hair);
+        const hairResolved = this.resolveAutoChoice(hairSelected, archetype?.defaultHair, LEXICONS.hair);
+        if (hairResolved && hairResolved.text_en) {
+            promptParts.push(`Hair: ${hairResolved.text_en}`);
         }
 
-        // 7. MAKEUP (if not auto)
-        const makeup = this.findById(LEXICONS.makeup, state.makeup);
-        if (makeup && makeup.id !== 'auto' && makeup.text_en) {
-            promptParts.push(`Makeup: ${makeup.text_en}`);
+        // 7. MAKEUP (auto -> from archetype defaults)
+        const makeupSelected = this.findById(LEXICONS.makeup, state.makeup);
+        const makeupResolved = this.resolveAutoChoice(makeupSelected, archetype?.defaultMakeup, LEXICONS.makeup);
+        if (makeupResolved && makeupResolved.text_en) {
+            promptParts.push(`Makeup: ${makeupResolved.text_en}`);
+        }
+
+        // 7.5 ACCESSORIES
+        const accessories = this.findById(LEXICONS.accessories, state.accessories);
+        if (accessories && accessories.id !== 'none' && accessories.text_en) {
+            promptParts.push(`Accessories: ${accessories.text_en}`);
         }
 
         // 8. WARDROBE ASSEMBLY
@@ -696,6 +1188,12 @@ class PromptGenerator {
 
         // BUILD NEGATIVE
         negativeParts.push('No explicit nudity, no sexual act, no minors.');
+        negativeParts.push('No overweight, no obese, no plus-size.');
+
+        // Backlight-heavy setups sometimes create a weird glow/outline "cutout" around the subject
+        if (lighting && Array.isArray(lighting.tags) && (lighting.tags.includes('backlight') || lighting.tags.includes('silhouette'))) {
+            negativeParts.push('No halo, no glowing outline, no aura, no edge glow, no cutout silhouette, no light bleed.');
+        }
         
         if (state.enforceFullLength) {
             negativeParts.push('No close-up, no portrait crop, no half-body, no cropped head, no cropped feet, no out-of-frame shoes/boots.');
@@ -724,6 +1222,14 @@ class PromptGenerator {
             },
             warnings: safetyResult.warnings
         };
+    }
+
+    resolveAutoChoice(selectedItem, defaultIds, lexiconArray) {
+        if (!selectedItem) return null;
+        if (selectedItem.id !== 'auto') return selectedItem;
+        if (!defaultIds || defaultIds.length === 0) return null;
+        const resolved = this.findById(lexiconArray, defaultIds[0]);
+        return resolved || null;
     }
 
     assembleWardrobe(state) {
@@ -776,43 +1282,63 @@ class PromptGenerator {
     }
 
     randomize() {
+        const boldness = this.normalizeBoldness(1);
+        return this.randomizeWithBoldness(boldness);
+    }
+
+    randomizeWithBoldness(boldness) {
+        const b = this.normalizeBoldness(boldness);
         return {
-            archetype: this.rng.pick(LEXICONS.archetypes).id,
-            hair: this.rng.pick(LEXICONS.hair).id,
-            makeup: this.rng.pick(LEXICONS.makeup).id,
-            outfit: this.rng.pick(LEXICONS.outfits).id,
+            archetype: this.rng.pickWeighted(LEXICONS.archetypes, a => this.weightArchetype(a, b)).id,
+            hair: this.rng.pickWeighted(LEXICONS.hair, h => this.weightHair(h, b)).id,
+            makeup: this.rng.pickWeighted(LEXICONS.makeup, m => this.weightMakeup(m, b)).id,
+            outfit: this.rng.pickWeighted(LEXICONS.outfits, o => this.weightOutfit(o, b)).id,
             color: this.rng.pick(LEXICONS.colors).id,
-            material: this.rng.pick(LEXICONS.materials).id,
-            hosiery: this.rng.pick(LEXICONS.hosiery).id,
-            footwear: this.rng.pick(LEXICONS.footwear).id,
+            material: this.rng.pickWeighted(LEXICONS.materials, m => this.weightMaterial(m, b)).id,
+            accessories: this.rng.pickWeighted(LEXICONS.accessories, a => this.weightAccessories(a, b)).id,
+            hosiery: this.rng.pickWeighted(LEXICONS.hosiery, h => this.weightHosiery(h, b)).id,
+            footwear: this.rng.pickWeighted(LEXICONS.footwear, f => this.weightFootwear(f, b)).id,
             setting: this.rng.pick(LEXICONS.settings).id,
-            artDirection: this.rng.pick(LEXICONS.artDirections).id,
-            pose: this.rng.pick(LEXICONS.poses).id,
-            lighting: this.rng.pick(LEXICONS.lighting).id,
+            artDirection: this.rng.pickWeighted(LEXICONS.artDirections, a => this.weightArtDirection(a, b)).id,
+            pose: this.rng.pickWeighted(LEXICONS.poses, p => this.weightPose(p, b)).id,
+            lighting: this.rng.pickWeighted(LEXICONS.lighting, l => this.weightLighting(l, b)).id,
             camera: this.rng.pick(LEXICONS.camera).id,
-            colorGrade: this.rng.pick(LEXICONS.colorGrades).id
+            colorGrade: this.rng.pickWeighted(LEXICONS.colorGrades, cg => this.weightColorGrade(cg, b)).id
         };
     }
 
     // Randomize only look (outfit, material, hosiery, footwear)
     randomizeLook() {
+        const boldness = this.normalizeBoldness(1);
+        return this.randomizeLookWithBoldness(boldness);
+    }
+
+    randomizeLookWithBoldness(boldness) {
+        const b = this.normalizeBoldness(boldness);
         return {
-            outfit: this.rng.pick(LEXICONS.outfits).id,
-            material: this.rng.pick(LEXICONS.materials).id,
-            hosiery: this.rng.pick(LEXICONS.hosiery).id,
-            footwear: this.rng.pick(LEXICONS.footwear).id
+            outfit: this.rng.pickWeighted(LEXICONS.outfits, o => this.weightOutfit(o, b)).id,
+            material: this.rng.pickWeighted(LEXICONS.materials, m => this.weightMaterial(m, b)).id,
+            accessories: this.rng.pickWeighted(LEXICONS.accessories, a => this.weightAccessories(a, b)).id,
+            hosiery: this.rng.pickWeighted(LEXICONS.hosiery, h => this.weightHosiery(h, b)).id,
+            footwear: this.rng.pickWeighted(LEXICONS.footwear, f => this.weightFootwear(f, b)).id
         };
     }
 
     // Randomize only scene (setting, art direction, pose, lighting, camera, color grade)
     randomizeScene() {
+        const boldness = this.normalizeBoldness(1);
+        return this.randomizeSceneWithBoldness(boldness);
+    }
+
+    randomizeSceneWithBoldness(boldness) {
+        const b = this.normalizeBoldness(boldness);
         return {
             setting: this.rng.pick(LEXICONS.settings).id,
-            artDirection: this.rng.pick(LEXICONS.artDirections).id,
-            pose: this.rng.pick(LEXICONS.poses).id,
-            lighting: this.rng.pick(LEXICONS.lighting).id,
+            artDirection: this.rng.pickWeighted(LEXICONS.artDirections, a => this.weightArtDirection(a, b)).id,
+            pose: this.rng.pickWeighted(LEXICONS.poses, p => this.weightPose(p, b)).id,
+            lighting: this.rng.pickWeighted(LEXICONS.lighting, l => this.weightLighting(l, b)).id,
             camera: this.rng.pick(LEXICONS.camera).id,
-            colorGrade: this.rng.pick(LEXICONS.colorGrades).id
+            colorGrade: this.rng.pickWeighted(LEXICONS.colorGrades, cg => this.weightColorGrade(cg, b)).id
         };
     }
 }
@@ -966,9 +1492,13 @@ class VideoPromptGenerator {
 
     buildSubjectDescription(state) {
         const parts = [];
+        parts.push('adult woman (25+)');
         
         const archetype = this.findById(LEXICONS.archetypes, state.archetype);
         if (archetype) {
+            if (archetype.hairShade) {
+                parts.push(`${archetype.hairShade} hair`);
+            }
             // Extract key physical traits
             parts.push(archetype.text_en.split(',').slice(0, 2).join(','));
         }
@@ -1044,7 +1574,7 @@ const ADAPTERS = {
                 promptText = `${framingPrefix}\n${promptText}`;
             }
             const cropGuards = 'No close-up, no portrait crop, no half-body, no cropped head, no cropped feet, no out-of-frame shoes/boots.';
-            if (!negativeText.includes('no close-up')) {
+            if (!/no close-up/i.test(negativeText)) {
                 negativeText = `${cropGuards}\n${negativeText}`;
             }
         }
@@ -1096,6 +1626,8 @@ class UIController {
         this.setupColorPalette();
         this.setupEventListeners();
         this.setupDefaults();
+        this.updateCharacterHints();
+        this.applyOutfitHeatFilter();
     }
 
     populateSelectors() {
@@ -1106,6 +1638,7 @@ class UIController {
             makeup: LEXICONS.makeup,
             outfit: LEXICONS.outfits,
             material: LEXICONS.materials,
+            accessories: LEXICONS.accessories,
             hosiery: LEXICONS.hosiery,
             footwear: LEXICONS.footwear,
             setting: LEXICONS.settings,
@@ -1283,8 +1816,11 @@ class UIController {
     createDropdownItem(item, dropdown, trigger, hiddenInput) {
         const itemDiv = document.createElement('div');
         itemDiv.className = 'dropdown-item';
-        if (item.tags && item.tags.includes('hot')) {
-            itemDiv.classList.add('hot');
+        const moduleName = hiddenInput?.id || dropdown?.dataset?.module || '';
+        if (['outfit', 'hosiery', 'footwear', 'accessories'].includes(moduleName)) {
+            const heat = getHeatLevel(item);
+            itemDiv.dataset.heat = String(heat);
+            if (heat > 0) itemDiv.classList.add(`heat-${heat}`);
         }
         itemDiv.dataset.value = item.id;
         itemDiv.textContent = item.label;
@@ -1300,6 +1836,8 @@ class UIController {
             
             // Close dropdown
             dropdown.classList.remove('open');
+
+            this.onSelectionChanged(hiddenInput.id);
         });
         
         return itemDiv;
@@ -1441,6 +1979,12 @@ class UIController {
             boldnessDescription.textContent = level.modifier.split(',').slice(0, 2).join(', ');
         });
 
+        // Outfit heat filter (hide non-hot options)
+        const outfitHeatFilter = document.getElementById('outfitHeatFilter');
+        if (outfitHeatFilter) {
+            outfitHeatFilter.addEventListener('change', () => this.applyOutfitHeatFilter());
+        }
+
         // Generate button
         document.getElementById('generateBtn').addEventListener('click', () => this.handleGenerate());
         
@@ -1477,6 +2021,30 @@ class UIController {
 
         // Export metadata
         document.getElementById('exportMetadataBtn').addEventListener('click', () => this.exportMetadata());
+
+        // Style hints: apply suggestion chips (event delegation)
+        const hints = document.getElementById('characterHints');
+        if (hints) {
+            hints.addEventListener('click', (e) => {
+                const chip = e.target.closest('.hint-chip');
+                if (!chip) return;
+                const moduleName = chip.dataset.applyModule;
+                const applyId = chip.dataset.applyId;
+                if (!moduleName || !applyId) return;
+                this.updateDropdownValue(moduleName, applyId);
+                this.updateCharacterHints();
+            });
+        }
+
+        // Collapsible sections
+        document.querySelectorAll('.collapsible-section').forEach(section => {
+            const header = section.querySelector('.section-header');
+            if (header) {
+                header.addEventListener('click', () => {
+                    section.classList.toggle('collapsed');
+                });
+            }
+        });
     }
 
     setupDefaults() {
@@ -1501,6 +2069,7 @@ class UIController {
             outfit: document.getElementById('outfit').value,
             color: document.getElementById('selectedColor').value,
             material: document.getElementById('material').value,
+            accessories: document.getElementById('accessories')?.value || 'none',
             hosiery: document.getElementById('hosiery').value,
             footwear: document.getElementById('footwear').value,
             setting: document.getElementById('setting').value,
@@ -1531,7 +2100,8 @@ class UIController {
     }
 
     handleRandomize() {
-        const randomSelections = this.generator.randomize();
+        const boldness = parseInt(document.getElementById('boldness')?.value) || 1;
+        const randomSelections = this.generator.randomizeWithBoldness(boldness);
 
         // Apply to UI
         Object.entries(randomSelections).forEach(([key, value]) => {
@@ -1551,7 +2121,8 @@ class UIController {
 
     handleRandomizeLook() {
         // Randomize only look (outfit, material, hosiery, footwear)
-        const randomSelections = this.generator.randomizeLook();
+        const boldness = parseInt(document.getElementById('boldness')?.value) || 1;
+        const randomSelections = this.generator.randomizeLookWithBoldness(boldness);
 
         // Apply to UI
         Object.entries(randomSelections).forEach(([key, value]) => {
@@ -1564,7 +2135,8 @@ class UIController {
 
     handleRandomizeScene() {
         // Randomize only scene (setting, pose, lighting, camera, etc.)
-        const randomSelections = this.generator.randomizeScene();
+        const boldness = parseInt(document.getElementById('boldness')?.value) || 1;
+        const randomSelections = this.generator.randomizeSceneWithBoldness(boldness);
 
         // Apply to UI
         Object.entries(randomSelections).forEach(([key, value]) => {
@@ -1640,6 +2212,7 @@ class UIController {
             makeup: LEXICONS.makeup,
             outfit: LEXICONS.outfits,
             material: LEXICONS.materials,
+            accessories: LEXICONS.accessories,
             hosiery: LEXICONS.hosiery,
             footwear: LEXICONS.footwear,
             setting: LEXICONS.settings,
@@ -1664,6 +2237,197 @@ class UIController {
                 el.classList.toggle('selected', el.dataset.value === value);
             });
         }
+
+        this.onSelectionChanged(moduleName);
+    }
+
+    onSelectionChanged(moduleName) {
+        if (moduleName === 'pose') {
+            // Keep video subject motion options in sync (also works for Randomize Scene)
+            this.updateSubjectMotionOptions();
+        }
+        if (moduleName === 'outfit') {
+            this.applyOutfitHeatFilter();
+        }
+        if (moduleName === 'archetype' || moduleName === 'hair' || moduleName === 'makeup') {
+            this.updateCharacterHints();
+        }
+    }
+
+    applyOutfitHeatFilter() {
+        const filter = document.getElementById('outfitHeatFilter')?.value || 'all';
+        const threshold = filter === 'hot' ? 2 : filter === 'super' ? 3 : 0;
+
+        const dropdown = document.querySelector('.custom-dropdown[data-module="outfit"]');
+        const panel = dropdown?.querySelector('.dropdown-panel');
+        const currentValue = document.getElementById('outfit')?.value || '';
+
+        if (!panel) return;
+
+        const applyToItem = (itemEl) => {
+            const heat = parseInt(itemEl.dataset.heat || '0', 10);
+            const value = itemEl.dataset.value || '';
+            const shouldShow = value === currentValue || heat >= threshold;
+            itemEl.style.display = shouldShow ? '' : 'none';
+            return shouldShow;
+        };
+
+        const groups = panel.querySelectorAll('.dropdown-group');
+        if (groups.length > 0) {
+            groups.forEach(group => {
+                const items = Array.from(group.querySelectorAll('.dropdown-item'));
+                let anyVisible = false;
+                for (const itemEl of items) {
+                    if (applyToItem(itemEl)) anyVisible = true;
+                }
+                group.style.display = anyVisible ? '' : 'none';
+            });
+        } else {
+            const items = Array.from(panel.querySelectorAll('.dropdown-item'));
+            items.forEach(applyToItem);
+        }
+    }
+
+    updateCharacterHints() {
+        const container = document.getElementById('characterHints');
+        if (!container) return;
+
+        const archetypeId = document.getElementById('archetype')?.value;
+        const hairId = document.getElementById('hair')?.value;
+        const makeupId = document.getElementById('makeup')?.value;
+
+        const archetype = this.generator.findById(LEXICONS.archetypes, archetypeId);
+        const hairSelected = this.generator.findById(LEXICONS.hair, hairId);
+        const makeupSelected = this.generator.findById(LEXICONS.makeup, makeupId);
+
+        // Resolve Auto using archetype recommendations (same logic as generator)
+        const hairResolved = this.generator.resolveAutoChoice(hairSelected, archetype?.defaultHair, LEXICONS.hair);
+        const makeupResolved = this.generator.resolveAutoChoice(makeupSelected, archetype?.defaultMakeup, LEXICONS.makeup);
+
+        if (!archetype || !hairResolved || !makeupResolved) {
+            container.style.display = 'none';
+            container.innerHTML = '';
+            return;
+        }
+
+        const archetypeVibes = getArchetypeVibes(archetype);
+
+        const hints = [];
+
+        // Hair hint (manual only)
+        if (hairSelected && hairSelected.id !== 'auto') {
+            const recommendedHairIds = archetype.defaultHair || [];
+            const isRecommended = recommendedHairIds.includes(hairResolved.id);
+
+            const hairVibes = getHairVibes(hairResolved);
+            const overlap = intersectCount(archetypeVibes, hairVibes);
+
+            if (!isRecommended || overlap === 0) {
+                const suggestions = this.getTopHairSuggestions(archetypeVibes, recommendedHairIds, hairResolved.id);
+                hints.push({
+                    icon: '✨',
+                    title: 'Hair vibe note',
+                    text: `Nice contrast. Archetype leans <strong>${formatVibes(archetypeVibes)}</strong>, while this hair reads <strong>${formatVibes(hairVibes) || 'neutral'}</strong>. If you want a more coherent archetype look:`,
+                    chips: suggestions.map(h => ({ module: 'hair', id: h.id, label: h.label }))
+                });
+            }
+        }
+
+        // Makeup hint (manual only)
+        if (makeupSelected && makeupSelected.id !== 'auto') {
+            const recommendedMakeupIds = archetype.defaultMakeup || [];
+            const isRecommended = recommendedMakeupIds.includes(makeupResolved.id);
+
+            const makeupVibes = getMakeupVibes(makeupResolved);
+            const overlap = intersectCount(archetypeVibes, makeupVibes);
+
+            if (!isRecommended || overlap === 0) {
+                const suggestions = this.getTopMakeupSuggestions(archetypeVibes, recommendedMakeupIds, makeupResolved.id);
+                hints.push({
+                    icon: '💫',
+                    title: 'Makeup vibe note',
+                    text: `This pairing is a bit more contrasty. Archetype leans <strong>${formatVibes(archetypeVibes)}</strong>, while this makeup reads <strong>${formatVibes(makeupVibes) || 'neutral'}</strong>. If you want it to feel more “one model”:`,
+                    chips: suggestions.map(m => ({ module: 'makeup', id: m.id, label: m.label }))
+                });
+            }
+        }
+
+        if (hints.length === 0) {
+            container.style.display = 'none';
+            container.innerHTML = '';
+            return;
+        }
+
+        container.style.display = 'block';
+        container.innerHTML = `
+            <div class="style-hints-header">
+                <div class="style-hints-title">✨ Style hints</div>
+                <div class="style-hints-subtitle">optional, non-blocking</div>
+            </div>
+            ${hints.map(h => `
+                <div class="hint-item">
+                    <div class="hint-icon">${h.icon}</div>
+                    <div class="hint-content">
+                        <div class="hint-title">${h.title}</div>
+                        <div class="hint-text">${h.text}</div>
+                        ${h.chips && h.chips.length > 0 ? `
+                            <div class="hint-chips">
+                                ${h.chips.map(c => `
+                                    <button type="button" class="hint-chip" data-apply-module="${c.module}" data-apply-id="${c.id}">
+                                        <span class="chip-action">Apply</span>
+                                        <span>${c.label}</span>
+                                    </button>
+                                `).join('')}
+                            </div>
+                        ` : ''}
+                    </div>
+                </div>
+            `).join('')}
+        `;
+    }
+
+    getTopHairSuggestions(archetypeVibes, recommendedIds, excludeId) {
+        const candidates = LEXICONS.hair.filter(h => h.id !== 'auto' && h.id !== excludeId);
+        const ranked = candidates
+            .map(h => {
+                const score = intersectCount(archetypeVibes, getHairVibes(h));
+                const bonus = recommendedIds?.includes(h.id) ? 2 : 0;
+                return { h, score: score + bonus };
+            })
+            .sort((a, b) => b.score - a.score);
+
+        const out = [];
+        for (const id of (recommendedIds || [])) {
+            const item = candidates.find(h => h.id === id);
+            if (item && item.id !== excludeId) out.push(item);
+        }
+        for (const r of ranked) {
+            if (out.length >= 3) break;
+            if (!out.some(x => x.id === r.h.id)) out.push(r.h);
+        }
+        return out.slice(0, 3);
+    }
+
+    getTopMakeupSuggestions(archetypeVibes, recommendedIds, excludeId) {
+        const candidates = LEXICONS.makeup.filter(m => m.id !== 'auto' && m.id !== excludeId);
+        const ranked = candidates
+            .map(m => {
+                const score = intersectCount(archetypeVibes, getMakeupVibes(m));
+                const bonus = recommendedIds?.includes(m.id) ? 2 : 0;
+                return { m, score: score + bonus };
+            })
+            .sort((a, b) => b.score - a.score);
+
+        const out = [];
+        for (const id of (recommendedIds || [])) {
+            const item = candidates.find(m => m.id === id);
+            if (item && item.id !== excludeId) out.push(item);
+        }
+        for (const r of ranked) {
+            if (out.length >= 3) break;
+            if (!out.some(x => x.id === r.m.id)) out.push(r.m);
+        }
+        return out.slice(0, 3);
     }
 
     displayResult(result) {

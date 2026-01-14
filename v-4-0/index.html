@@ -22,10 +22,13 @@
         <main class="main">
             <div class="controls-panel">
                 <!-- ENGINE SECTION -->
-                <section class="control-section" id="engineSection">
+                <section class="control-section collapsible-section" id="engineSection">
                     <div class="section-header">
-                        <span class="section-icon">⚙️</span>
-                        <h2>Engine</h2>
+                        <div class="header-title">
+                            <span class="section-icon">⚙️</span>
+                            <h2>Engine</h2>
+                        </div>
+                        <span class="section-toggle">▼</span>
                     </div>
                     <div class="section-content">
                         <div class="form-row form-row-3">
@@ -60,10 +63,13 @@
                 </section>
 
                 <!-- CHARACTER SECTION -->
-                <section class="control-section" id="characterSection">
+                <section class="control-section collapsible-section" id="characterSection">
                     <div class="section-header">
-                        <span class="section-icon">👤</span>
-                        <h2>Character</h2>
+                        <div class="header-title">
+                            <span class="section-icon">👤</span>
+                            <h2>Character</h2>
+                        </div>
+                        <span class="section-toggle">▼</span>
                     </div>
                     <div class="section-content">
                         <div class="form-row form-row-3">
@@ -85,7 +91,7 @@
                                         <span class="dropdown-value">Select...</span>
                                         <span class="dropdown-arrow">▾</span>
                                     </button>
-                                    <div class="dropdown-panel dropdown-single-col"></div>
+                                    <div class="dropdown-panel dropdown-multi-col cols-3"></div>
                                 </div>
                                 <input type="hidden" id="hair" value="">
                             </div>
@@ -96,19 +102,25 @@
                                         <span class="dropdown-value">Select...</span>
                                         <span class="dropdown-arrow">▾</span>
                                     </button>
-                                    <div class="dropdown-panel dropdown-single-col"></div>
+                                    <div class="dropdown-panel dropdown-multi-col cols-2"></div>
                                 </div>
                                 <input type="hidden" id="makeup" value="">
                             </div>
                         </div>
+
+                        <!-- Gentle, non-blocking style hints for Archetype ↔ Hair ↔ Makeup -->
+                        <div class="style-hints" id="characterHints" style="display: none;" aria-live="polite"></div>
                     </div>
                 </section>
 
                 <!-- LOOK SECTION -->
-                <section class="control-section" id="lookSection">
+                <section class="control-section collapsible-section" id="lookSection">
                     <div class="section-header">
-                        <span class="section-icon">👗</span>
-                        <h2>Look</h2>
+                        <div class="header-title">
+                            <span class="section-icon">👗</span>
+                            <h2>Look</h2>
+                        </div>
+                        <span class="section-toggle">▼</span>
                     </div>
                     <div class="section-content">
                         <!-- Boldness Slider -->
@@ -117,18 +129,26 @@
                                 <label>Boldness</label>
                                 <span class="boldness-badge" id="boldnessDisplay">B1</span>
                             </div>
-                            <input type="range" id="boldness" min="0" max="3" value="1" class="boldness-slider">
+                            <input type="range" id="boldness" min="0" max="4" value="1" class="boldness-slider">
                             <div class="boldness-labels">
                                 <span>Elegant</span>
                                 <span>Teasing</span>
                                 <span>Bold</span>
                                 <span>On Edge</span>
+                                <span>Extra Hot</span>
                             </div>
                             <p class="boldness-description" id="boldnessDescription">Provocative glamour, teasing but classy</p>
                         </div>
 
                         <div class="form-group">
                             <label>Outfit</label>
+                            <div class="outfit-filter-row">
+                                <select id="outfitHeatFilter" class="select-input select-input-mini" title="Hide non-hot options">
+                                    <option value="all" selected>All</option>
+                                    <option value="hot">Hot+</option>
+                                    <option value="super">Super hot</option>
+                                </select>
+                            </div>
                             <div class="custom-dropdown" data-module="outfit">
                                 <button type="button" class="dropdown-trigger">
                                     <span class="dropdown-value">Select...</span>
@@ -175,6 +195,18 @@
                             </div>
                         </div>
 
+                        <div class="form-group">
+                            <label>Accessories</label>
+                            <div class="custom-dropdown" data-module="accessories">
+                                <button type="button" class="dropdown-trigger">
+                                    <span class="dropdown-value">Select...</span>
+                                    <span class="dropdown-arrow">▾</span>
+                                </button>
+                                <div class="dropdown-panel dropdown-multi-col cols-2"></div>
+                            </div>
+                            <input type="hidden" id="accessories" value="">
+                        </div>
+
                         <!-- Color Palette -->
                         <div class="form-group">
                             <label>Color Palette</label>
@@ -185,10 +217,13 @@
                 </section>
 
                 <!-- SCENE SECTION -->
-                <section class="control-section" id="sceneSection">
+                <section class="control-section collapsible-section" id="sceneSection">
                     <div class="section-header">
-                        <span class="section-icon">🎬</span>
-                        <h2>Scene</h2>
+                        <div class="header-title">
+                            <span class="section-icon">🎬</span>
+                            <h2>Scene</h2>
+                        </div>
+                        <span class="section-toggle">▼</span>
                     </div>
                     <div class="section-content">
                         <div class="form-row">
